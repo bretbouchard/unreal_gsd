@@ -1,0 +1,12 @@
+# Core GIS
+gdal>=3.9.0
+pyproj>=3.6.0
+osmnx>=1.9.0
+geopandas>=0.14.0
+shapely>=2.0.0
+rasterio>=1.3.0
+
+# Utilities
+requests>=2.31.0
+Pillow>=10.0.0
+numpy>=1.26.0

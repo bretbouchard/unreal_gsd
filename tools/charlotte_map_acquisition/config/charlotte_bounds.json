@@ -1,0 +1,13 @@
+{
+  "name": "Charlotte I-485 Corridor",
+  "north": 35.37,
+  "south": 35.08,
+  "east": -80.65,
+  "west": -81.00,
+  "center_lat": 35.227,
+  "center_lon": -80.843,
+  "utm_zone": "17N",
+  "utm_epsg": 32617,
+  "loop_length_miles": 66.68,
+  "notes": "I-485 complete loop around Charlotte, NC"
+}
