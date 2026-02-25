@@ -10,24 +10,24 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 1 of 10 (Plugin Architecture Foundation)
-Plan: 5 of 7 in current phase
-Status: In progress - Plans 01, 02, 03, 04, 05 complete
-Last activity: 2026-02-25 -- Completed 01-05 Base Classes
+Plan: 6 of 7 in current phase
+Status: In progress - Plans 01, 02, 03, 04, 05, 06 complete
+Last activity: 2026-02-25 -- Completed 01-06 Performance, Determinism, and SaveGame
 
-Progress: [██████----] 71% (5/7 plans)
+Progress: [███████---] 86% (6/7 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 3.0 min
-- Total execution time: 15 min
+- Total plans completed: 6
+- Average duration: 3.3 min
+- Total execution time: 20 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1. Plugin Architecture Foundation | 5/7 | 15 min | 3.0 min |
+| 1. Plugin Architecture Foundation | 6/7 | 20 min | 3.3 min |
 
 **Recent Trend:**
 - Plan 01: 3 min (GSD_Core Plugin Structure)
@@ -35,6 +35,7 @@ Progress: [██████----] 71% (5/7 plans)
 - Plan 03: 3 min (Streaming and Audio Interfaces)
 - Plan 04: 3 min (Network and Determinism Interfaces)
 - Plan 05: 2 min (Base Classes)
+- Plan 06: 5 min (Performance, Determinism, SaveGame)
 
 *Updated after each plan completion*
 
@@ -72,6 +73,16 @@ Recent decisions affecting current work:
 - [Plan 01-05]: UGSDDataAsset inherits from UPrimaryDataAsset for asset management
 - [Plan 01-05]: Config management pattern via GSDConfig pointer across all base classes
 - [Plan 01-05]: State tracking with bIsSpawned, bIsStreamedIn (actors) and bGSDActive (components)
+- [Plan 01-06]: UGSDPerformanceConfig uses UDeveloperSettings for Project Settings integration
+- [Plan 01-06]: Spawning budget defaults: 2ms frame budget, 10 spawns/frame, 20 batch size
+- [Plan 01-06]: Memory budget defaults: 512MB entity budget, 100 pooled entities
+- [Plan 01-06]: Audio budget defaults: 2ms audio budget, 32 concurrent sources
+- [Plan 01-06]: Hitch threshold: 16.67ms (60fps target)
+- [Plan 01-06]: UGSDDeterminismManager provides category-isolated RNG streams via derived seeds
+- [Plan 01-06]: State hash accumulation via HashCombine for determinism verification
+- [Plan 01-06]: UGSDSaveGame stores FGSDSeededSpawnTicket for spawn determinism
+- [Plan 01-06]: Random call logging per category for determinism debugging
+- [Plan 01-06]: Scalability.ini provides 5 tiers (Low/Medium/High/Epic/Cinematic)
 
 ### Pending Todos
 
@@ -83,8 +94,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-25T06:23:20Z
-Stopped at: Completed 01-05 Base Classes
+Last session: 2026-02-25T06:32:28Z
+Stopped at: Completed 01-06 Performance, Determinism, SaveGame
 Resume file: None
 
 ## Phase 1 Plan Summary
