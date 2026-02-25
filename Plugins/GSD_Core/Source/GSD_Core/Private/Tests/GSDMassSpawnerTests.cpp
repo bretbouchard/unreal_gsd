@@ -1,0 +1,110 @@
+#include "CoreMinimal.h"
+#include "Misc/AutomationTest.h"
+#include "Types/GSDSpawnTypes.h"
+
+#if WITH_DEV_AUTOMATION_TESTS
+
+// Test: FGSDSpawnTicket defaults
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDSpawnTicketDefaultsTest,
+    "GSD.Core.SpawnTypes.FGSDSpawnTicket.Defaults",
+    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+
+bool FGSDSpawnTicketDefaultsTest::RunTest(const FString& Parameters)
+{
+    FGSDSpawnTicket Ticket;
+
+    TestEqual(TEXT("Default Location"), Ticket.Location, FVector::ZeroVector);
+    TestEqual(TEXT("Default Rotation"), Ticket.Rotation, FRotator::ZeroRotator);
+    TestNull(TEXT("Default ActorClass"), Ticket.ActorClass);
+    TestNull(TEXT("Default Config"), Ticket.Config);
+    TestEqual(TEXT("Default Priority"), Ticket.Priority, 0);
+
+    return true;
+}
+
+// Test: FGSDSeededSpawnTicket inheritance
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDSeededSpawnTicketTest,
+    "GSD.Core.SpawnTypes.FGSDSeededSpawnTicket.Inheritance",
+    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+
+bool FGSDSeededSpawnTicketTest::RunTest(const FString& Parameters)
+{
+    FGSDSeededSpawnTicket Ticket;
+
+    // Test base fields
+    Ticket.Location = FVector(100.0f, 200.0f, 300.0f);
+    TestEqual(TEXT("Location inherited"), Ticket.Location, FVector(100.0f, 200.0f, 300.0f));
+
+    // Test seeded fields
+    Ticket.SpawnSeed = 12345;
+    Ticket.SpawnOrder = 42;
+    Ticket.ParameterHash = 0xDEADBEEF;
+
+    TestEqual(TEXT("SpawnSeed"), Ticket.SpawnSeed, 12345);
+    TestEqual(TEXT("SpawnOrder"), Ticket.SpawnOrder, 42);
+    TestEqual(TEXT("ParameterHash"), Ticket.ParameterHash, (uint32)0xDEADBEEF);
+
+    return true;
+}
+
+// Test: FGSDSpawnComparator ordering
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDSpawnComparatorTest,
+    "GSD.Core.SpawnTypes.FGSDSpawnComparator.Ordering",
+    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+
+bool FGSDSpawnComparatorTest::RunTest(const FString& Parameters)
+{
+    FGSDSpawnComparator Comparator;
+
+    // Create tickets with different priorities
+    FGSDSeededSpawnTicket LowPriority;
+    LowPriority.Priority = 0;
+    LowPriority.SpawnOrder = 1;
+
+    FGSDSeededSpawnTicket HighPriority;
+    HighPriority.Priority = 10;
+    HighPriority.SpawnOrder = 2;
+
+    // Higher priority should come first
+    TestTrue(TEXT("High priority before low priority"),
+        Comparator(HighPriority, LowPriority));
+
+    // Same priority, lower spawn order wins
+    FGSDSeededSpawnTicket SamePriorityEarly;
+    SamePriorityEarly.Priority = 5;
+    SamePriorityEarly.SpawnOrder = 1;
+
+    FGSDSeededSpawnTicket SamePriorityLate;
+    SamePriorityLate.Priority = 5;
+    SamePriorityLate.SpawnOrder = 10;
+
+    TestTrue(TEXT("Same priority - lower spawn order wins"),
+        Comparator(SamePriorityEarly, SamePriorityLate));
+
+    return true;
+}
+
+// Test: FGSDAudioLODConfig distance calculation
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDAudioLODConfigTest,
+    "GSD.Core.Audio.LODConfig.DistanceCalculation",
+    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+
+bool FGSDAudioLODConfigTest::RunTest(const FString& Parameters)
+{
+    FGSDAudioLODConfig Config;
+
+    // Test default distances
+    TestEqual(TEXT("LOD0 distance"), Config.LOD0Distance, 500.0f);
+    TestEqual(TEXT("LOD1 distance"), Config.LOD1Distance, 2000.0f);
+    TestEqual(TEXT("LOD2 distance"), Config.LOD2Distance, 5000.0f);
+
+    // Test LOD level calculation
+    TestEqual(TEXT("Distance 100 -> LOD0"), Config.GetLODLevelForDistance(100.0f), 0);
+    TestEqual(TEXT("Distance 1000 -> LOD1"), Config.GetLODLevelForDistance(1000.0f), 1);
+    TestEqual(TEXT("Distance 3000 -> LOD2"), Config.GetLODLevelForDistance(3000.0f), 2);
+    TestEqual(TEXT("Distance 10000 -> Virtual"), Config.GetLODLevelForDistance(10000.0f), -1);
+
+    return true;
+}
+
+#endif // WITH_DEV_AUTOMATION_TESTS
