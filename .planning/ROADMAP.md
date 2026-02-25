@@ -81,23 +81,25 @@ Plans:
 
 **Depends on**: Phase 2
 
-**Requirements**: NEW - MAP-01, MAP-02, MAP-03, MAP-04
+**Requirements**: MAP-01, MAP-02, MAP-03, MAP-04
 
 **Success Criteria** (what must be TRUE):
 1. System retrieves map tiles at configurable zoom levels for I-485 corridor
 2. Coordinate system defines capture grid covering entire highway loop
 3. DEM (Digital Elevation Model) height data acquired at required fidelity
-4. Geo nodes generate highway wall geometry from road boundary data
+4. Highway boundary geometry extracted from OpenStreetMap
 5. Pipeline is scriptable/automatable for refresh and updates
 
-**Key Research Questions**:
-- Which map tile provider? (Mapbox, Google, OpenStreetMap, ESRI)
-- What zoom level for city detail? (typically 15-18 for urban)
-- DEM source? (USGS 3DEP, SRTM, custom LIDAR)
-- Highway boundary data source? (OpenStreetMap ways, DOT shapefiles)
-- Coordinate system? (WGS84 -> UTM -> Unreal units)
+**Tech Stack**: Python + GDAL + PyProj + OSMnx + Rasterio
 
-**Plans**: TBD (needs research phase first)
+**Plans**: 5 plans in 5 waves
+
+Plans:
+- [ ] 02.5-01-PLAN.md - Package Foundation and Coordinate System
+- [ ] 02.5-02-PLAN.md - Data Acquisition Scripts (Tiles, DEM, Highway)
+- [ ] 02.5-03-PLAN.md - Data Transformation Scripts (Heightmap, Vectors)
+- [ ] 02.5-04-PLAN.md - Pipeline Orchestration
+- [ ] 02.5-05-PLAN.md - Unit Tests and Verification
 
 ---
 
@@ -265,7 +267,7 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 |-------|----------------|--------|-----------|
 | 1. Plugin Architecture Foundation | 7/7 | Complete | 2026-02-25 |
 | 2. World Partition Setup | 6/6 | Complete | 2026-02-25 |
-| 2.5. Charlotte Map Data Acquisition | 0/TBD | Not started | - |
+| 2.5. Charlotte Map Data Acquisition | 0/5 | Not started | - |
 | 3. Streaming & Data Layers | 0/TBD | Not started | - |
 | 4. Vehicle Core Systems | 0/TBD | Not started | - |
 | 5. Vehicle Advanced Features | 0/TBD | Not started | - |
@@ -299,6 +301,10 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | WP-06 | 3 |
 | WP-07 | 2 |
 | WP-08 | 3 |
+| MAP-01 | 2.5 |
+| MAP-02 | 2.5 |
+| MAP-03 | 2.5 |
+| MAP-04 | 2.5 |
 | VEH-01 | 4 |
 | VEH-02 | 4 |
 | VEH-03 | 5 |
@@ -333,4 +339,4 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | TEL-07 | 10 |
 | TEL-08 | 10 |
 
-**Total mapped: 51/51 (100%)**
+**Total mapped: 55/55 (100%)**
