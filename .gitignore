@@ -58,8 +58,7 @@ secrets.json
 # Beads local database
 .beads/
 
-# GSD planning (local state)
-.planning/STATE.md
+# GSD planning (local state - keep STATE.md tracked for team visibility)
 .planning/autonomous-log.md
 .planning/debug/
 .planning/phases/*/UAT.md

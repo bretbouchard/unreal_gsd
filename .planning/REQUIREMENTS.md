@@ -2,7 +2,7 @@
 
 ## v1 Requirements
 
-### WP — World Partition & Streaming
+### WP - World Partition & Streaming
 
 | ID | Requirement | Priority | Status |
 |----|-------------|----------|--------|
@@ -15,7 +15,7 @@
 | WP-07 | City tiles import from USD/FBX with correct scale and collision | P0 | Open |
 | WP-08 | Streaming cell load times tracked in telemetry | P1 | Open |
 
-### VEH — Vehicles
+### VEH - Vehicles
 
 | ID | Requirement | Priority | Status |
 |----|-------------|----------|--------|
@@ -28,20 +28,20 @@
 | VEH-07 | Vehicle testbed map spawns 50 randomized cars for validation | P1 | Open |
 | VEH-08 | Bumper/plow attachment points defined in vehicle data | P1 | Open |
 
-### CROWD — Crowds (Mass Entity)
+### CROWD - Crowds (Mass Entity)
 
 | ID | Requirement | Priority | Status |
 |----|-------------|----------|--------|
 | CROWD-01 | Mass Entity framework configured for crowd simulation | P0 | Open |
 | CROWD-02 | System spawns 200+ zombie entities with LOD switching | P0 | Open |
-| CROWD-03 | LOD representation switches: Actor → Simplified Actor → ISM → Culled | P0 | Open |
+| CROWD-03 | LOD representation switches: Actor - Simplified Actor - ISM - Culled | P0 | Open |
 | CROWD-04 | Entities navigate via Zone Graph | P0 | Open |
 | CROWD-05 | Smart Objects provide interaction points (cover, ambush, etc.) | P1 | Open |
 | CROWD-06 | Hero NPCs use Behavior Trees and AI Perception | P0 | Open |
 | CROWD-07 | Crowd testbed map validates 200+ entities at target framerate | P0 | Open |
 | CROWD-08 | Velocity randomizer trait prevents synchronized movement | P1 | Open |
 
-### EVT — Events System
+### EVT - Events System
 
 | ID | Requirement | Priority | Status |
 |----|-------------|----------|--------|
@@ -55,7 +55,7 @@
 | EVT-08 | Zombie rave event boosts density with attractor volumes and audio | P1 | Open |
 | EVT-09 | Event modifiers affect spawn densities and navigation | P0 | Open |
 
-### PLUG — Plugin Architecture
+### PLUG - Plugin Architecture
 
 | ID | Requirement | Priority | Status |
 |----|-------------|----------|--------|
@@ -70,7 +70,7 @@
 | PLUG-09 | Build.cs enforces correct loading phase order | P0 | Open |
 | PLUG-10 | All cross-plugin communication via interfaces (no hard dependencies) | P0 | Open |
 
-### TEL — Telemetry & Tooling
+### TEL - Telemetry & Tooling
 
 | ID | Requirement | Priority | Status |
 |----|-------------|----------|--------|
@@ -113,9 +113,57 @@
 
 | Requirement | Phase | Plan |
 |-------------|-------|------|
-| WP-01 | - | - |
-| WP-02 | - | - |
-| (Filled by roadmap) | | |
+| PLUG-01 | 1 | - |
+| PLUG-02 | 2 | - |
+| PLUG-03 | 4 | - |
+| PLUG-04 | 6 | - |
+| PLUG-05 | 8 | - |
+| PLUG-06 | 10 | - |
+| PLUG-07 | 10 | - |
+| PLUG-08 | 1 | - |
+| PLUG-09 | 1 | - |
+| PLUG-10 | 1 | - |
+| WP-01 | 2 | - |
+| WP-02 | 2 | - |
+| WP-03 | 3 | - |
+| WP-04 | 2 | - |
+| WP-05 | 3 | - |
+| WP-06 | 3 | - |
+| WP-07 | 2 | - |
+| WP-08 | 3 | - |
+| VEH-01 | 4 | - |
+| VEH-02 | 4 | - |
+| VEH-03 | 5 | - |
+| VEH-04 | 5 | - |
+| VEH-05 | 5 | - |
+| VEH-06 | 4 | - |
+| VEH-07 | 5 | - |
+| VEH-08 | 5 | - |
+| CROWD-01 | 6 | - |
+| CROWD-02 | 6 | - |
+| CROWD-03 | 6 | - |
+| CROWD-04 | 7 | - |
+| CROWD-05 | 7 | - |
+| CROWD-06 | 7 | - |
+| CROWD-07 | 6 | - |
+| CROWD-08 | 7 | - |
+| EVT-01 | 8 | - |
+| EVT-02 | 8 | - |
+| EVT-03 | 8 | - |
+| EVT-04 | 8 | - |
+| EVT-05 | 9 | - |
+| EVT-06 | 9 | - |
+| EVT-07 | 9 | - |
+| EVT-08 | 9 | - |
+| EVT-09 | 8 | - |
+| TEL-01 | 10 | - |
+| TEL-02 | 10 | - |
+| TEL-03 | 10 | - |
+| TEL-04 | 10 | - |
+| TEL-05 | 10 | - |
+| TEL-06 | 10 | - |
+| TEL-07 | 10 | - |
+| TEL-08 | 10 | - |
 
 ---
 
