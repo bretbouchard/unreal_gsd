@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 4 of 11 (Vehicle Core Systems)
-Plan: 1/5 in current phase
+Plan: 2/5 in current phase
 Status: In Progress
-Last activity: 2026-02-25 - Completed 04-01 (GSD_Vehicles Plugin Foundation)
+Last activity: 2026-02-25 - Completed 04-02 (Vehicle Data Assets)
 
-Progress: [████████████░░░░░░░] 76% (20/26 total plans estimated)
+Progress: [████████████░░░░░░░] 77% (21/26 total plans estimated)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 20
+- Total plans completed: 21
 - Average duration: 4.0 min
-- Total execution time: 81 min
+- Total execution time: 84 min
 
 **By Phase:**
 
@@ -31,9 +31,10 @@ Progress: [████████████░░░░░░░] 76% (20/26
 | 2. World Partition Setup | 6/6 | 31 min | 5.2 min |
 | 2.5. Charlotte Map Data Acquisition | 5/5 | 17 min | 3.4 min |
 | 3. Streaming & Data Layers | 1/5 | 7 min | 7.0 min |
-| 4. Vehicle Core Systems | 1/5 | 2 min | 2.0 min |
+| 4. Vehicle Core Systems | 2/5 | 5 min | 2.5 min |
 
 **Recent Trend:**
+- Plan 04-02: 3 min (Vehicle Data Assets)
 - Plan 04-01: 2 min (GSD_Vehicles Plugin Foundation)
 - Plan 03-01: 7 min (Data Layer Manager)
 - Plan 02.5-05: 5 min (Unit Tests and Verification)
@@ -91,6 +92,10 @@ Recent decisions affecting current work:
 - [Phase 4-01]: PostEngineInit loading phase for vehicle module (after GSD_Core)
 - [Phase 4-01]: ChaosVehicles and ChaosVehiclesCore as private dependencies (not PhysX)
 - [Phase 4-01]: GSD_CityStreaming included for streaming source integration
+- [Phase 4-02]: TSoftObjectPtr for all asset references to support async loading
+- [Phase 4-02]: TObjectPtr for TorqueCurve as UE5.4+ best practice
+- [Phase 4-02]: ValidateConfig pattern with detailed error logging via LOG_GSDVEHICLES
+- [Phase 4-02]: bIsFastVehicle flag for streaming priority differentiation
 
 ### Pending Todos
 
@@ -104,11 +109,11 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-25T17:57:30Z
-Stopped at: Completed 04-01 - GSD_Vehicles Plugin Foundation
+Last session: 2026-02-25T18:00:17Z
+Stopped at: Completed 04-02 - Vehicle Data Assets
 Resume file: None
 
-**Next Action:** Continue Phase 4 (Vehicle Core Systems) with remaining plans 2-5.
+**Next Action:** Continue Phase 4 (Vehicle Core Systems) with remaining plans 3-5.
 Run: `/gsd:execute-phase 4` to continue
 
 ## Phase 4 Plan Summary
@@ -116,12 +121,12 @@ Run: `/gsd:execute-phase 4` to continue
 | Plan | Wave | Objective | Tasks | Status |
 |------|------|-----------|-------|--------|
 | 01 | 1 | GSD_Vehicles Plugin Foundation | 2 | DONE |
-| 02 | - | - | - | Pending |
+| 02 | 1 | Vehicle Data Assets | 2 | DONE |
 | 03 | - | - | - | Pending |
 | 04 | - | - | - | Pending |
 | 05 | - | - | - | Pending |
 
-**Phase 4 In Progress - Plan 01 complete (GSD_Vehicles Plugin Foundation).**
+**Phase 4 In Progress - Plans 01-02 complete (Plugin Foundation + Data Assets).**
 
 ## Phase 3 Plan Summary
 
