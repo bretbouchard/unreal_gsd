@@ -10,7 +10,7 @@ This roadmap delivers the Unreal GSD Platform infrastructure for building open-w
 - [x] **Phase 2: World Partition Setup** - Streaming configuration and HLOD (2026-02-25)
 - [x] **Phase 2.5: Charlotte Map Data Acquisition** - Automated map tile and terrain data retrieval (2026-02-25)
 - [x] **Phase 3: Streaming & Data Layers** - Runtime streaming behavior and cell callbacks (2026-02-25)
-- [ ] **Phase 4: Vehicle Core Systems** - Basic vehicle spawning and Chaos physics
+- [x] **Phase 4: Vehicle Core Systems** - Basic vehicle spawning and Chaos physics (2026-02-25)
 - [ ] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed
 - [ ] **Phase 6: Crowd Core Systems** - Mass Entity setup and LOD switching
 - [ ] **Phase 7: Crowd AI & Navigation** - Zone Graph and Behavior Trees
@@ -146,12 +146,12 @@ Plans:
 **Plans**: 6 plans in 5 waves
 
 Plans:
-- [ ] 04-01-PLAN.md - GSD_Vehicles Plugin Foundation
-- [ ] 04-02-PLAN.md - Vehicle Data Assets
-- [ ] 04-03-PLAN.md - Vehicle Pawn and Movement
-- [ ] 04-04-PLAN.md - Wheel Bone Validation Utility
-- [ ] 04-05-PLAN.md - Vehicle Spawner Subsystem
-- [ ] 04-06-PLAN.md - Verification and Tests
+- [x] 04-01-PLAN.md - GSD_Vehicles Plugin Foundation
+- [x] 04-02-PLAN.md - Vehicle Data Assets
+- [x] 04-03-PLAN.md - Vehicle Pawn and Movement
+- [x] 04-04-PLAN.md - Wheel Bone Validation Utility
+- [x] 04-05-PLAN.md - Vehicle Spawner Subsystem
+- [x] 04-06-PLAN.md - Verification and Tests
 
 ---
 
@@ -284,7 +284,7 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | 2. World Partition Setup | 6/6 | Complete | 2026-02-25 |
 | 2.5. Charlotte Map Data Acquisition | 5/5 | Complete | 2026-02-25 |
 | 3. Streaming & Data Layers | 5/5 | Complete | 2026-02-25 |
-| 4. Vehicle Core Systems | 0/TBD | Not started | - |
+| 4. Vehicle Core Systems | 6/6 | Complete | 2026-02-25 |
 | 5. Vehicle Advanced Features | 0/TBD | Not started | - |
 | 6. Crowd Core Systems | 0/TBD | Not started | - |
 | 7. Crowd AI & Navigation | 0/TBD | Not started | - |
