@@ -59,16 +59,16 @@
 
 | ID | Requirement | Priority | Status |
 |----|-------------|----------|--------|
-| PLUG-01 | GSD_Core plugin provides interfaces and base classes | P0 | Open |
+| PLUG-01 | GSD_Core plugin provides interfaces and base classes | P0 | Complete |
 | PLUG-02 | GSD_CityStreaming plugin handles World Partition and imports | P0 | Open |
 | PLUG-03 | GSD_Vehicles plugin provides vehicle abstraction and spawning | P0 | Open |
 | PLUG-04 | GSD_Crowds plugin provides Mass Entity and hero NPC systems | P0 | Open |
 | PLUG-05 | GSD_DailyEvents plugin provides event scheduling and modifiers | P0 | Open |
 | PLUG-06 | GSD_Telemetry plugin provides metrics and logging | P1 | Open |
 | PLUG-07 | GSD_ValidationTools plugin provides editor utilities and commandlets | P1 | Open |
-| PLUG-08 | Games consume platform via plugin dependencies (game-as-client) | P0 | Open |
-| PLUG-09 | Build.cs enforces correct loading phase order | P0 | Open |
-| PLUG-10 | All cross-plugin communication via interfaces (no hard dependencies) | P0 | Open |
+| PLUG-08 | Games consume platform via plugin dependencies (game-as-client) | P0 | Complete |
+| PLUG-09 | Build.cs enforces correct loading phase order | P0 | Complete |
+| PLUG-10 | All cross-plugin communication via interfaces (no hard dependencies) | P0 | Complete |
 
 ### TEL - Telemetry & Tooling
 
@@ -113,16 +113,16 @@
 
 | Requirement | Phase | Plan |
 |-------------|-------|------|
-| PLUG-01 | 1 | - |
+| PLUG-01 | 1 | 01, 05 |
 | PLUG-02 | 2 | - |
 | PLUG-03 | 4 | - |
 | PLUG-04 | 6 | - |
 | PLUG-05 | 8 | - |
 | PLUG-06 | 10 | - |
 | PLUG-07 | 10 | - |
-| PLUG-08 | 1 | - |
-| PLUG-09 | 1 | - |
-| PLUG-10 | 1 | - |
+| PLUG-08 | 1 | 01 |
+| PLUG-09 | 1 | 01 |
+| PLUG-10 | 1 | 02, 03, 04 |
 | WP-01 | 2 | - |
 | WP-02 | 2 | - |
 | WP-03 | 3 | - |
