@@ -8,7 +8,7 @@ This roadmap delivers the Unreal GSD Platform infrastructure for building open-w
 
 - [x] **Phase 1: Plugin Architecture Foundation** - Core interfaces and plugin structure (2026-02-25)
 - [x] **Phase 2: World Partition Setup** - Streaming configuration and HLOD (2026-02-25)
-- [ ] **Phase 2.5: Charlotte Map Data Acquisition** - Automated map tile and terrain data retrieval
+- [x] **Phase 2.5: Charlotte Map Data Acquisition** - Automated map tile and terrain data retrieval (2026-02-25)
 - [ ] **Phase 3: Streaming & Data Layers** - Runtime streaming behavior and cell callbacks
 - [ ] **Phase 4: Vehicle Core Systems** - Basic vehicle spawning and Chaos physics
 - [ ] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed
@@ -95,11 +95,11 @@ Plans:
 **Plans**: 5 plans in 5 waves
 
 Plans:
-- [ ] 02.5-01-PLAN.md - Package Foundation and Coordinate System
-- [ ] 02.5-02-PLAN.md - Data Acquisition Scripts (Tiles, DEM, Highway)
-- [ ] 02.5-03-PLAN.md - Data Transformation Scripts (Heightmap, Vectors)
-- [ ] 02.5-04-PLAN.md - Pipeline Orchestration
-- [ ] 02.5-05-PLAN.md - Unit Tests and Verification
+- [x] 02.5-01-PLAN.md - Package Foundation and Coordinate System
+- [x] 02.5-02-PLAN.md - Data Acquisition Scripts (Tiles, DEM, Highway)
+- [x] 02.5-03-PLAN.md - Data Transformation Scripts (Heightmap, Vectors)
+- [x] 02.5-04-PLAN.md - Pipeline Orchestration
+- [x] 02.5-05-PLAN.md - Unit Tests and Verification
 
 ---
 
@@ -118,7 +118,14 @@ Plans:
 4. Multiple Data Layers exist (base city, events, construction, parties)
 5. Streaming cell load times are tracked in telemetry
 
-**Plans**: TBD
+**Plans**: 5 plans in 3 waves
+
+Plans:
+- [ ] 03-01-PLAN.md - GSDDataLayerManager Subsystem
+- [ ] 03-02-PLAN.md - Data Layer Asset Setup
+- [ ] 03-03-PLAN.md - Streaming Telemetry System
+- [ ] 03-04-PLAN.md - Vehicle Streaming Integration
+- [ ] 03-05-PLAN.md - Verification and Editor Tests
 
 ---
 
@@ -267,8 +274,8 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 |-------|----------------|--------|-----------|
 | 1. Plugin Architecture Foundation | 7/7 | Complete | 2026-02-25 |
 | 2. World Partition Setup | 6/6 | Complete | 2026-02-25 |
-| 2.5. Charlotte Map Data Acquisition | 0/5 | Not started | - |
-| 3. Streaming & Data Layers | 0/TBD | Not started | - |
+| 2.5. Charlotte Map Data Acquisition | 5/5 | Complete | 2026-02-25 |
+| 3. Streaming & Data Layers | 0/5 | Planned | - |
 | 4. Vehicle Core Systems | 0/TBD | Not started | - |
 | 5. Vehicle Advanced Features | 0/TBD | Not started | - |
 | 6. Crowd Core Systems | 0/TBD | Not started | - |
