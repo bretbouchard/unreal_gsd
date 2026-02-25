@@ -10,9 +10,20 @@
     "DocsURL": "",
     "MarketplaceURL": "",
     "SupportURL": "",
-    "CanContainContent": false,
+    "CanContainContent": true,
     "IsBetaVersion": false,
     "Installed": false,
+    "EngineVersion": "5.7.0",
+    "Plugins": [
+        {
+            "Name": "GSD_Core",
+            "Enabled": true
+        },
+        {
+            "Name": "EditorScriptingUtilities",
+            "Enabled": true
+        }
+    ],
     "Modules": [
         {
             "Name": "GSD_CityStreaming",

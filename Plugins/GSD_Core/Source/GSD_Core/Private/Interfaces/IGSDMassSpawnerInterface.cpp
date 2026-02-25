@@ -1,33 +1,34 @@
 #include "Interfaces/IGSDMassSpawnerInterface.h"
 
-void IGSDMassSpawnerInterface::SpawnBatch_Implementation(
+TArray<AActor*> IGSDMassSpawnerInterface::SpawnBatch(
     const TArray<FTransform>& Transforms,
-    UGSDDataAsset* Config,
-    FOnMassSpawnComplete& OnComplete)
+    UGSDDataAsset* Config)
 {
-    // Default implementation - override in C++ or Blueprint
+    // Default implementation - override in C++
+    return TArray<AActor*>();
 }
 
-void IGSDMassSpawnerInterface::SpawnBatchChunked_Implementation(
+TArray<AActor*> IGSDMassSpawnerInterface::SpawnBatchChunked(
     const TArray<FTransform>& Transforms,
     UGSDDataAsset* Config,
     int32 ChunkSize,
-    FOnMassSpawnChunkComplete& OnChunkComplete)
+    int32 ChunkIndex)
 {
-    // Default implementation - override in C++ or Blueprint
+    // Default implementation - override in C++
+    return TArray<AActor*>();
 }
 
-int32 IGSDMassSpawnerInterface::GetPendingSpawnCount_Implementation() const
+int32 IGSDMassSpawnerInterface::GetPendingSpawnCount() const
 {
     return 0;
 }
 
-void IGSDMassSpawnerInterface::CancelPendingSpawns_Implementation()
+void IGSDMassSpawnerInterface::CancelPendingSpawns()
 {
-    // Default implementation - override in C++ or Blueprint
+    // Default implementation - override in C++
 }
 
-bool IGSDMassSpawnerInterface::IsSpawning_Implementation() const
+bool IGSDMassSpawnerInterface::IsSpawning() const
 {
     return false;
 }

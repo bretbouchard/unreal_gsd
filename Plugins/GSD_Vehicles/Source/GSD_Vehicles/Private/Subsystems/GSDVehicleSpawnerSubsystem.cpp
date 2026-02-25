@@ -1,6 +1,7 @@
 // Copyright Bret Bouchard. All Rights Reserved.
 
 #include "Subsystems/GSDVehicleSpawnerSubsystem.h"
+#include "Subsystems/GSDVehiclePoolSubsystem.h"
 #include "Actors/GSDVehiclePawn.h"
 #include "DataAssets/GSDVehicleConfig.h"
 #include "GSDVehicleLog.h"
@@ -11,6 +12,15 @@ bool UGSDVehicleSpawnerSubsystem::ShouldCreateSubsystem(UWorld* World) const
 {
     // Only create subsystem for game worlds (not editor preview worlds)
     return World ? World->IsGameWorld() : false;
+}
+
+UGSDVehiclePoolSubsystem* UGSDVehicleSpawnerSubsystem::GetPoolSubsystem()
+{
+    if (!PoolSubsystem && GetWorld())
+    {
+        PoolSubsystem = GetWorld()->GetSubsystem<UGSDVehiclePoolSubsystem>();
+    }
+    return PoolSubsystem;
 }
 
 AGSDVehiclePawn* UGSDVehicleSpawnerSubsystem::SpawnVehicle(UGSDVehicleConfig* Config, FVector Location, FRotator Rotation)
@@ -150,4 +160,45 @@ void UGSDVehicleSpawnerSubsystem::DespawnAllVehicles()
     AllVehiclesDespawnedDelegate.Broadcast();
 
     GSD_VEHICLE_LOG(Log, TEXT("DespawnAllVehicles: Successfully despawned %d vehicles"), NumVehicles);
+}
+
+AGSDVehiclePawn* UGSDVehicleSpawnerSubsystem::SpawnVehicleFromPool(UGSDVehicleConfig* Config, FVector Location, FRotator Rotation)
+{
+    UGSDVehiclePoolSubsystem* Pool = GetPoolSubsystem();
+
+    if (Pool)
+    {
+        AGSDVehiclePawn* Vehicle = Pool->AcquireVehicle(Config, Location, Rotation);
+        if (Vehicle)
+        {
+            SpawnedVehicles.Add(Vehicle);
+            return Vehicle;
+        }
+    }
+
+    // Fallback to regular spawn if pool not available or failed
+    return SpawnVehicle(Config, Location, Rotation);
+}
+
+void UGSDVehicleSpawnerSubsystem::ReturnVehicleToPool(AGSDVehiclePawn* Vehicle)
+{
+    if (!Vehicle)
+    {
+        return;
+    }
+
+    // Remove from tracked vehicles
+    SpawnedVehicles.Remove(Vehicle);
+
+    UGSDVehiclePoolSubsystem* Pool = GetPoolSubsystem();
+
+    if (Pool)
+    {
+        Pool->ReleaseVehicle(Vehicle);
+    }
+    else
+    {
+        // Fallback to despawn if pool not available
+        DespawnVehicle(Vehicle);
+    }
 }

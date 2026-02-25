@@ -2,13 +2,12 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
-#include "Engine/DataLayer.h"
+#include "WorldPartition/DataLayer/DataLayerAsset.h"
 #include "Types/GSDDataLayerTypes.h"
 #include "Config/GSDDataLayerConfig.h"
 #include "GSDDataLayerManager.generated.h"
 
 // Forward declarations
-class UDataLayerSubsystem;
 class UDataLayerAsset;
 
 /**
@@ -245,10 +244,6 @@ protected:
     UPROPERTY()
     TObjectPtr<UGSDDataLayerConfig> Config;
 
-    /** Reference to the engine's Data Layer subsystem */
-    UPROPERTY()
-    TObjectPtr<UDataLayerSubsystem> DataLayerSubsystem;
-
     /** Queue of pending layer activations for staged loading */
     TArray<FGSDPendingLayerActivation> PendingActivations;
 
@@ -266,9 +261,6 @@ protected:
     TArray<TScriptInterface<IGSDDataLayerProvider>> Providers;
 
     // === Internal Functions ===
-
-    /** Get the Data Layer subsystem (cached) */
-    UDataLayerSubsystem* GetDataLayerSubsystem() const;
 
     /** Process next pending activation in staged queue */
     void ProcessNextStagedActivation();

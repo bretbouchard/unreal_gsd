@@ -9,12 +9,12 @@ class FGSD_CoreModule : public IModuleInterface
 public:
     virtual void StartupModule() override
     {
-        GSD_LOG(Log, "GSD_Core module starting up");
+        GSD_LOG(Log, TEXT("GSD_Core module starting up"));
     }
 
     virtual void ShutdownModule() override
     {
-        GSD_LOG(Log, "GSD_Core module shutting down");
+        GSD_LOG(Log, TEXT("GSD_Core module shutting down"));
     }
 };
 

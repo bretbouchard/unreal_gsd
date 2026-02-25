@@ -1,7 +1,8 @@
 #include "Subsystems/GSDDataLayerManager.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
-#include "Engine/DataLayerSubsystem.h"
+#include "WorldPartition/DataLayer/DataLayerManager.h"
+#include "WorldPartition/WorldPartition.h"
 #include "Algo/Sort.h"
 
 // === UWorldSubsystem Interface ===
@@ -9,9 +10,6 @@
 void UGSDDataLayerManager::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
-
-    // Cache reference to Data Layer subsystem
-    DataLayerSubsystem = GetWorld()->GetSubsystem<UDataLayerSubsystem>();
 
     TotalStagedLayers = 0;
     ActivatedStagedLayers = 0;
@@ -27,7 +25,6 @@ void UGSDDataLayerManager::Deinitialize()
 
     // Clear references
     Config = nullptr;
-    DataLayerSubsystem = nullptr;
     Providers.Empty();
     PendingActivations.Empty();
 
@@ -130,13 +127,38 @@ bool UGSDDataLayerManager::IsDataLayerActivated(FName LayerName) const
 
 bool UGSDDataLayerManager::IsDataLayerActivatedByAsset(UDataLayerAsset* LayerAsset) const
 {
-    if (!LayerAsset || !DataLayerSubsystem)
+    if (!LayerAsset)
     {
         return false;
     }
 
-    // Use the Data Layer subsystem to check state
-    return DataLayerSubsystem->IsDataLayerActive(LayerAsset);
+    // Use the new UE5.7 DataLayerManager API
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        return false;
+    }
+
+    UWorldPartition* WorldPartition = World->GetWorldPartition();
+    if (!WorldPartition)
+    {
+        return false;
+    }
+
+    UDataLayerManager* DataLayerMgr = WorldPartition->GetDataLayerManager();
+    if (!DataLayerMgr)
+    {
+        return false;
+    }
+
+    const UDataLayerInstance* Instance = DataLayerMgr->GetDataLayerInstanceFromAsset(LayerAsset);
+    if (!Instance)
+    {
+        return false;
+    }
+
+    EDataLayerRuntimeState State = DataLayerMgr->GetDataLayerInstanceRuntimeState(Instance);
+    return State == EDataLayerRuntimeState::Activated;
 }
 
 TArray<FName> UGSDDataLayerManager::GetRuntimeDataLayerNames() const
@@ -351,15 +373,6 @@ void UGSDDataLayerManager::UnregisterProvider(TScriptInterface<IGSDDataLayerProv
 
 // === Internal Functions ===
 
-UDataLayerSubsystem* UGSDDataLayerManager::GetDataLayerSubsystem() const
-{
-    if (!DataLayerSubsystem.IsValid())
-    {
-        return GetWorld()->GetSubsystem<UDataLayerSubsystem>();
-    }
-    return DataLayerSubsystem.Get();
-}
-
 void UGSDDataLayerManager::ProcessNextStagedActivation()
 {
     if (PendingActivations.Num() == 0)
@@ -460,29 +473,44 @@ UDataLayerAsset* UGSDDataLayerManager::GetLayerAssetByName(FName LayerName) cons
         }
     }
 
-    // Try to find in Data Layer subsystem directly
-    if (UDataLayerSubsystem* Subsystem = GetDataLayerSubsystem())
-    {
-        // The Data Layer subsystem may have a way to find layers by name
-        // This is engine-specific and may need adjustment
-        UE_LOG(LogTemp, Verbose, TEXT("GSDDataLayerManager: Layer '%s' not found in config or providers"),
-            *LayerName.ToString());
-    }
+    UE_LOG(LogTemp, Verbose, TEXT("GSDDataLayerManager: Layer '%s' not found in config or providers"),
+        *LayerName.ToString());
 
     return nullptr;
 }
 
 void UGSDDataLayerManager::ActivateLayerInternal(UDataLayerAsset* LayerAsset, bool bActivate)
 {
-    if (!LayerAsset || !DataLayerSubsystem)
+    if (!LayerAsset)
     {
+        return;
+    }
+
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        return;
+    }
+
+    UWorldPartition* WorldPartition = World->GetWorldPartition();
+    if (!WorldPartition)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("GSDDataLayerManager: WorldPartition not available"));
+        return;
+    }
+
+    UDataLayerManager* DataLayerMgr = WorldPartition->GetDataLayerManager();
+    if (!DataLayerMgr)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("GSDDataLayerManager: DataLayerManager not available"));
         return;
     }
 
     float ActivationStartTime = FPlatformTime::Seconds() * 1000.0f;
 
-    // Use the Data Layer subsystem to set the state
-    DataLayerSubsystem->SetDataLayerState(LayerAsset, bActivate);
+    // Use the new UE5.7 API
+    EDataLayerRuntimeState NewState = bActivate ? EDataLayerRuntimeState::Activated : EDataLayerRuntimeState::Unloaded;
+    DataLayerMgr->SetDataLayerRuntimeState(LayerAsset, NewState);
 
     float ActivationEndTime = FPlatformTime::Seconds() * 1000.0f;
     float ActivationTimeMs = ActivationEndTime - ActivationStartTime;

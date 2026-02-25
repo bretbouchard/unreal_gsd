@@ -25,7 +25,7 @@ bool UGSDDataAsset::ValidateConfig(FString& OutError) const
 void UGSDDataAsset::ApplyMigrations()
 {
     // Override in derived classes to handle version migrations
-    GSD_LOG(Verbose, "UGSDDataAsset::ApplyMigrations for %s (version %d)",
+    GSD_LOG(Verbose, TEXT("UGSDDataAsset::ApplyMigrations for %s (version %d)"),
         *GetName(), ConfigVersion);
 }
 

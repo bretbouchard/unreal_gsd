@@ -6,34 +6,34 @@
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDCityStreamingSettingsTest,
     "GSD.CityStreaming.Settings.DefaultValues",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDCityStreamingSettingsTest::RunTest(const FString& Parameters)
 {
     // Test default grid cell size
-    UGSDCityStreamingSettings* Settings = UGSDCityStreamingSettings::Get();
+    const UGSDCityStreamingSettings* Settings = UGSDCityStreamingSettings::Get();
     TestNotNull("Settings should exist", Settings);
 
     if (Settings)
     {
         // Verify default grid cell size is 25600 (256m)
-        TestEqual("Default grid cell size should be 25600",
+        TestEqual(TEXT("Default grid cell size should be 25600"),
             Settings->DefaultGridCellSize, 25600);
 
         // Verify default loading range is 76800 (768m)
-        TestEqual("Default loading range should be 76800",
+        TestEqual(TEXT("Default loading range should be 76800"),
             Settings->DefaultLoadingRange, 76800);
 
         // Verify HLOD tier count
-        TestEqual("HLOD tier count should be 3",
+        TestEqual(TEXT("HLOD tier count should be 3"),
             Settings->HLODTierCount, 3);
 
         // Verify auto-generate collision
-        TestTrue("Auto-generate collision should be true",
+        TestTrue(TEXT("Auto-generate collision should be true"),
             Settings->bAutoGenerateCollision);
 
         // Verify import scale
-        TestEqual("Import scale should be 1.0",
+        TestEqual(TEXT("Import scale should be 1.0"),
             Settings->ImportScale, 1.0f);
     }
 
@@ -42,11 +42,11 @@ bool FGSDCityStreamingSettingsTest::RunTest(const FString& Parameters)
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDCityStreamingSettingsValidationTest,
     "GSD.CityStreaming.Settings.Validation",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDCityStreamingSettingsValidationTest::RunTest(const FString& Parameters)
 {
-    UGSDCityStreamingSettings* Settings = UGSDCityStreamingSettings::Get();
+    const UGSDCityStreamingSettings* Settings = UGSDCityStreamingSettings::Get();
     TestNotNull("Settings should exist", Settings);
 
     if (Settings)

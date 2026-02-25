@@ -7,7 +7,7 @@
 
 class UGSDDataAsset;
 
-UINTERFACE(MinimalAPI, Blueprintable, Category = "GSD")
+UINTERFACE(MinimalAPI, NotBlueprintable, Category = "GSD")
 class UGSDMassSpawnerInterface : public UInterface
 {
     GENERATED_BODY()
@@ -18,46 +18,31 @@ class GSD_CORE_API IGSDMassSpawnerInterface
     GENERATED_BODY()
 
 public:
-    // Batch spawn - single delegate for entire batch
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Mass")
-    void SpawnBatch(
+    // Batch spawn - returns spawned actors
+    UFUNCTION(BlueprintCallable, Category = "GSD|Mass")
+    virtual TArray<AActor*> SpawnBatch(
         const TArray<FTransform>& Transforms,
-        UGSDDataAsset* Config,
-        FOnMassSpawnComplete& OnComplete
-    );
-    virtual void SpawnBatch_Implementation(
-        const TArray<FTransform>& Transforms,
-        UGSDDataAsset* Config,
-        FOnMassSpawnComplete& OnComplete
+        UGSDDataAsset* Config
     );
 
-    // Chunked spawning to avoid callback storms
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Mass")
-    void SpawnBatchChunked(
+    // Chunked spawning - returns spawned actors for chunk
+    UFUNCTION(BlueprintCallable, Category = "GSD|Mass")
+    virtual TArray<AActor*> SpawnBatchChunked(
         const TArray<FTransform>& Transforms,
         UGSDDataAsset* Config,
         int32 ChunkSize,
-        FOnMassSpawnChunkComplete& OnChunkComplete
-    );
-    virtual void SpawnBatchChunked_Implementation(
-        const TArray<FTransform>& Transforms,
-        UGSDDataAsset* Config,
-        int32 ChunkSize,
-        FOnMassSpawnChunkComplete& OnChunkComplete
+        int32 ChunkIndex
     );
 
     // Get current spawn queue status
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Mass")
-    int32 GetPendingSpawnCount() const;
-    virtual int32 GetPendingSpawnCount_Implementation() const;
+    UFUNCTION(BlueprintCallable, Category = "GSD|Mass")
+    virtual int32 GetPendingSpawnCount() const;
 
     // Cancel pending spawns
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Mass")
-    void CancelPendingSpawns();
-    virtual void CancelPendingSpawns_Implementation();
+    UFUNCTION(BlueprintCallable, Category = "GSD|Mass")
+    virtual void CancelPendingSpawns();
 
     // Check if spawning is in progress
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Mass")
-    bool IsSpawning() const;
-    virtual bool IsSpawning_Implementation() const;
+    UFUNCTION(BlueprintCallable, Category = "GSD|Mass")
+    virtual bool IsSpawning() const;
 };

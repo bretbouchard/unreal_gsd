@@ -6,7 +6,7 @@
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDHLODTypesEnumTest,
     "GSD.CityStreaming.HLOD.Types.EnumValues",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDHLODTypesEnumTest::RunTest(const FString& Parameters)
 {
@@ -23,7 +23,7 @@ bool FGSDHLODTypesEnumTest::RunTest(const FString& Parameters)
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDHLODDefaultConfigTest,
     "GSD.CityStreaming.HLOD.Config.DefaultTiers",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDHLODDefaultConfigTest::RunTest(const FString& Parameters)
 {

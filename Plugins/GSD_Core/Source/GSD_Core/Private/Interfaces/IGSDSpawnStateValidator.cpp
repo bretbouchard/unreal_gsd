@@ -14,7 +14,7 @@ int32 IGSDSpawnStateValidator::ComputeSpawnHash_Implementation() const
 
 void IGSDSpawnStateValidator::LogDivergence_Implementation(const FGSDSeededSpawnTicket& Expected, const FGSDSeededSpawnTicket& Actual)
 {
-    GSD_WARN("Spawn divergence detected - Expected Order: %d, Actual Order: %d",
+    GSD_WARN(TEXT("Spawn divergence detected - Expected Order: %d, Actual Order: %d"),
         Expected.SpawnOrder, Actual.SpawnOrder);
 }
 

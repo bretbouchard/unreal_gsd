@@ -8,7 +8,7 @@
 // Test: Performance config defaults
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDPerformanceConfigDefaultsTest,
     "GSD.Core.Performance.Defaults",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDPerformanceConfigDefaultsTest::RunTest(const FString& Parameters)
 {
@@ -36,7 +36,7 @@ bool FGSDPerformanceConfigDefaultsTest::RunTest(const FString& Parameters)
 // Test: Budget checking
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDPerformanceConfigBudgetTest,
     "GSD.Core.Performance.BudgetChecking",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDPerformanceConfigBudgetTest::RunTest(const FString& Parameters)
 {
@@ -72,7 +72,7 @@ bool FGSDPerformanceConfigBudgetTest::RunTest(const FString& Parameters)
 // Test: SaveGame basic operations
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDSaveGameBasicTest,
     "GSD.Core.SaveGame.BasicOperations",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDSaveGameBasicTest::RunTest(const FString& Parameters)
 {
@@ -110,7 +110,7 @@ bool FGSDSaveGameBasicTest::RunTest(const FString& Parameters)
 // Test: FGSDTickContext audio budget
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDTickContextTest,
     "GSD.Core.TickContext.AudioBudget",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDTickContextTest::RunTest(const FString& Parameters)
 {

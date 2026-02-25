@@ -6,7 +6,7 @@
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDStreamingSourceDefaultsTest,
     "GSD.CityStreaming.StreamingSource.Defaults",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDStreamingSourceDefaultsTest::RunTest(const FString& Parameters)
 {
@@ -26,7 +26,7 @@ bool FGSDStreamingSourceDefaultsTest::RunTest(const FString& Parameters)
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDStreamingSourceEnableDisableTest,
     "GSD.CityStreaming.StreamingSource.EnableDisable",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDStreamingSourceEnableDisableTest::RunTest(const FString& Parameters)
 {
@@ -48,7 +48,7 @@ bool FGSDStreamingSourceEnableDisableTest::RunTest(const FString& Parameters)
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDStreamingSourceMultiplierTest,
     "GSD.CityStreaming.StreamingSource.LoadingRangeMultiplier",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDStreamingSourceMultiplierTest::RunTest(const FString& Parameters)
 {

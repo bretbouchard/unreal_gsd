@@ -1,7 +1,7 @@
 #include "Interfaces/IGSDCityTileImporter.h"
 #include "HAL/FileManager.h"
 
-FGSDImportResult IGSDCityTileImporter::ImportTile_Implementation(const FGSDImportConfig& Config)
+FGSDImportResult IGSDCityTileImporter::ImportTile(const FGSDImportConfig& Config)
 {
     // Validate configuration first
     FString ErrorMessage;
@@ -26,7 +26,7 @@ FGSDImportResult IGSDCityTileImporter::ImportTile_Implementation(const FGSDImpor
     }
 }
 
-TArray<FGSDImportResult> IGSDCityTileImporter::ImportTilesBatch_Implementation(const TArray<FGSDImportConfig>& Configs)
+TArray<FGSDImportResult> IGSDCityTileImporter::ImportTilesBatch(const TArray<FGSDImportConfig>& Configs)
 {
     TArray<FGSDImportResult> Results;
     Results.Reserve(Configs.Num());
@@ -39,7 +39,7 @@ TArray<FGSDImportResult> IGSDCityTileImporter::ImportTilesBatch_Implementation(c
     return Results;
 }
 
-bool IGSDCityTileImporter::ValidateConfig_Implementation(const FGSDImportConfig& Config, FString& OutErrorMessage)
+bool IGSDCityTileImporter::ValidateConfig(const FGSDImportConfig& Config, FString& OutErrorMessage)
 {
     // Check source file path is not empty
     if (Config.SourceFilePath.IsEmpty())
@@ -79,21 +79,9 @@ bool IGSDCityTileImporter::ValidateConfig_Implementation(const FGSDImportConfig&
     return true;
 }
 
-TArray<EGSDImportFormat> IGSDCityTileImporter::GetSupportedFormats_Implementation() const
+TArray<EGSDImportFormat> IGSDCityTileImporter::GetSupportedFormats() const
 {
     return { EGSDImportFormat::USD, EGSDImportFormat::FBX };
-}
-
-void IGSDCityTileImporter::ImportTileAsync_Implementation(const FGSDImportConfig& Config, const FGSDOnImportComplete& OnComplete)
-{
-    // Placeholder for async import - future enhancement
-    // This will be implemented with editor-only async import functionality
-    FGSDImportResult Result = FGSDImportResult::Failure(TEXT("Async import not yet implemented"));
-
-    if (OnComplete.IsBound())
-    {
-        OnComplete.Broadcast(Result, Config.TileName);
-    }
 }
 
 FGSDImportResult IGSDCityTileImporter::ImportUSD(const FGSDImportConfig& Config)

@@ -13,6 +13,13 @@
     "CanContainContent": false,
     "IsBetaVersion": false,
     "Installed": false,
+    "EngineVersion": "5.7.0",
+    "Plugins": [
+        {
+            "Name": "EditorScriptingUtilities",
+            "Enabled": true
+        }
+    ],
     "Modules": [
         {
             "Name": "GSD_Core",

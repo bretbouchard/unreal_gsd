@@ -11,6 +11,9 @@
 
 class UGSDVehicleConfig;
 class UGSDWheelConfig;
+class UGSDLaunchControlComponent;
+class UGSDAttachmentComponent;
+class UGSDTuningPreset;
 
 /**
  * Base vehicle pawn for GSD vehicles.
@@ -47,16 +50,61 @@ public:
     UFUNCTION(BlueprintPure, Category = "GSD|Vehicles")
     UChaosWheeledVehicleMovementComponent* GetVehicleMovement() const;
 
+    //-- Tuning Presets --
+
+    /**
+     * Apply tuning preset at runtime.
+     * Modifies steering ratio, drag, mass, max RPM on movement component.
+     *
+     * @param Preset Tuning preset to apply
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    void ApplyTuningPreset(UGSDTuningPreset* Preset);
+
+    /**
+     * Get currently active tuning preset.
+     *
+     * @return Active tuning preset, or nullptr if none applied
+     */
+    UFUNCTION(BlueprintPure, Category = "GSD|Vehicles")
+    UGSDTuningPreset* GetActiveTuningPreset() const;
+
+    //-- Launch Control --
+
+    /**
+     * Activate launch control with config from VehicleConfig.
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    void ActivateLaunchControl();
+
+    /**
+     * Deactivate launch control.
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    void DeactivateLaunchControl();
+
     //-- Components --
 
     /** Streaming source component for World Partition integration */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GSD|Vehicles")
     TObjectPtr<UGSDStreamingSourceComponent> StreamingSource;
 
+    /** Launch control component for throttle ramping and traction control */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GSD|Vehicles")
+    TObjectPtr<UGSDLaunchControlComponent> LaunchControlComponent;
+
+    /** Attachment component for accessories */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GSD|Vehicles")
+    TObjectPtr<UGSDAttachmentComponent> AttachmentComponent;
+
 protected:
     /** Vehicle configuration applied during spawn */
     UPROPERTY(BlueprintReadOnly, Category = "GSD|Vehicles")
     TObjectPtr<UGSDVehicleConfig> VehicleConfig;
+
+    /** Currently active tuning preset */
+    UPROPERTY()
+    TObjectPtr<UGSDTuningPreset> ActiveTuningPreset;
 
     /** Whether this vehicle has been spawned from a config */
     bool bIsSpawned = false;

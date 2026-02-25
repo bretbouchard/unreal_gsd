@@ -22,7 +22,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGSDOnImportComplete, const FGSDImp
  *
  * For async import, use ImportTileAsync() with completion delegate.
  */
-UINTERFACE(MinimalAPI, Blueprintable, Category = "GSD|Import", meta = (CannotImplementInterfaceInBlueprint))
+UINTERFACE(MinimalAPI, NotBlueprintable, Category = "GSD|Import")
 class UGSDCityTileImporter : public UInterface
 {
     GENERATED_BODY()
@@ -39,9 +39,8 @@ public:
      * @param Config Import configuration containing source path, format, and settings
      * @return FGSDImportResult with success status and imported asset paths
      */
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Import")
-    FGSDImportResult ImportTile(const FGSDImportConfig& Config);
-    virtual FGSDImportResult ImportTile_Implementation(const FGSDImportConfig& Config);
+    UFUNCTION(BlueprintCallable, Category = "GSD|Import")
+    virtual FGSDImportResult ImportTile(const FGSDImportConfig& Config);
 
     /**
      * Import multiple tiles in batch.
@@ -49,9 +48,8 @@ public:
      * @param Configs Array of import configurations for each tile
      * @return Array of import results, one per configuration
      */
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Import")
-    TArray<FGSDImportResult> ImportTilesBatch(const TArray<FGSDImportConfig>& Configs);
-    virtual TArray<FGSDImportResult> ImportTilesBatch_Implementation(const TArray<FGSDImportConfig>& Configs);
+    UFUNCTION(BlueprintCallable, Category = "GSD|Import")
+    virtual TArray<FGSDImportResult> ImportTilesBatch(const TArray<FGSDImportConfig>& Configs);
 
     /**
      * Validate import configuration before import.
@@ -61,28 +59,16 @@ public:
      * @param OutErrorMessage Error message if validation fails
      * @return True if configuration is valid
      */
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Import")
-    bool ValidateConfig(const FGSDImportConfig& Config, FString& OutErrorMessage);
-    virtual bool ValidateConfig_Implementation(const FGSDImportConfig& Config, FString& OutErrorMessage);
+    UFUNCTION(BlueprintCallable, Category = "GSD|Import")
+    virtual bool ValidateConfig(const FGSDImportConfig& Config, FString& OutErrorMessage);
 
     /**
      * Get supported import formats.
      *
      * @return Array of supported EGSDImportFormat values
      */
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Import")
-    TArray<EGSDImportFormat> GetSupportedFormats() const;
-    virtual TArray<EGSDImportFormat> GetSupportedFormats_Implementation() const;
-
-    /**
-     * Import a tile asynchronously with callback.
-     *
-     * @param Config Import configuration
-     * @param OnComplete Delegate to call when import completes
-     */
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Import")
-    void ImportTileAsync(const FGSDImportConfig& Config, const FGSDOnImportComplete& OnComplete);
-    virtual void ImportTileAsync_Implementation(const FGSDImportConfig& Config, const FGSDOnImportComplete& OnComplete);
+    UFUNCTION(BlueprintCallable, Category = "GSD|Import")
+    virtual TArray<EGSDImportFormat> GetSupportedFormats() const;
 
 protected:
     /**

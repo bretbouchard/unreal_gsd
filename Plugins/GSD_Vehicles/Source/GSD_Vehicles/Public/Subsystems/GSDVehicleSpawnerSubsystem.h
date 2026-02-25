@@ -10,6 +10,7 @@
 
 class AGSDVehiclePawn;
 class UGSDVehicleConfig;
+class UGSDVehiclePoolSubsystem;
 
 /**
  * Delegate for async vehicle spawn completion.
@@ -79,6 +80,27 @@ public:
     UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
     void DespawnAllVehicles();
 
+    //-- Pooling Support --
+
+    /**
+     * Spawn vehicle using pool if available, falls back to regular spawn.
+     *
+     * @param Config Vehicle configuration Data Asset
+     * @param Location World location to spawn at
+     * @param Rotation World rotation
+     * @return Spawned vehicle pawn, or nullptr on failure
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    AGSDVehiclePawn* SpawnVehicleFromPool(UGSDVehicleConfig* Config, FVector Location, FRotator Rotation = FRotator::ZeroRotator);
+
+    /**
+     * Return vehicle to pool instead of destroying.
+     *
+     * @param Vehicle Vehicle to return to pool
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    void ReturnVehicleToPool(AGSDVehiclePawn* Vehicle);
+
     /**
      * Get all currently spawned vehicles.
      *
@@ -106,4 +128,16 @@ protected:
     // ~UWorldSubsystem interface
     virtual bool ShouldCreateSubsystem(UWorld* World) const override;
     // ~End of UWorldSubsystem interface
+
+private:
+    /** Cached pool subsystem reference (lazy initialization) */
+    UPROPERTY()
+    TObjectPtr<UGSDVehiclePoolSubsystem> PoolSubsystem;
+
+    /**
+     * Get pool subsystem lazily (handles initialization order).
+     *
+     * @return Pool subsystem, or nullptr if not available
+     */
+    UGSDVehiclePoolSubsystem* GetPoolSubsystem();
 };

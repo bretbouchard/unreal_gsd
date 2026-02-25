@@ -18,11 +18,11 @@ public:
     AGSDActor();
 
     // ~ IGSDSpawnable interface
-    virtual void SpawnAsync_Implementation(UGSDDataAsset* Config, FOnSpawnComplete Callback) override;
-    virtual UGSDDataAsset* GetSpawnConfig_Implementation() override;
-    virtual bool IsSpawned_Implementation() override;
-    virtual void Despawn_Implementation() override;
-    virtual void ResetSpawnState_Implementation() override;
+    virtual void SpawnAsync(UGSDDataAsset* Config) override;
+    virtual UGSDDataAsset* GetSpawnConfig() override;
+    virtual bool IsSpawned() override;
+    virtual void Despawn() override;
+    virtual void ResetSpawnState() override;
 
     // ~ IGSDStreamable interface
     virtual FBoxSphereBounds GetStreamingBounds_Implementation() override;

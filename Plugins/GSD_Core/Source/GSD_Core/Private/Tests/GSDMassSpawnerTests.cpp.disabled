@@ -7,7 +7,7 @@
 // Test: FGSDSpawnTicket defaults
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDSpawnTicketDefaultsTest,
     "GSD.Core.SpawnTypes.FGSDSpawnTicket.Defaults",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDSpawnTicketDefaultsTest::RunTest(const FString& Parameters)
 {
@@ -25,7 +25,7 @@ bool FGSDSpawnTicketDefaultsTest::RunTest(const FString& Parameters)
 // Test: FGSDSeededSpawnTicket inheritance
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDSeededSpawnTicketTest,
     "GSD.Core.SpawnTypes.FGSDSeededSpawnTicket.Inheritance",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDSeededSpawnTicketTest::RunTest(const FString& Parameters)
 {
@@ -50,7 +50,7 @@ bool FGSDSeededSpawnTicketTest::RunTest(const FString& Parameters)
 // Test: FGSDSpawnComparator ordering
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDSpawnComparatorTest,
     "GSD.Core.SpawnTypes.FGSDSpawnComparator.Ordering",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDSpawnComparatorTest::RunTest(const FString& Parameters)
 {
@@ -87,7 +87,7 @@ bool FGSDSpawnComparatorTest::RunTest(const FString& Parameters)
 // Test: FGSDAudioLODConfig distance calculation
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDAudioLODConfigTest,
     "GSD.Core.Audio.LODConfig.DistanceCalculation",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDAudioLODConfigTest::RunTest(const FString& Parameters)
 {

@@ -3,6 +3,10 @@
 #include "Actors/GSDVehiclePawn.h"
 #include "DataAssets/GSDVehicleConfig.h"
 #include "DataAssets/GSDWheelConfig.h"
+#include "DataAssets/GSDTuningPreset.h"
+#include "DataAssets/GSDAttachmentConfig.h"
+#include "Components/GSDLaunchControlComponent.h"
+#include "Components/GSDAttachmentComponent.h"
 #include "GSDVehicleLog.h"
 #include "ChaosWheeledVehicleMovementComponent.h"
 #include "GameFramework/Controller.h"
@@ -11,6 +15,12 @@ AGSDVehiclePawn::AGSDVehiclePawn()
 {
     // Create streaming source component for World Partition integration
     StreamingSource = CreateDefaultSubobject<UGSDStreamingSourceComponent>(TEXT("StreamingSource"));
+
+    // Create launch control component
+    LaunchControlComponent = CreateDefaultSubobject<UGSDLaunchControlComponent>(TEXT("LaunchControlComponent"));
+
+    // Create attachment component
+    AttachmentComponent = CreateDefaultSubobject<UGSDAttachmentComponent>(TEXT("AttachmentComponent"));
 
     bIsSpawned = false;
 }
@@ -38,6 +48,24 @@ void AGSDVehiclePawn::SpawnFromConfig(UGSDDataAsset* Config)
     {
         StreamingSource->ConfigureForVehicle(VehicleConfigPtr->bIsFastVehicle);
     }
+
+    // Initialize launch control from config
+    if (VehicleConfig && VehicleConfig->LaunchControlConfig && LaunchControlComponent)
+    {
+        LaunchControlComponent->Initialize(VehicleConfig->LaunchControlConfig, GetVehicleMovement());
+    }
+
+    // Attach default attachments
+    if (VehicleConfig && AttachmentComponent)
+    {
+        for (const auto& AttachmentPtr : VehicleConfig->DefaultAttachments)
+        {
+            if (UGSDAttachmentConfig* AttachmentConfig = AttachmentPtr.LoadSynchronous())
+            {
+                AttachmentComponent->AttachAccessory(AttachmentConfig);
+            }
+        }
+    }
 }
 
 UGSDDataAsset* AGSDVehiclePawn::GetSpawnConfig()
@@ -54,6 +82,7 @@ void AGSDVehiclePawn::Despawn()
 {
     bIsSpawned = false;
     VehicleConfig = nullptr;
+    ActiveTuningPreset = nullptr;
 
     // Cancel any pending streaming hibernation
     if (StreamingSource)
@@ -70,6 +99,67 @@ void AGSDVehiclePawn::ResetSpawnState()
 UChaosWheeledVehicleMovementComponent* AGSDVehiclePawn::GetVehicleMovement() const
 {
     return Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovementComponent());
+}
+
+void AGSDVehiclePawn::ApplyTuningPreset(UGSDTuningPreset* Preset)
+{
+    if (!Preset)
+    {
+        return;
+    }
+
+    UChaosWheeledVehicleMovementComponent* Movement = GetVehicleMovement();
+    if (!Movement)
+    {
+        return;
+    }
+
+    // Apply steering ratio
+    Movement->SteeringSetup.SteeringRatio = Preset->SteeringRatio;
+
+    // Apply engine settings
+    Movement->EngineSetup.MaxRPM = Preset->MaxRPM;
+
+    // Apply drag
+    Movement->DragCoefficient = Preset->DragCoefficient;
+
+    // Apply mass multiplier
+    if (UPrimitiveComponent* RootPrim = Cast<UPrimitiveComponent>(GetRootComponent()))
+    {
+        float BaseMass = VehicleConfig ? VehicleConfig->Mass : 1500.0f;
+        RootPrim->SetMassOverrideInKg(NAME_None, BaseMass * Preset->MassMultiplier);
+    }
+
+    // Note: Suspension settings (Stiffness, Damping) and tire friction require
+    // direct wheel instance access which is not exposed through WheelSetups.
+    // These would require iterating wheel instances via GetWheel(i) if available,
+    // or recreating the vehicle movement component. For now, only apply
+    // movement-level settings (SteeringRatio, MaxRPM, DragCoefficient, Mass).
+
+    ActiveTuningPreset = Preset;
+
+    GSD_VEHICLE_LOG(Log, TEXT("Applied tuning preset '%s' to vehicle"), *Preset->GetName());
+}
+
+UGSDTuningPreset* AGSDVehiclePawn::GetActiveTuningPreset() const
+{
+    return ActiveTuningPreset;
+}
+
+void AGSDVehiclePawn::ActivateLaunchControl()
+{
+    if (LaunchControlComponent)
+    {
+        LaunchControlComponent->ActivateLaunchControl();
+    }
+}
+
+void AGSDVehiclePawn::DeactivateLaunchControl()
+{
+    if (LaunchControlComponent)
+    {
+        LaunchControlComponent->DeactivateLaunchControl();
+    }
 }
 
 void AGSDVehiclePawn::ApplyVehicleConfig(UGSDVehicleConfig* Config)

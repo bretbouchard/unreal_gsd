@@ -20,7 +20,7 @@ class GSD_CITYSTREAMING_API UGSDCityStreamingSettings : public UDeveloperSetting
 
 public:
     /** Returns the singleton instance of the settings */
-    static UGSDCityStreamingSettings* Get() { return GetDefault<UGSDCityStreamingSettings>(); }
+    static const UGSDCityStreamingSettings* Get() { return GetDefault<UGSDCityStreamingSettings>(); }
 
     // ============================================
     // World Partition Grid Settings

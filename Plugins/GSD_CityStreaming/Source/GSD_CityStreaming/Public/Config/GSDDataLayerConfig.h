@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "Engine/DataLayer.h"
+#include "WorldPartition/DataLayer/DataLayerAsset.h"
 #include "GSDDataLayerConfig.generated.h"
 
 /**

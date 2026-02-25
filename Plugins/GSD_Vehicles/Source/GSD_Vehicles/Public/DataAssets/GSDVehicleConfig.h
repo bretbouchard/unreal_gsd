@@ -11,6 +11,9 @@ class UPhysicsAsset;
 class UAnimInstance;
 class UCurveFloat;
 class UGSDWheelConfig;
+class UGSDLaunchControlConfig;
+class UGSDTuningPreset;
+class UGSDAttachmentConfig;
 
 /**
  * Main vehicle configuration data asset.
@@ -92,4 +95,22 @@ public:
      */
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Streaming")
     bool bIsFastVehicle;
+
+    //-- Advanced Features (Phase 5) --
+
+    /** Launch control configuration (optional) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Advanced Features")
+    TObjectPtr<UGSDLaunchControlConfig> LaunchControlConfig;
+
+    /** Available tuning presets for this vehicle */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Advanced Features")
+    TArray<TObjectPtr<UGSDTuningPreset>> TuningPresets;
+
+    /** Available attachment points for this vehicle */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Advanced Features")
+    TArray<TSoftObjectPtr<UGSDAttachmentConfig>> AvailableAttachments;
+
+    /** Default attachments to spawn with vehicle */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Advanced Features")
+    TArray<TSoftObjectPtr<UGSDAttachmentConfig>> DefaultAttachments;
 };

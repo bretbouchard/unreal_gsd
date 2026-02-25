@@ -8,7 +8,7 @@ const FName UGSDDeterminismManager::VehicleCategory = TEXT("Vehicle");
 
 void UGSDDeterminismManager::Initialize(FSubsystemCollectionBase& Collection)
 {
-    GSD_LOG(Log, "UGSDDeterminismManager initialized");
+    GSD_LOG(Log, TEXT("UGSDDeterminismManager initialized"));
 
     // Create default category streams
     CreateCategoryStream(SpawnCategory);
@@ -20,7 +20,7 @@ void UGSDDeterminismManager::Initialize(FSubsystemCollectionBase& Collection)
 void UGSDDeterminismManager::Deinitialize()
 {
     CategoryStreams.Empty();
-    GSD_LOG(Log, "UGSDDeterminismManager deinitialized");
+    GSD_LOG(Log, TEXT("UGSDDeterminismManager deinitialized"));
 }
 
 void UGSDDeterminismManager::InitializeWithSeed(int32 InSeed)
@@ -28,7 +28,7 @@ void UGSDDeterminismManager::InitializeWithSeed(int32 InSeed)
     CurrentSeed = InSeed;
     StateHash = 0;
 
-    GSD_LOG(Log, "UGSDDeterminismManager seeded with %d", CurrentSeed);
+    GSD_LOG(Log, TEXT("UGSDDeterminismManager seeded with %d"), CurrentSeed);
 
     // Reset and reseed all streams
     for (auto& Pair : CategoryStreams)
@@ -99,7 +99,7 @@ void UGSDDeterminismManager::ResetStream(FName Category)
     {
         int32 CategorySeed = CurrentSeed + GetTypeHash(Category);
         CategoryStreams[Category].Initialize(CategorySeed);
-        GSD_LOG(Verbose, "Reset stream for category %s", *Category.ToString());
+        GSD_LOG(Verbose, TEXT("Reset stream for category %s"), *Category.ToString());
     }
 }
 
@@ -110,7 +110,7 @@ void UGSDDeterminismManager::ResetAllStreams()
         int32 CategorySeed = CurrentSeed + GetTypeHash(Pair.Key);
         Pair.Value.Initialize(CategorySeed);
     }
-    GSD_LOG(Log, "Reset all streams with seed %d", CurrentSeed);
+    GSD_LOG(Log, TEXT("Reset all streams with seed %d"), CurrentSeed);
 }
 
 void UGSDDeterminismManager::CreateCategoryStream(FName Category)

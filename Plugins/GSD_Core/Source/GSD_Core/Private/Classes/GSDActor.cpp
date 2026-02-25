@@ -7,7 +7,7 @@ AGSDActor::AGSDActor()
     PrimaryActorTick.bCanEverTick = false;
 }
 
-void AGSDActor::SpawnAsync_Implementation(UGSDDataAsset* Config, FOnSpawnComplete Callback)
+void AGSDActor::SpawnAsync(UGSDDataAsset* Config)
 {
     GSDConfig = Config;
     bIsSpawned = true;
@@ -15,33 +15,28 @@ void AGSDActor::SpawnAsync_Implementation(UGSDDataAsset* Config, FOnSpawnComplet
     OnConfigApplied(Config);
     OnSpawnComplete();
 
-    GSD_LOG(Log, "AGSDActor %s spawned with config %s",
+    UE_LOG(LogGSD, Log, TEXT("AGSDActor %s spawned with config %s"),
         *GetName(), Config ? *Config->GetName() : TEXT("nullptr"));
-
-    if (Callback.IsBound())
-    {
-        Callback.Execute(this);
-    }
 }
 
-UGSDDataAsset* AGSDActor::GetSpawnConfig_Implementation()
+UGSDDataAsset* AGSDActor::GetSpawnConfig()
 {
     return GSDConfig;
 }
 
-bool AGSDActor::IsSpawned_Implementation()
+bool AGSDActor::IsSpawned()
 {
     return bIsSpawned;
 }
 
-void AGSDActor::Despawn_Implementation()
+void AGSDActor::Despawn()
 {
     OnDespawnStart();
     bIsSpawned = false;
-    GSD_LOG(Log, "AGSDActor %s despawned", *GetName());
+    UE_LOG(LogGSD, Log, TEXT("AGSDActor %s despawned"), *GetName());
 }
 
-void AGSDActor::ResetSpawnState_Implementation()
+void AGSDActor::ResetSpawnState()
 {
     bIsSpawned = false;
     GSDConfig = nullptr;
@@ -49,19 +44,22 @@ void AGSDActor::ResetSpawnState_Implementation()
 
 FBoxSphereBounds AGSDActor::GetStreamingBounds_Implementation()
 {
-    return FBoxSphereBounds(GetActorBounds(true));
+    FVector Origin;
+    FVector BoxExtent;
+    GetActorBounds(true, Origin, BoxExtent);
+    return FBoxSphereBounds(FBox(Origin - BoxExtent, Origin + BoxExtent));
 }
 
 void AGSDActor::OnStreamIn_Implementation()
 {
     bIsStreamedIn = true;
-    GSD_LOG(Verbose, "AGSDActor %s streamed in", *GetName());
+    UE_LOG(LogGSD, Verbose, TEXT("AGSDActor %s streamed in"), *GetName());
 }
 
 void AGSDActor::OnStreamOut_Implementation()
 {
     bIsStreamedIn = false;
-    GSD_LOG(Verbose, "AGSDActor %s streamed out", *GetName());
+    UE_LOG(LogGSD, Verbose, TEXT("AGSDActor %s streamed out"), *GetName());
 }
 
 int32 AGSDActor::GetStreamingPriority_Implementation()

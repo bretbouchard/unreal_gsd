@@ -8,7 +8,7 @@
 // Test: Determinism manager seeding
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDDeterminismManagerSeedingTest,
     "GSD.Core.Determinism.Seeding",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDDeterminismManagerSeedingTest::RunTest(const FString& Parameters)
 {
@@ -30,7 +30,7 @@ bool FGSDDeterminismManagerSeedingTest::RunTest(const FString& Parameters)
 // Test: Same seed produces same sequence
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDDeterminismManagerReproducibilityTest,
     "GSD.Core.Determinism.Reproducibility",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDDeterminismManagerReproducibilityTest::RunTest(const FString& Parameters)
 {
@@ -69,7 +69,7 @@ bool FGSDDeterminismManagerReproducibilityTest::RunTest(const FString& Parameter
 // Test: Category isolation
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDDeterminismManagerCategoryIsolationTest,
     "GSD.Core.Determinism.CategoryIsolation",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDDeterminismManagerCategoryIsolationTest::RunTest(const FString& Parameters)
 {
@@ -101,7 +101,7 @@ bool FGSDDeterminismManagerCategoryIsolationTest::RunTest(const FString& Paramet
 // Test: Random integer range
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FGSDDeterminismManagerRandomIntegerTest,
     "GSD.Core.Determinism.RandomInteger",
-    EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FGSDDeterminismManagerRandomIntegerTest::RunTest(const FString& Parameters)
 {

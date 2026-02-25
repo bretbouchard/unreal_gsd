@@ -9,7 +9,8 @@ public class GSD_Core : ModuleRules
         PublicDependencyModuleNames.AddRange(new string[] {
             "Core",
             "CoreUObject",
-            "Engine"
+            "Engine",
+            "DeveloperSettings"
         });
 
         PrivateDependencyModuleNames.AddRange(new string[] {

@@ -12,8 +12,7 @@ public class GSD_CityStreaming : ModuleRules
             "Engine",
             "InputCore",
             "GSD_Core",
-            "WorldPartition",
-            "DataLayerSubsystem"
+            "DeveloperSettings"
         });
 
         PrivateDependencyModuleNames.AddRange(new string[] {

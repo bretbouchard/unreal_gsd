@@ -11,7 +11,7 @@ UActorComponent* UGSDComponent::SpawnComponent_Implementation(AActor* Owner, con
 {
     if (!Owner)
     {
-        GSD_WARN("UGSDComponent::SpawnComponent called with null Owner");
+        GSD_WARN(TEXT("UGSDComponent::SpawnComponent called with null Owner"));
         return nullptr;
     }
 
@@ -20,7 +20,7 @@ UActorComponent* UGSDComponent::SpawnComponent_Implementation(AActor* Owner, con
     bGSDActive = true;
     OnGSDActivate();
 
-    GSD_LOG(Log, "UGSDComponent %s spawned on actor %s", *GetName(), *Owner->GetName());
+    GSD_LOG(Log, TEXT("UGSDComponent %s spawned on actor %s"), *GetName(), *Owner->GetName());
     return this;
 }
 
@@ -38,13 +38,13 @@ void UGSDComponent::DeactivateComponent_Implementation()
 {
     OnGSDDeactivate();
     bGSDActive = false;
-    GSD_LOG(Log, "UGSDComponent %s deactivated", *GetName());
+    GSD_LOG(Log, TEXT("UGSDComponent %s deactivated"), *GetName());
 }
 
 void UGSDComponent::DestroyComponent_Implementation()
 {
     DeactivateComponent_Implementation();
-    DestroyComponent();
+    UActorComponent::DestroyComponent();
 }
 
 void UGSDComponent::OnConfigApplied_Implementation(UGSDDataAsset* Config)

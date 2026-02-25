@@ -19,7 +19,7 @@ struct GSD_CORE_API FGSDNetworkSpawnParams
     bool bReplicates = true;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    ENetRole RemoteRole = ROLE_SimulatedProxy;
+    TEnumAsByte<ENetRole> RemoteRole = ROLE_SimulatedProxy;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     float NetUpdateFrequency = 100.0f;
@@ -75,7 +75,7 @@ struct GSD_CORE_API FGSDSeededSpawnTicket : public FGSDSpawnTicket
     int32 SpawnOrder = -1;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint32 ParameterHash = 0;
+    int32 ParameterHash = 0;
 };
 
 // Spawn comparator for deterministic ordering
@@ -112,6 +112,6 @@ struct GSD_CORE_API FGSDTickContext
     UPROPERTY(BlueprintReadWrite)
     float AudioBudgetRemainingMs = 2.0f;
 
-    UFUNCTION(BlueprintPure, Category = "GSD")
+    // Note: UFUNCTION not allowed in USTRUCT - use inline or blueprint library
     bool HasAudioBudget() const { return AudioBudgetRemainingMs > 0.1f; }
 };
