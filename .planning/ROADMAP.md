@@ -170,7 +170,16 @@ Plans:
 4. Vehicle testbed map spawns 50 randomized cars for validation
 5. Bumper/plow attachment points are defined in vehicle data
 
-**Plans**: TBD
+**Plans**: 7 plans in 7 waves
+
+Plans:
+- [ ] 05-01-PLAN.md - Advanced Feature Data Assets
+- [ ] 05-02-PLAN.md - Vehicle Pool Subsystem
+- [ ] 05-03-PLAN.md - Launch Control Component
+- [ ] 05-04-PLAN.md - Attachment Component
+- [ ] 05-05-PLAN.md - Vehicle Pawn Extensions
+- [ ] 05-06-PLAN.md - Vehicle Testbed Actor
+- [ ] 05-07-PLAN.md - Verification and Editor Tests
 
 ---
 
@@ -285,7 +294,7 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | 2.5. Charlotte Map Data Acquisition | 5/5 | Complete | 2026-02-25 |
 | 3. Streaming & Data Layers | 5/5 | Complete | 2026-02-25 |
 | 4. Vehicle Core Systems | 6/6 | Complete | 2026-02-25 |
-| 5. Vehicle Advanced Features | 0/TBD | Not started | - |
+| 5. Vehicle Advanced Features | 0/7 | Not started | - |
 | 6. Crowd Core Systems | 0/TBD | Not started | - |
 | 7. Crowd AI & Navigation | 0/TBD | Not started | - |
 | 8. Event System Core | 0/TBD | Not started | - |
