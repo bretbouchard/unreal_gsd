@@ -15,5 +15,14 @@ public class GSD_Core : ModuleRules
         PrivateDependencyModuleNames.AddRange(new string[] {
             "AssetRegistry"
         });
+
+        // Enable automation tests
+        if (Target.bBuildEditor)
+        {
+            PrivateDependencyModuleNames.AddRange(new string[] {
+                "UnrealEd",
+                "EditorScriptingUtilities"
+            });
+        }
     }
 }
