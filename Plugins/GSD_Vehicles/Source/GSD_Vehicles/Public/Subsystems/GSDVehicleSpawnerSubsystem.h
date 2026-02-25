@@ -1,0 +1,109 @@
+// Copyright Bret Bouchard. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Subsystems/WorldSubsystem.h"
+#include "DataAssets/GSDVehicleConfig.h"
+#include "Actors/GSDVehiclePawn.h"
+#include "GSDVehicleSpawnerSubsystem.generated.h"
+
+class AGSDVehiclePawn;
+class UGSDVehicleConfig;
+
+/**
+ * Delegate for async vehicle spawn completion.
+ * Called when a vehicle has been successfully spawned from a config.
+ */
+DECLARE_DYNAMIC_DELEGATE_OneParam(FOnVehicleSpawnComplete, AGSDVehiclePawn*, SpawnedVehicle);
+
+/**
+ * Delegate for all vehicles despawned notification.
+ * Called when DespawnAllVehicles completes clearing all tracked vehicles.
+ */
+DECLARE_DYNAMIC_DELEGATE(FOnAllVehiclesDespawned);
+
+/**
+ * World subsystem for spawning and managing GSD vehicles.
+ *
+ * Provides centralized vehicle spawning from GSDVehicleConfig Data Assets
+ * with tracking and cleanup. Integrates with GSD spawning system and
+ * World Partition streaming.
+ *
+ * Usage:
+ * 1. Get subsystem from world: GetWorld()->GetSubsystem<UGSDVehicleSpawnerSubsystem>()
+ * 2. Spawn vehicle: Subsystem->SpawnVehicle(Config, Location, Rotation)
+ * 3. Track spawned vehicles: Subsystem->GetSpawnedVehicles()
+ * 4. Cleanup: Subsystem->DespawnAllVehicles()
+ */
+UCLASS()
+class GSD_VEHICLES_API UGSDVehicleSpawnerSubsystem : public UWorldSubsystem
+{
+    GENERATED_BODY()
+
+public:
+    /**
+     * Spawn a vehicle from a config at the specified location (synchronous).
+     *
+     * @param Config Vehicle configuration Data Asset
+     * @param Location World location to spawn at
+     * @param Rotation World rotation (default: zero)
+     * @return Spawned vehicle pawn, or nullptr on failure
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    AGSDVehiclePawn* SpawnVehicle(UGSDVehicleConfig* Config, FVector Location, FRotator Rotation = FRotator::ZeroRotator);
+
+    /**
+     * Spawn a vehicle from a config at the specified location (asynchronous).
+     *
+     * @param Config Vehicle configuration Data Asset
+     * @param Location World location to spawn at
+     * @param Rotation World rotation
+     * @param OnComplete Delegate called when spawn completes
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    void SpawnVehicleAsync(UGSDVehicleConfig* Config, FVector Location, FRotator Rotation, const FOnVehicleSpawnComplete& OnComplete);
+
+    /**
+     * Despawn a specific vehicle.
+     *
+     * @param Vehicle Vehicle to despawn
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    void DespawnVehicle(AGSDVehiclePawn* Vehicle);
+
+    /**
+     * Despawn all tracked vehicles.
+     * Broadcasts OnAllVehiclesDespawned delegate when complete.
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Vehicles")
+    void DespawnAllVehicles();
+
+    /**
+     * Get all currently spawned vehicles.
+     *
+     * @return Array of spawned vehicle pawns
+     */
+    UFUNCTION(BlueprintPure, Category = "GSD|Vehicles")
+    const TArray<TObjectPtr<AGSDVehiclePawn>>& GetSpawnedVehicles() const { return SpawnedVehicles; }
+
+    /**
+     * Get the delegate for all vehicles despawned notification.
+     * Bind to receive notification when DespawnAllVehicles completes.
+     *
+     * @return Reference to the delegate
+     */
+    FOnAllVehiclesDespawned& GetOnAllVehiclesDespawned() { return AllVehiclesDespawnedDelegate; }
+
+protected:
+    /** Array of all spawned vehicles being tracked */
+    UPROPERTY()
+    TArray<TObjectPtr<AGSDVehiclePawn>> SpawnedVehicles;
+
+    /** Delegate broadcast when all vehicles are despawned */
+    FOnAllVehiclesDespawned AllVehiclesDespawnedDelegate;
+
+    // ~UWorldSubsystem interface
+    virtual bool ShouldCreateSubsystem(UWorld* World) const override;
+    // ~End of UWorldSubsystem interface
+};
