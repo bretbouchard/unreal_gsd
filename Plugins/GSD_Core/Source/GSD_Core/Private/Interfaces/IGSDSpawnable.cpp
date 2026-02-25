@@ -1,26 +1,26 @@
 #include "Interfaces/IGSDSpawnable.h"
 
-void IGSDSpawnable::SpawnAsync_Implementation(UGSDDataAsset* Config, FOnSpawnComplete Callback)
+void IGSDSpawnable::SpawnFromConfig(UGSDDataAsset* Config)
 {
-    // Default implementation - override in C++ or Blueprint
+    // Default implementation - override in C++
 }
 
-UGSDDataAsset* IGSDSpawnable::GetSpawnConfig_Implementation()
+UGSDDataAsset* IGSDSpawnable::GetSpawnConfig()
 {
     return nullptr;
 }
 
-bool IGSDSpawnable::IsSpawned_Implementation()
+bool IGSDSpawnable::IsSpawned()
 {
     return false;
 }
 
-void IGSDSpawnable::Despawn_Implementation()
+void IGSDSpawnable::Despawn()
 {
-    // Default implementation - override in C++ or Blueprint
+    // Default implementation - override in C++
 }
 
-void IGSDSpawnable::ResetSpawnState_Implementation()
+void IGSDSpawnable::ResetSpawnState()
 {
-    // Default implementation - override in C++ or Blueprint
+    // Default implementation - override in C++
 }

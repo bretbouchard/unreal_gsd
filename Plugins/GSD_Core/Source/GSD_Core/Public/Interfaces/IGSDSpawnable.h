@@ -7,7 +7,7 @@
 
 class UGSDDataAsset;
 
-UINTERFACE(MinimalAPI, Blueprintable, Category = "GSD")
+UINTERFACE(MinimalAPI, NotBlueprintable, Category = "GSD")
 class UGSDSpawnable : public UInterface
 {
     GENERATED_BODY()
@@ -18,24 +18,19 @@ class GSD_CORE_API IGSDSpawnable
     GENERATED_BODY()
 
 public:
-    // Async spawn with config and callback
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Spawning")
-    void SpawnAsync(UGSDDataAsset* Config, FOnSpawnComplete Callback);
-    virtual void SpawnAsync_Implementation(UGSDDataAsset* Config, FOnSpawnComplete Callback);
+    // Initialize spawnable from config (synchronous - rename from SpawnAsync for clarity)
+    UFUNCTION(BlueprintCallable, Category = "GSD|Spawning")
+    virtual void SpawnFromConfig(UGSDDataAsset* Config);
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Spawning")
-    UGSDDataAsset* GetSpawnConfig();
-    virtual UGSDDataAsset* GetSpawnConfig_Implementation();
+    UFUNCTION(BlueprintCallable, Category = "GSD|Spawning")
+    virtual UGSDDataAsset* GetSpawnConfig();
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Spawning")
-    bool IsSpawned();
-    virtual bool IsSpawned_Implementation();
+    UFUNCTION(BlueprintCallable, Category = "GSD|Spawning")
+    virtual bool IsSpawned();
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Spawning")
-    void Despawn();
-    virtual void Despawn_Implementation();
+    UFUNCTION(BlueprintCallable, Category = "GSD|Spawning")
+    virtual void Despawn();
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GSD|Spawning")
-    void ResetSpawnState();
-    virtual void ResetSpawnState_Implementation();
+    UFUNCTION(BlueprintCallable, Category = "GSD|Spawning")
+    virtual void ResetSpawnState();
 };
