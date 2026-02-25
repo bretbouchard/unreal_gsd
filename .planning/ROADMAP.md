@@ -62,13 +62,21 @@ Plans:
 4. City tiles import from USD/FBX with correct scale and collision
 5. GSD_CityStreaming plugin provides World Partition configuration
 
-**Plans**: TBD
+**Plans**: 6 plans in 4 waves
+
+Plans:
+- [ ] 02-01-PLAN.md - GSD_CityStreaming Plugin Foundation
+- [ ] 02-02-PLAN.md - HLOD Layer Configuration
+- [ ] 02-03-PLAN.md - Streaming Source Component
+- [ ] 02-04-PLAN.md - City Tile Import Pipeline
+- [ ] 02-05-PLAN.md - Charlotte City Level Setup
+- [ ] 02-06-PLAN.md - Verification and Editor Tests
 
 ---
 
 ### Phase 3: Streaming & Data Layers
 
-**Goal**: Streaming behavior is predictive and runtime-configurable via Data Layers
+**Goal**: Streaming behavior is predictive and runtime-configurable via Data layers
 
 **Depends on**: Phase 2
 
@@ -229,7 +237,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Architecture Foundation | 7/7 | Complete | 2026-02-25 |
-| 2. World Partition Setup | 0/TBD | Not started | - |
+| 2. World Partition Setup | 0/6 | Not started | - |
 | 3. Streaming & Data Layers | 0/TBD | Not started | - |
 | 4. Vehicle Core Systems | 0/TBD | Not started | - |
 | 5. Vehicle Advanced Features | 0/TBD | Not started | - |
