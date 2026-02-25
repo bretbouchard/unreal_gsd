@@ -7,7 +7,8 @@ This roadmap delivers the Unreal GSD Platform infrastructure for building open-w
 ## Phases
 
 - [x] **Phase 1: Plugin Architecture Foundation** - Core interfaces and plugin structure (2026-02-25)
-- [ ] **Phase 2: World Partition Setup** - Streaming configuration and HLOD
+- [x] **Phase 2: World Partition Setup** - Streaming configuration and HLOD (2026-02-25)
+- [ ] **Phase 2.5: Charlotte Map Data Acquisition** - Automated map tile and terrain data retrieval
 - [ ] **Phase 3: Streaming & Data Layers** - Runtime streaming behavior and cell callbacks
 - [ ] **Phase 4: Vehicle Core Systems** - Basic vehicle spawning and Chaos physics
 - [ ] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed
@@ -65,12 +66,38 @@ Plans:
 **Plans**: 6 plans in 4 waves
 
 Plans:
-- [ ] 02-01-PLAN.md - GSD_CityStreaming Plugin Foundation
-- [ ] 02-02-PLAN.md - HLOD Layer Configuration
-- [ ] 02-03-PLAN.md - Streaming Source Component
-- [ ] 02-04-PLAN.md - City Tile Import Pipeline
-- [ ] 02-05-PLAN.md - Charlotte City Level Setup
-- [ ] 02-06-PLAN.md - Verification and Editor Tests
+- [x] 02-01-PLAN.md - GSD_CityStreaming Plugin Foundation
+- [x] 02-02-PLAN.md - HLOD Layer Configuration
+- [x] 02-03-PLAN.md - Streaming Source Component
+- [x] 02-04-PLAN.md - City Tile Import Pipeline
+- [x] 02-05-PLAN.md - Charlotte City Level Setup
+- [x] 02-06-PLAN.md - Verification and Editor Tests
+
+---
+
+### Phase 2.5: Charlotte Map Data Acquisition
+
+**Goal**: Automated pipeline retrieves Charlotte map imagery and terrain data for I-485 corridor
+
+**Depends on**: Phase 2
+
+**Requirements**: NEW - MAP-01, MAP-02, MAP-03, MAP-04
+
+**Success Criteria** (what must be TRUE):
+1. System retrieves map tiles at configurable zoom levels for I-485 corridor
+2. Coordinate system defines capture grid covering entire highway loop
+3. DEM (Digital Elevation Model) height data acquired at required fidelity
+4. Geo nodes generate highway wall geometry from road boundary data
+5. Pipeline is scriptable/automatable for refresh and updates
+
+**Key Research Questions**:
+- Which map tile provider? (Mapbox, Google, OpenStreetMap, ESRI)
+- What zoom level for city detail? (typically 15-18 for urban)
+- DEM source? (USGS 3DEP, SRTM, custom LIDAR)
+- Highway boundary data source? (OpenStreetMap ways, DOT shapefiles)
+- Coordinate system? (WGS84 -> UTM -> Unreal units)
+
+**Plans**: TBD (needs research phase first)
 
 ---
 
@@ -232,12 +259,13 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
+Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Architecture Foundation | 7/7 | Complete | 2026-02-25 |
-| 2. World Partition Setup | 0/6 | Not started | - |
+| 2. World Partition Setup | 6/6 | Complete | 2026-02-25 |
+| 2.5. Charlotte Map Data Acquisition | 0/TBD | Not started | - |
 | 3. Streaming & Data Layers | 0/TBD | Not started | - |
 | 4. Vehicle Core Systems | 0/TBD | Not started | - |
 | 5. Vehicle Advanced Features | 0/TBD | Not started | - |
