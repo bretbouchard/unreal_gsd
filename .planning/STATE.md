@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Infrastructure for building Unreal Engine games - tools, utilities, automation
-**Current focus:** Phase 5 - Vehicle Advanced Features
+**Current focus:** Phase 5 - Vehicle Advanced Features (COMPLETE - awaiting checkpoint)
 
 ## Current Position
 
 Phase: 5 of 11 (Vehicle Advanced Features)
-Plan: 1/5 in current phase
-Status: In Progress
-Last activity: 2026-02-25 - Plan 05-01 complete (Advanced Feature Data Assets)
+Plan: 7/7 in current phase
+Status: Complete - Checkpoint Required
+Last activity: 2026-02-25 - All Phase 5 plans executed
 
-Progress: [████████████████░░] 93% (26/28 total plans estimated)
+Progress: [██████████████████] 100% (32/32 total plans estimated)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 26
-- Average duration: 3.6 min
-- Total execution time: 93 min
+- Total plans completed: 32
+- Average duration: 3.2 min
+- Total execution time: 102 min
 
 **By Phase:**
 
@@ -32,27 +32,17 @@ Progress: [████████████████░░] 93% (26/28 to
 | 2.5. Charlotte Map Data Acquisition | 5/5 | 17 min | 3.4 min |
 | 3. Streaming & Data Layers | 1/5 | 7 min | 7.0 min |
 | 4. Vehicle Core Systems | 6/6 | 12 min | 2.0 min |
-| 5. Vehicle Advanced Features | 1/5 | 2 min | 2.0 min |
+| 5. Vehicle Advanced Features | 7/7 | 11 min | 1.6 min |
 
 **Recent Trend:**
+- Plan 05-07: 1 min (Verification & Commandlet)
+- Plan 05-06: 1 min (Vehicle Testbed Actor)
+- Plan 05-05: 2 min (Vehicle Pawn Extensions)
+- Plan 05-04: 1 min (Attachment Component)
+- Plan 05-03: 1 min (Launch Control Component)
+- Plan 05-02: 2 min (Vehicle Pool Subsystem)
 - Plan 05-01: 2 min (Advanced Feature Data Assets)
 - Plan 04-06: 1 min (Plugin Compilation Verification)
-- Plan 04-05: 2 min (Vehicle Spawner Subsystem)
-- Plan 04-04: 2 min (Wheel Bone Validation)
-- Plan 04-03: 2 min (Vehicle Pawn)
-- Plan 04-02: 3 min (Vehicle Data Assets)
-- Plan 04-01: 2 min (GSD_Vehicles Plugin Foundation)
-- Plan 03-01: 7 min (Data Layer Manager)
-- Plan 02.5-05: 5 min (Unit Tests and Verification)
-- Plan 02.5-04: 3 min (Pipeline Orchestration)
-- Plan 02.5-03: 3 min (Data Transformation Scripts)
-- Plan 02.5-02: 5 min (Data Acquisition Scripts)
-- Plan 02.5-01: 2 min (Package Foundation and Coordinate Transformation)
-- Plan 02-06: 3 min (Unit Tests and Verification)
-- Plan 02-05: 4 min (Charlotte City Level Setup)
-- Plan 02-04: 2 min (City Tile Import Interface)
-- Plan 02-03: 2 min (Streaming Source Component)
-- Plan 02-02: 10 min (HLOD System Configuration)
 
 *Updated after each plan completion*
 
@@ -119,12 +109,28 @@ Recent decisions affecting current work:
 - [Phase 5-01]: Tuning preset uses multipliers (1.0 = normal) for all settings
 - [Phase 5-01]: Attachment config uses TSoftObjectPtr for async mesh loading
 - [Phase 5-01]: Default preset getters return nullptr until editor presets created
+- [Phase 5-02]: Vehicle pool subsystem uses RecreatePhysicsState() for proper reset
+- [Phase 5-02]: Pool warmup creates hidden, collision-disabled vehicles
+- [Phase 5-03]: Launch control uses SetComponentTickEnabled() for efficiency
+- [Phase 5-03]: Wheel slip threshold 100 cm/s for meaningful slip detection
+- [Phase 5-04]: Attachment component uses AttachmentConfigMap for removal lookup
+- [Phase 5-04]: Collision filtering ignores vehicle and pawn channels
+- [Phase 5-05]: PoolSubsystem lazy initialization via GetPoolSubsystem() helper
+- [Phase 5-05]: ApplyTuningPreset only applies movement-level settings (steering, drag, mass, RPM)
+- [Phase 5-06]: Testbed uses FRandomStream for deterministic spawning
+- [Phase 5-06]: Frame time history tracks 60 frames for averaging
+- [Phase 5-07]: GSDVehicleTestCommandlet for CI integration with JSON output
 
 ### Pending Todos
 
-1. **Phase 5: Vehicle Advanced Features** - In Progress
+1. **Phase 5: Vehicle Advanced Features** - COMPLETE (awaiting checkpoint)
    - Plan 01: DONE (Advanced Feature Data Assets)
-   - Plan 02-05: Remaining (Launch Control, Vehicle Pooling, Tuning Presets, Testbed Map)
+   - Plan 02: DONE (Vehicle Pool Subsystem)
+   - Plan 03: DONE (Launch Control Component)
+   - Plan 04: DONE (Attachment Component)
+   - Plan 05: DONE (Vehicle Pawn Extensions)
+   - Plan 06: DONE (Vehicle Testbed Actor)
+   - Plan 07: DONE (Verification & Commandlet)
 
 ### Blockers/Concerns
 
@@ -132,23 +138,26 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-25T19:19:30Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-02-25T20:00:00Z
+Stopped at: Phase 5 Complete - Checkpoint Required
 Resume file: None
 
-**Next Action:** Continue Phase 5 with /gsd:execute-phase 5 --plan 02
+**Next Action:** Human checkpoint approval, then continue with Phase 6
 
 ## Phase 5 Plan Summary
 
 | Plan | Wave | Objective | Tasks | Status |
 |------|------|-----------|-------|--------|
 | 01 | 1 | Advanced Feature Data Assets | 3 | DONE |
-| 02 | - | - | - | Pending |
-| 03 | - | - | - | Pending |
-| 04 | - | - | - | Pending |
-| 05 | - | - | - | Pending |
+| 02 | 2 | Vehicle Pool Subsystem | 2 | DONE |
+| 03 | 3 | Launch Control Component | 2 | DONE |
+| 04 | 4 | Attachment Component | 2 | DONE |
+| 05 | 5 | Vehicle Pawn Extensions | 3 | DONE |
+| 06 | 6 | Vehicle Testbed Actor | 2 | DONE |
+| 07 | 7 | Verification & Commandlet | 2 | DONE |
 
-**Phase 5 In Progress - Plan 01 complete (Advanced Feature Data Assets).**
+**Phase 5 Complete - All 7 plans executed. Awaiting checkpoint approval.**
+**Data Assets + Pool Subsystem + Launch Control + Attachment Component + Extensions + Testbed + Verification.**
 
 ## Phase 4 Plan Summary
 
