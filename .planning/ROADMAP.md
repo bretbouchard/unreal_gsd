@@ -9,7 +9,7 @@ This roadmap delivers the Unreal GSD Platform infrastructure for building open-w
 - [x] **Phase 1: Plugin Architecture Foundation** - Core interfaces and plugin structure (2026-02-25)
 - [x] **Phase 2: World Partition Setup** - Streaming configuration and HLOD (2026-02-25)
 - [x] **Phase 2.5: Charlotte Map Data Acquisition** - Automated map tile and terrain data retrieval (2026-02-25)
-- [ ] **Phase 3: Streaming & Data Layers** - Runtime streaming behavior and cell callbacks
+- [x] **Phase 3: Streaming & Data Layers** - Runtime streaming behavior and cell callbacks (2026-02-25)
 - [ ] **Phase 4: Vehicle Core Systems** - Basic vehicle spawning and Chaos physics
 - [ ] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed
 - [ ] **Phase 6: Crowd Core Systems** - Mass Entity setup and LOD switching
@@ -121,11 +121,11 @@ Plans:
 **Plans**: 5 plans in 3 waves
 
 Plans:
-- [ ] 03-01-PLAN.md - GSDDataLayerManager Subsystem
-- [ ] 03-02-PLAN.md - Data Layer Asset Setup
-- [ ] 03-03-PLAN.md - Streaming Telemetry System
-- [ ] 03-04-PLAN.md - Vehicle Streaming Integration
-- [ ] 03-05-PLAN.md - Verification and Editor Tests
+- [x] 03-01-PLAN.md - GSDDataLayerManager Subsystem
+- [x] 03-02-PLAN.md - Data Layer Asset Setup
+- [x] 03-03-PLAN.md - Streaming Telemetry System
+- [x] 03-04-PLAN.md - Vehicle Streaming Integration
+- [x] 03-05-PLAN.md - Verification and Editor Tests
 
 ---
 
@@ -143,7 +143,15 @@ Plans:
 3. Wheel bone orientation is validated on import (prevents physics bugs)
 4. GSD_Vehicles plugin provides vehicle abstraction and spawning
 
-**Plans**: TBD
+**Plans**: 6 plans in 5 waves
+
+Plans:
+- [ ] 04-01-PLAN.md - GSD_Vehicles Plugin Foundation
+- [ ] 04-02-PLAN.md - Vehicle Data Assets
+- [ ] 04-03-PLAN.md - Vehicle Pawn and Movement
+- [ ] 04-04-PLAN.md - Wheel Bone Validation Utility
+- [ ] 04-05-PLAN.md - Vehicle Spawner Subsystem
+- [ ] 04-06-PLAN.md - Verification and Tests
 
 ---
 
@@ -275,7 +283,7 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | 1. Plugin Architecture Foundation | 7/7 | Complete | 2026-02-25 |
 | 2. World Partition Setup | 6/6 | Complete | 2026-02-25 |
 | 2.5. Charlotte Map Data Acquisition | 5/5 | Complete | 2026-02-25 |
-| 3. Streaming & Data Layers | 0/5 | Planned | - |
+| 3. Streaming & Data Layers | 5/5 | Complete | 2026-02-25 |
 | 4. Vehicle Core Systems | 0/TBD | Not started | - |
 | 5. Vehicle Advanced Features | 0/TBD | Not started | - |
 | 6. Crowd Core Systems | 0/TBD | Not started | - |
