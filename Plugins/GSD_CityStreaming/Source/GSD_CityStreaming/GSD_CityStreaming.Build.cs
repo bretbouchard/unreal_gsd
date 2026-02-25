@@ -17,5 +17,15 @@ public class GSD_CityStreaming : ModuleRules
 
         PrivateDependencyModuleNames.AddRange(new string[] {
         });
+
+        // Enable automation tests for editor builds
+        if (Target.bBuildEditor)
+        {
+            PrivateDependencyModuleNames.AddRange(new string[] {
+                "UnrealEd",
+                "EditorScriptingUtilities",
+                "AutomationController"
+            });
+        }
     }
 }
