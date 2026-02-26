@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 7 of 11 (Crowd AI Navigation)
-Plan: 3/6 in current phase
+Plan: 4/6 in current phase
 Status: In progress
-Last activity: 2026-02-26 - Completed 07-03-PLAN.md
+Last activity: 2026-02-26 - Completed 07-04-PLAN.md
 
-Progress: [██████████████████░] 95% (41/43 total plans estimated)
+Progress: [██████████████████░] 95% (42/43 total plans estimated)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 41
+- Total plans completed: 42
 - Average duration: 3.0 min
-- Total execution time: 123 min
+- Total execution time: 126 min
 
 **By Phase:**
 
@@ -34,9 +34,10 @@ Progress: [██████████████████░] 95% (41/43
 | 4. Vehicle Core Systems | 6/6 | 12 min | 2.0 min |
 | 5. Vehicle Advanced Features | 7/7 | 11 min | 1.6 min |
 | 6. Crowd Core Systems | 6/6 | 12 min | 2.0 min |
-| 7. Crowd AI Navigation | 3/6 | 9 min | 3.0 min |
+| 7. Crowd AI Navigation | 4/6 | 12 min | 3.0 min |
 
 **Recent Trend:**
+- Plan 07-04: 3 min (Hero NPC AI)
 - Plan 07-03: 5 min (Smart Object System)
 - Plan 07-02: 2 min (Navigation Processor)
 - Plan 07-01: 2 min (AI Module Dependencies and Navigation Fragment)
@@ -141,6 +142,12 @@ Recent decisions affecting current work:
 - [Phase 7-03]: Interaction lifecycle: search -> claim -> interact -> release
 - [Phase 7-03]: KEY LINK: ReleaseSmartObject called when bInteractionComplete is true
 - [Phase 7-03]: Navigation paused during Smart Object interaction (DesiredSpeed = 0)
+- [Phase 7-04]: AGSDHeroAIController with Behavior Tree and AI Perception for gameplay-critical NPCs
+- [Phase 7-04]: RunBehaviorTree in OnPossess (CRITICAL - Pitfall 5 from research)
+- [Phase 7-04]: AGSDHeroNPC with UAIPerceptionStimuliSourceComponent for being detected (Pitfall 3)
+- [Phase 7-04]: IGSDSpawnable implementation matches GSD_Core interface (SpawnFromConfig, GetSpawnConfig, etc.)
+- [Phase 7-04]: Sight config: 2000 radius, 2500 lose sight, 90 degree peripheral vision
+- [Phase 7-04]: Hearing config: 1500 range, 3 second max age
 
 ### Pending Todos
 
@@ -148,7 +155,7 @@ Recent decisions affecting current work:
    - Plan 01: DONE (AI Module Dependencies and Navigation Fragment)
    - Plan 02: DONE (Navigation Processor)
    - Plan 03: DONE (Smart Object System)
-   - Plan 04: Pending (Obstacle Avoidance)
+   - Plan 04: DONE (Hero NPC AI)
    - Plan 05: Pending (Navigation Testbed)
    - Plan 06: Pending (Verification & Commandlet)
 
@@ -169,11 +176,11 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-26T21:04:55Z
-Stopped at: Completed 07-03-PLAN.md
+Last session: 2026-02-26T21:10:43Z
+Stopped at: Completed 07-04-PLAN.md
 Resume file: None
 
-**Next Action:** Execute 07-04-PLAN.md (Obstacle Avoidance)
+**Next Action:** Execute 07-05-PLAN.md (Navigation Testbed)
 
 ## Phase 7 Plan Summary
 
@@ -182,11 +189,11 @@ Resume file: None
 | 01 | 1 | AI Module Dependencies and Navigation Fragment | 2 | DONE |
 | 02 | 2 | Navigation Processor | 3 | DONE |
 | 03 | 2 | Smart Object System | 3 | DONE |
-| 04 | 4 | Obstacle Avoidance | - | Pending |
+| 04 | 3 | Hero NPC AI | 2 | DONE |
 | 05 | 5 | Navigation Testbed | - | Pending |
 | 06 | 6 | Verification and Commandlet | - | Pending |
 
-**Phase 7 In Progress - Plan 03 complete (Smart Object System).**
+**Phase 7 In Progress - Plan 04 complete (Hero NPC AI).**
 
 ## Phase 6 Plan Summary
 
