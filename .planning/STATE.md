@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Infrastructure for building Unreal Engine games - tools, utilities, automation
-**Current focus:** Phase 5 - Vehicle Advanced Features (COMPLETE - awaiting checkpoint)
+**Current focus:** Phase 7 - Crowd AI Navigation (In Progress)
 
 ## Current Position
 
-Phase: 5 of 11 (Vehicle Advanced Features)
-Plan: 7/7 in current phase
-Status: Complete - Checkpoint Required
-Last activity: 2026-02-25 - All Phase 5 plans executed
+Phase: 7 of 11 (Crowd AI Navigation)
+Plan: 1/6 in current phase
+Status: In progress
+Last activity: 2026-02-26 - Completed 07-01-PLAN.md
 
-Progress: [██████████████████] 100% (32/32 total plans estimated)
+Progress: [██████████████████░] 95% (39/41 total plans estimated)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 32
-- Average duration: 3.2 min
-- Total execution time: 102 min
+- Total plans completed: 39
+- Average duration: 3.0 min
+- Total execution time: 116 min
 
 **By Phase:**
 
@@ -33,16 +33,16 @@ Progress: [██████████████████] 100% (32/32 t
 | 3. Streaming & Data Layers | 1/5 | 7 min | 7.0 min |
 | 4. Vehicle Core Systems | 6/6 | 12 min | 2.0 min |
 | 5. Vehicle Advanced Features | 7/7 | 11 min | 1.6 min |
+| 6. Crowd Core Systems | 6/6 | 12 min | 2.0 min |
+| 7. Crowd AI Navigation | 1/6 | 2 min | 2.0 min |
 
 **Recent Trend:**
-- Plan 05-07: 1 min (Verification & Commandlet)
-- Plan 05-06: 1 min (Vehicle Testbed Actor)
-- Plan 05-05: 2 min (Vehicle Pawn Extensions)
-- Plan 05-04: 1 min (Attachment Component)
-- Plan 05-03: 1 min (Launch Control Component)
-- Plan 05-02: 2 min (Vehicle Pool Subsystem)
-- Plan 05-01: 2 min (Advanced Feature Data Assets)
-- Plan 04-06: 1 min (Plugin Compilation Verification)
+- Plan 07-01: 2 min (AI Module Dependencies and Navigation Fragment)
+- Plan 06-06: 2 min (Verification & Commandlet)
+- Plan 06-05: 2 min (Crowd Testbed Actor)
+- Plan 06-04: 2 min (Crowd Manager Subsystem)
+- Plan 06-03: 2 min (Entity Config Data Asset)
+- Plan 06-02: 2 min (Mass Entity Fragments and Processors)
 
 *Updated after each plan completion*
 
@@ -120,17 +120,38 @@ Recent decisions affecting current work:
 - [Phase 5-06]: Testbed uses FRandomStream for deterministic spawning
 - [Phase 5-06]: Frame time history tracks 60 frames for averaging
 - [Phase 5-07]: GSDVehicleTestCommandlet for CI integration with JSON output
+- [Phase 6-01]: PostEngineInit loading phase for crowd module (after GSD_Core)
+- [Phase 6-02]: FMassFragment pattern for zombie state (health, speed, behavior flags)
+- [Phase 6-02]: 20% random speed variation for natural crowd movement
+- [Phase 6-02]: LOD significance 0.0-3.0 range (close=0, far=3)
+- [Phase 6-04]: Thread-safe entity destruction using Defer().DestroyEntities()
+- [Phase 6-05]: Circular buffer for O(1) FPS averaging (60 frame history)
+- [Phase 6-06]: GSDCrowdTestCommandlet with JSON output for CI/CD integration
+- [Phase 7-01]: MassAI moved from Private to Public dependencies for broader access
+- [Phase 7-01]: ZoneGraph for lane-based navigation with NavMesh fallback for hero NPCs
+- [Phase 7-01]: Navigation fragment uses FZoneGraphLaneHandle for lane references
+- [Phase 7-01]: Fallback movement pattern with bUseFallbackMovement flag
 
 ### Pending Todos
 
-1. **Phase 5: Vehicle Advanced Features** - COMPLETE (awaiting checkpoint)
-   - Plan 01: DONE (Advanced Feature Data Assets)
-   - Plan 02: DONE (Vehicle Pool Subsystem)
-   - Plan 03: DONE (Launch Control Component)
-   - Plan 04: DONE (Attachment Component)
-   - Plan 05: DONE (Vehicle Pawn Extensions)
-   - Plan 06: DONE (Vehicle Testbed Actor)
-   - Plan 07: DONE (Verification & Commandlet)
+1. **Phase 7: Crowd AI Navigation** - In Progress
+   - Plan 01: DONE (AI Module Dependencies and Navigation Fragment)
+   - Plan 02: Pending (Navigation Processor)
+   - Plan 03: Pending (Lane Following Behavior)
+   - Plan 04: Pending (Obstacle Avoidance)
+   - Plan 05: Pending (Navigation Testbed)
+   - Plan 06: Pending (Verification & Commandlet)
+
+2. **Phase 6: Crowd Core Systems** - COMPLETE (Council of Ricks approved)
+
+**Council of Ricks Review (2026-02-26):**
+- Specialists: unreal-architecture-rick, unreal-swarm-rick, unreal-performance-rick, unreal-validation-rick, unreal-prime-rick, code-reviewer
+- Result: **APPROVED**
+- Post-review fixes applied:
+  - Added GSD_CROWDS_API macro to module class
+  - Added ticket reference GSDCROWDS-104 to async spawning TODO
+  - Implemented circular buffer for O(1) FPS averaging in testbed actor
+  - Plugin metadata fields verified (CreatedBy: Bret Bouchard)
 
 ### Blockers/Concerns
 
@@ -138,11 +159,38 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-25T20:00:00Z
-Stopped at: Phase 5 Complete - Checkpoint Required
+Last session: 2026-02-26T16:27:49Z
+Stopped at: Completed 07-01-PLAN.md
 Resume file: None
 
-**Next Action:** Human checkpoint approval, then continue with Phase 6
+**Next Action:** Execute 07-02-PLAN.md (Navigation Processor)
+
+## Phase 7 Plan Summary
+
+| Plan | Wave | Objective | Tasks | Status |
+|------|------|-----------|-------|--------|
+| 01 | 1 | AI Module Dependencies and Navigation Fragment | 2 | DONE |
+| 02 | 2 | Navigation Processor | - | Pending |
+| 03 | 3 | Lane Following Behavior | - | Pending |
+| 04 | 4 | Obstacle Avoidance | - | Pending |
+| 05 | 5 | Navigation Testbed | - | Pending |
+| 06 | 6 | Verification and Commandlet | - | Pending |
+
+**Phase 7 In Progress - Plan 01 complete (AI Dependencies + Navigation Fragment).**
+
+## Phase 6 Plan Summary
+
+| Plan | Wave | Objective | Tasks | Status |
+|------|------|-----------|-------|--------|
+| 01 | 1 | GSD_Crowds Plugin Foundation | 1 | DONE |
+| 02 | 2 | Mass Entity Fragments and Processors | 3 | DONE |
+| 03 | 3 | Entity Config Data Asset | 1 | DONE |
+| 04 | 4 | Crowd Manager Subsystem | 1 | DONE |
+| 05 | 5 | Crowd Testbed Actor | 1 | DONE |
+| 06 | 6 | Verification and Commandlet | 1 | DONE |
+
+**Phase 6 Complete - All 6 plans executed. Council of Ricks approved with fixes applied.**
+**Plugin Foundation + Fragments + Entity Config + Crowd Manager + Testbed + Commandlet.**
 
 ## Phase 5 Plan Summary
 
