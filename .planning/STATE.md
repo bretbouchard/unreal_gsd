@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 7 of 11 (Crowd AI Navigation)
-Plan: 4/6 in current phase
+Plan: 5/6 in current phase
 Status: In progress
-Last activity: 2026-02-26 - Completed 07-04-PLAN.md
+Last activity: 2026-02-26 - Completed 07-05-PLAN.md
 
-Progress: [██████████████████░] 95% (42/43 total plans estimated)
+Progress: [██████████████████░] 95% (43/43 total plans estimated)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 42
+- Total plans completed: 43
 - Average duration: 3.0 min
-- Total execution time: 126 min
+- Total execution time: 129 min
 
 **By Phase:**
 
@@ -34,9 +34,10 @@ Progress: [██████████████████░] 95% (42/43
 | 4. Vehicle Core Systems | 6/6 | 12 min | 2.0 min |
 | 5. Vehicle Advanced Features | 7/7 | 11 min | 1.6 min |
 | 6. Crowd Core Systems | 6/6 | 12 min | 2.0 min |
-| 7. Crowd AI Navigation | 4/6 | 12 min | 3.0 min |
+| 7. Crowd AI Navigation | 5/6 | 15 min | 3.0 min |
 
 **Recent Trend:**
+- Plan 07-05: 3 min (Entity Config and Testbed Extensions)
 - Plan 07-04: 3 min (Hero NPC AI)
 - Plan 07-03: 5 min (Smart Object System)
 - Plan 07-02: 2 min (Navigation Processor)
@@ -148,6 +149,9 @@ Recent decisions affecting current work:
 - [Phase 7-04]: IGSDSpawnable implementation matches GSD_Core interface (SpawnFromConfig, GetSpawnConfig, etc.)
 - [Phase 7-04]: Sight config: 2000 radius, 2500 lose sight, 90 degree peripheral vision
 - [Phase 7-04]: Hearing config: 1500 range, 3 second max age
+- [Phase 7-05]: Fragment factory methods (CreateNavigationFragment, CreateSmartObjectFragment) in entity config
+- [Phase 7-05]: Hero NPC spawning in testbed for gameplay AI testing
+- [Phase 7-05]: Debug visualization with DrawDebugSphere for navigation radii
 
 ### Pending Todos
 
@@ -156,7 +160,7 @@ Recent decisions affecting current work:
    - Plan 02: DONE (Navigation Processor)
    - Plan 03: DONE (Smart Object System)
    - Plan 04: DONE (Hero NPC AI)
-   - Plan 05: Pending (Navigation Testbed)
+   - Plan 05: DONE (Entity Config and Testbed Extensions)
    - Plan 06: Pending (Verification & Commandlet)
 
 2. **Phase 6: Crowd Core Systems** - COMPLETE (Council of Ricks approved)
@@ -176,11 +180,11 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-26T21:10:43Z
-Stopped at: Completed 07-04-PLAN.md
+Last session: 2026-02-26T21:16:43Z
+Stopped at: Completed 07-05-PLAN.md
 Resume file: None
 
-**Next Action:** Execute 07-05-PLAN.md (Navigation Testbed)
+**Next Action:** Execute 07-06-PLAN.md (Verification and Commandlet)
 
 ## Phase 7 Plan Summary
 
@@ -190,10 +194,10 @@ Resume file: None
 | 02 | 2 | Navigation Processor | 3 | DONE |
 | 03 | 2 | Smart Object System | 3 | DONE |
 | 04 | 3 | Hero NPC AI | 2 | DONE |
-| 05 | 5 | Navigation Testbed | - | Pending |
+| 05 | 5 | Entity Config and Testbed Extensions | 2 | DONE |
 | 06 | 6 | Verification and Commandlet | - | Pending |
 
-**Phase 7 In Progress - Plan 04 complete (Hero NPC AI).**
+**Phase 7 In Progress - Plan 05 complete (Entity Config and Testbed Extensions).**
 
 ## Phase 6 Plan Summary
 
