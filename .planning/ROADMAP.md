@@ -11,7 +11,7 @@ This roadmap delivers the Unreal GSD Platform infrastructure for building open-w
 - [x] **Phase 2.5: Charlotte Map Data Acquisition** - Automated map tile and terrain data retrieval (2026-02-25)
 - [x] **Phase 3: Streaming & Data Layers** - Runtime streaming behavior and cell callbacks (2026-02-25)
 - [x] **Phase 4: Vehicle Core Systems** - Basic vehicle spawning and Chaos physics (2026-02-25)
-- [ ] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed
+- [x] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed (2026-02-25)
 - [ ] **Phase 6: Crowd Core Systems** - Mass Entity setup and LOD switching
 - [ ] **Phase 7: Crowd AI & Navigation** - Zone Graph and Behavior Trees
 - [ ] **Phase 8: Event System Core** - Event bus, tags, and scheduling
@@ -173,13 +173,13 @@ Plans:
 **Plans**: 7 plans in 7 waves
 
 Plans:
-- [ ] 05-01-PLAN.md - Advanced Feature Data Assets
-- [ ] 05-02-PLAN.md - Vehicle Pool Subsystem
-- [ ] 05-03-PLAN.md - Launch Control Component
-- [ ] 05-04-PLAN.md - Attachment Component
-- [ ] 05-05-PLAN.md - Vehicle Pawn Extensions
-- [ ] 05-06-PLAN.md - Vehicle Testbed Actor
-- [ ] 05-07-PLAN.md - Verification and Editor Tests
+- [x] 05-01-PLAN.md - Advanced Feature Data Assets
+- [x] 05-02-PLAN.md - Vehicle Pool Subsystem
+- [x] 05-03-PLAN.md - Launch Control Component
+- [x] 05-04-PLAN.md - Attachment Component
+- [x] 05-05-PLAN.md - Vehicle Pawn Extensions
+- [x] 05-06-PLAN.md - Vehicle Testbed Actor
+- [x] 05-07-PLAN.md - Verification and Editor Tests
 
 ---
 
@@ -198,7 +198,15 @@ Plans:
 4. Crowd testbed map validates 200+ entities at target framerate
 5. GSD_Crowds plugin provides Mass Entity systems
 
-**Plans**: TBD
+**Plans**: 6 plans in 6 waves
+
+Plans:
+- [ ] 06-01-PLAN.md - GSD_Crowds Plugin Foundation
+- [ ] 06-02-PLAN.md - Mass Entity Fragments and Processors
+- [ ] 06-03-PLAN.md - Entity Config Data Asset
+- [ ] 06-04-PLAN.md - Crowd Manager Subsystem
+- [ ] 06-05-PLAN.md - Crowd Testbed Actor
+- [ ] 06-06-PLAN.md - Verification and Commandlet
 
 ---
 
@@ -294,8 +302,8 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | 2.5. Charlotte Map Data Acquisition | 5/5 | Complete | 2026-02-25 |
 | 3. Streaming & Data Layers | 5/5 | Complete | 2026-02-25 |
 | 4. Vehicle Core Systems | 6/6 | Complete | 2026-02-25 |
-| 5. Vehicle Advanced Features | 0/7 | Not started | - |
-| 6. Crowd Core Systems | 0/TBD | Not started | - |
+| 5. Vehicle Advanced Features | 7/7 | Complete | 2026-02-25 |
+| 6. Crowd Core Systems | 0/6 | Not started | - |
 | 7. Crowd AI & Navigation | 0/TBD | Not started | - |
 | 8. Event System Core | 0/TBD | Not started | - |
 | 9. Event Implementations | 0/TBD | Not started | - |
