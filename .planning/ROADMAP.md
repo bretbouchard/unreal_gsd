@@ -12,7 +12,7 @@ This roadmap delivers the Unreal GSD Platform infrastructure for building open-w
 - [x] **Phase 3: Streaming & Data Layers** - Runtime streaming behavior and cell callbacks (2026-02-25)
 - [x] **Phase 4: Vehicle Core Systems** - Basic vehicle spawning and Chaos physics (2026-02-25)
 - [x] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed (2026-02-25)
-- [ ] **Phase 6: Crowd Core Systems** - Mass Entity setup and LOD switching
+- [x] **Phase 6: Crowd Core Systems** - Mass Entity setup and LOD switching (2026-02-26)
 - [ ] **Phase 7: Crowd AI & Navigation** - Zone Graph and Behavior Trees
 - [ ] **Phase 8: Event System Core** - Event bus, tags, and scheduling
 - [ ] **Phase 9: Event Implementations** - Concrete daily events
@@ -201,12 +201,12 @@ Plans:
 **Plans**: 6 plans in 6 waves
 
 Plans:
-- [ ] 06-01-PLAN.md - GSD_Crowds Plugin Foundation
-- [ ] 06-02-PLAN.md - Mass Entity Fragments and Processors
-- [ ] 06-03-PLAN.md - Entity Config Data Asset
-- [ ] 06-04-PLAN.md - Crowd Manager Subsystem
-- [ ] 06-05-PLAN.md - Crowd Testbed Actor
-- [ ] 06-06-PLAN.md - Verification and Commandlet
+- [x] 06-01-PLAN.md - GSD_Crowds Plugin Foundation
+- [x] 06-02-PLAN.md - Mass Entity Fragments and Processors
+- [x] 06-03-PLAN.md - Entity Config Data Asset
+- [x] 06-04-PLAN.md - Crowd Manager Subsystem
+- [x] 06-05-PLAN.md - Crowd Testbed Actor
+- [x] 06-06-PLAN.md - Verification and Commandlet
 
 ---
 
@@ -224,7 +224,15 @@ Plans:
 3. Hero NPCs use Behavior Trees and AI Perception
 4. Velocity randomizer trait prevents synchronized movement
 
-**Plans**: TBD
+**Plans**: 6 plans in 5 waves
+
+Plans:
+- [ ] 07-01-PLAN.md - Build Dependencies and Navigation Fragment
+- [ ] 07-02-PLAN.md - Navigation Processor
+- [ ] 07-03-PLAN.md - Smart Object System
+- [ ] 07-04-PLAN.md - Hero NPC AI
+- [ ] 07-05-PLAN.md - Entity Config and Testbed Extensions
+- [ ] 07-06-PLAN.md - Verification and Commandlet
 
 ---
 
@@ -303,8 +311,8 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | 3. Streaming & Data Layers | 5/5 | Complete | 2026-02-25 |
 | 4. Vehicle Core Systems | 6/6 | Complete | 2026-02-25 |
 | 5. Vehicle Advanced Features | 7/7 | Complete | 2026-02-25 |
-| 6. Crowd Core Systems | 0/6 | Not started | - |
-| 7. Crowd AI & Navigation | 0/TBD | Not started | - |
+| 6. Crowd Core Systems | 6/6 | Complete | 2026-02-26 |
+| 7. Crowd AI & Navigation | 0/6 | Not started | - |
 | 8. Event System Core | 0/TBD | Not started | - |
 | 9. Event Implementations | 0/TBD | Not started | - |
 | 10. Telemetry & Validation | 0/TBD | Not started | - |
