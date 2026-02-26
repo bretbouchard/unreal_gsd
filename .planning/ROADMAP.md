@@ -252,7 +252,15 @@ Plans:
 5. Event modifiers affect spawn densities and navigation
 6. GSD_DailyEvents plugin provides event scheduling
 
-**Plans**: TBD
+**Plans**: 6 plans in 5 waves
+
+Plans:
+- [ ] 08-01-PLAN.md - Plugin Foundation
+- [ ] 08-02-PLAN.md - Event Bus Subsystem
+- [ ] 08-03-PLAN.md - Gameplay Tags
+- [ ] 08-04-PLAN.md - Event Data Assets
+- [ ] 08-05-PLAN.md - Event Scheduler Subsystem
+- [ ] 08-06-PLAN.md - Verification and Commandlet
 
 ---
 
@@ -313,7 +321,7 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | 5. Vehicle Advanced Features | 7/7 | Complete | 2026-02-25 |
 | 6. Crowd Core Systems | 6/6 | Complete | 2026-02-26 |
 | 7. Crowd AI & Navigation | 6/6 | Complete | 2026-02-26 |
-| 8. Event System Core | 0/TBD | Not started | - |
+| 8. Event System Core | 0/6 | Planned | - |
 | 9. Event Implementations | 0/TBD | Not started | - |
 | 10. Telemetry & Validation | 0/TBD | Not started | - |
 
