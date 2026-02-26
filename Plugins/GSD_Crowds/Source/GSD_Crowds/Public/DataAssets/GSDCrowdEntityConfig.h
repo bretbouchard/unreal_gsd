@@ -9,6 +9,9 @@
 class UMassEntityConfigAsset;
 class UStaticMesh;
 
+struct FGSDNavigationFragment;
+struct FGSDSmartObjectFragment;
+
 /**
  * Data Asset defining crowd entity configuration for Mass Entity.
  *
@@ -46,9 +49,25 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Navigation")
     float LaneSearchRadius = 2000.0f;
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Navigation")
+    bool bEnableFallbackMovement = true;
+
     //-- Velocity Randomization (CROWD-08) --
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Navigation")
     float VelocityRandomizationPercent = 20.0f;
+
+    //-- Smart Object Configuration (Phase 7) --
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SmartObjects")
+    bool bEnableSmartObjectInteractions = true;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SmartObjects")
+    float SmartObjectSearchRadius = 1000.0f;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SmartObjects")
+    float SmartObjectSearchCooldown = 5.0f;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SmartObjects")
+    float DefaultInteractionDuration = 3.0f;
 
     //-- LOD Representation --
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "LOD")
@@ -62,6 +81,16 @@ public:
 
     //-- Default Configuration --
     virtual void PostInitProperties() override;
+
+    //-- Helper Methods (Phase 7) --
+
+    /** Create a navigation fragment with config settings */
+    UFUNCTION(BlueprintPure, Category = "GSD|Crowds")
+    FGSDNavigationFragment CreateNavigationFragment() const;
+
+    /** Create a smart object fragment with config settings */
+    UFUNCTION(BlueprintPure, Category = "GSD|Crowds")
+    FGSDSmartObjectFragment CreateSmartObjectFragment() const;
 
 protected:
     // ~UMassEntityConfigAsset interface
