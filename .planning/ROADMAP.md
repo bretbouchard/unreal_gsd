@@ -13,7 +13,7 @@ This roadmap delivers the Unreal GSD Platform infrastructure for building open-w
 - [x] **Phase 4: Vehicle Core Systems** - Basic vehicle spawning and Chaos physics (2026-02-25)
 - [x] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed (2026-02-25)
 - [x] **Phase 6: Crowd Core Systems** - Mass Entity setup and LOD switching (2026-02-26)
-- [ ] **Phase 7: Crowd AI & Navigation** - Zone Graph and Behavior Trees
+- [x] **Phase 7: Crowd AI & Navigation** - Zone Graph and Behavior Trees (2026-02-26)
 - [ ] **Phase 8: Event System Core** - Event bus, tags, and scheduling
 - [ ] **Phase 9: Event Implementations** - Concrete daily events
 - [ ] **Phase 10: Telemetry & Validation** - Performance monitoring and commandlets
@@ -227,12 +227,12 @@ Plans:
 **Plans**: 6 plans in 5 waves
 
 Plans:
-- [ ] 07-01-PLAN.md - Build Dependencies and Navigation Fragment
-- [ ] 07-02-PLAN.md - Navigation Processor
-- [ ] 07-03-PLAN.md - Smart Object System
-- [ ] 07-04-PLAN.md - Hero NPC AI
-- [ ] 07-05-PLAN.md - Entity Config and Testbed Extensions
-- [ ] 07-06-PLAN.md - Verification and Commandlet
+- [x] 07-01-PLAN.md - Build Dependencies and Navigation Fragment
+- [x] 07-02-PLAN.md - Navigation Processor
+- [x] 07-03-PLAN.md - Smart Object System
+- [x] 07-04-PLAN.md - Hero NPC AI
+- [x] 07-05-PLAN.md - Entity Config and Testbed Extensions
+- [x] 07-06-PLAN.md - Verification and Commandlet
 
 ---
 
@@ -312,7 +312,7 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | 4. Vehicle Core Systems | 6/6 | Complete | 2026-02-25 |
 | 5. Vehicle Advanced Features | 7/7 | Complete | 2026-02-25 |
 | 6. Crowd Core Systems | 6/6 | Complete | 2026-02-26 |
-| 7. Crowd AI & Navigation | 0/6 | Not started | - |
+| 7. Crowd AI & Navigation | 6/6 | Complete | 2026-02-26 |
 | 8. Event System Core | 0/TBD | Not started | - |
 | 9. Event Implementations | 0/TBD | Not started | - |
 | 10. Telemetry & Validation | 0/TBD | Not started | - |
