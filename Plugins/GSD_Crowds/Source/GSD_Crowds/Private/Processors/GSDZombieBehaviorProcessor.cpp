@@ -6,8 +6,13 @@
 #include "MassCommonFragments.h"
 #include "GSDCrowdLog.h"
 
+// NOTE: This processor will be renamed to UGSDMassBehaviorProcessor in a future phase (GSDCROWDS-105)
+// The behavior logic is game-agnostic and suitable for any crowd/flock simulation.
+
 UGSDZombieBehaviorProcessor::UGSDZombieBehaviorProcessor()
 {
+    // Execute after navigation, before LOD
+    // TODO(GSDCROWDS-105): Update to reference UGSDMassBehaviorProcessor when renamed
     ExecutionOrder.ExecuteInGroup = UE::Mass::ProcessorGroupNames::SyncWorld;
     ProcessingPhase = EMassProcessingPhase::PrePhysics;
 }
@@ -48,12 +53,12 @@ void UGSDZombieBehaviorProcessor::Execute(FMassEntityManager& EntityManager, FMa
         [this, BehaviorUpdateInterval, SpeedVariation, WanderDirectionChange, SpeedInterpolationRate](FMassExecutionContext& Context)
         {
             const int32 NumEntities = Context.GetNumEntities();
-            auto ZombieStates = Context.GetMutableFragmentView<FGSDZombieStateFragment>();
+            auto EntityStates = Context.GetMutableFragmentView<FGSDZombieStateFragment>();
             const float DeltaTime = Context.GetDeltaTimeSeconds();
 
             for (int32 i = 0; i < NumEntities; ++i)
             {
-                FGSDZombieStateFragment& State = ZombieStates[i];
+                FGSDZombieStateFragment& State = EntityStates[i];
 
                 if (!State.bIsAlive || !State.bIsActive)
                 {

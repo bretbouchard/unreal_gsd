@@ -11,11 +11,19 @@ struct FGSDZombieStateFragment;
 struct FDataFragment_Transform;
 
 /**
- * Processor for zombie behavior updates.
+ * Processor for generic crowd/flock behavior updates.
  *
- * Updates movement speed, wander behavior, and state.
+ * This is a GAME-AGNOSTIC behavior processor suitable for any crowd simulation:
+ * - Updates movement speed with natural variation
+ * - Applies wander behavior for organic movement
+ * - Works with any entity type (zombies, NPCs, animals, etc.)
+ *
+ * MIGRATION NOTE (GSDCROWDS-105):
+ * The "Zombie" naming is deprecated. This processor will be renamed to
+ * UGSDMassBehaviorProcessor in a future phase. Game code using
+ * UGSDZombieBehaviorProcessor will need to update to the new name.
+ *
  * Runs in PrePhysics phase before movement is applied.
- *
  * Configuration is loaded from UGSDCrowdConfig DataAsset.
  * All hardcoded values have been replaced with config lookups.
  */
@@ -46,3 +54,14 @@ private:
     static constexpr float DefaultWanderDirectionChange = 45.0f;
     static constexpr float DefaultSpeedInterpolationRate = 2.0f;
 };
+
+//-- Backward Compatibility Typedef (GSDCROWDS-105) --
+//-- TODO(GSDCROWDS-105): Remove in future phase after migration complete --
+/**
+ * Deprecated: Use UGSDZombieBehaviorProcessor for now.
+ * Will be replaced with UGSDMassBehaviorProcessor in future phase.
+ *
+ * This typedef exists to document the migration path.
+ * Game code should plan to update when the new name is available.
+ */
+// typedef UGSDZombieBehaviorProcessor UGSDMassBehaviorProcessor;  // Uncomment when ready
