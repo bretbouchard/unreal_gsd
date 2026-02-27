@@ -1,0 +1,34 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "1.0.0",
+    "FriendlyName": "GSD Telemetry",
+    "Description": "Performance monitoring, metrics collection, and observability for GSD Platform",
+    "Category": "GSD",
+    "CreatedBy": "Bret Bouchard",
+    "CreatedByURL": "",
+    "DocsURL": "",
+    "MarketplaceURL": "",
+    "SupportURL": "",
+    "CanContainContent": false,
+    "IsBetaVersion": false,
+    "Installed": false,
+    "EngineVersion": "5.7.0",
+    "Plugins": [
+        {
+            "Name": "GSD_Core",
+            "Enabled": true
+        }
+    ],
+    "Modules": [
+        {
+            "Name": "GSD_Telemetry",
+            "Type": "Runtime",
+            "LoadingPhase": "Default",
+            "AdditionalDependencies": [
+                "Engine",
+                "CoreUObject"
+            ]
+        }
+    ]
+}
