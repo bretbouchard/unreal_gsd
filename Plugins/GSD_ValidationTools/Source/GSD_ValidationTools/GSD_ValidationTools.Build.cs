@@ -21,8 +21,7 @@ public class GSD_ValidationTools : ModuleRules
 
         PrivateDependencyModuleNames.AddRange(new string[] {
             "UnrealEd",
-            "AutomationController",
-            "GSD_Telemetry"
+            "AutomationController"
         });
     }
 }
