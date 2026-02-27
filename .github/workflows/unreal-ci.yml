@@ -1,0 +1,99 @@
+name: Unreal GSD CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  UE_ROOT: "C:\\Program Files\\Epic Games\\UE_5.4"
+  PROJECT_NAME: "GSD_Platform"
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Generate Project Files
+      run: |
+        "%UE_ROOT%\\Engine\\Build\\BatchFiles\\Build.bat" -projectfiles -project="%CD%\\%PROJECT_NAME%.uproject" -game -rocket -progress
+
+    - name: Build Development Editor
+      run: |
+        "%UE_ROOT%\\Engine\\Build\\BatchFiles\\Build.bat" ^
+          %PROJECT_NAME%Editor ^
+          Win64 ^
+          Development ^
+          "%CD%\\%PROJECT_NAME%.uproject" ^
+          -waitmutex ^
+          -NoHotReloadFromIDE
+
+    - name: Run Automation Tests
+      id: run_tests
+      run: |
+        "%UE_ROOT%\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe" ^
+          "%CD%\\%PROJECT_NAME%.uproject" ^
+          -ExecCmds="Automation RunTests GSD;Quit" ^
+          -TestExit="Automation Test Queue Empty" ^
+          -unattended ^
+          -nopause ^
+          -NullRHI ^
+          -log ^
+          -logcmds="LogAutomationController Verbose" ^
+          -ABSLOG="%CD%\\Saved\\Logs\\AutomationTest.log"
+
+        # Check test results
+        $testLog = Get-Content "%CD%\\Saved\\Logs\\AutomationTest.log" -Raw
+        if ($testLog -match "Automation: ([0-9]+) tests total, ([0-9]+) success, ([0-9]+) fail") {
+          $total = $matches[1]
+          $success = $matches[2]
+          $fail = $matches[3]
+          Write-Host "Test Results: $success/$total passed, $fail failed"
+
+          if ($fail -gt 0) {
+            Write-Host "##vso[task.complete result=Failed;]Tests failed"
+            exit 1
+          }
+        }
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: |
+          Saved/Logs/AutomationTest.log
+          Saved/Logs/*.log
+
+    - name: Build Report
+      if: always()
+      run: |
+        echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **Build Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Platform:** Windows" >> $GITHUB_STEP_SUMMARY
+        echo "- **Configuration:** Development Editor" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Test results available in Artifacts." >> $GITHUB_STEP_SUMMARY
+
+  # Optional: Linux build job
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    if: false  # Disable until Linux setup is ready
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Linux build steps would go here
