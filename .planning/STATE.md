@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 11 of 11 (Council Fixes) - **IN PROGRESS**
-Plan: 4/6 in current phase
-Status: **CI/CD Pipeline Complete - Workflow and documentation created**
-Last activity: 2026-02-27 - Completed 11-04-PLAN.md (GitHub Actions CI/CD)
+Plan: 5/6 in current phase
+Status: **GSD_Tests Plugin Complete - 25 automation tests created**
+Last activity: 2026-02-27 - Completed 11-03-PLAN.md (GSD_Tests Plugin)
 
 Progress: [███████████████████] 100% (61/57 total plans)
 
@@ -38,9 +38,10 @@ Progress: [███████████████████] 100% (61/5
 | 8. Event System Core | 6/6 | 18 min | 3.0 min |
 | 9. Event Implementations | 6/6 | 18 min | 3.0 min |
 | 10. Telemetry & Validation | 10/10 | 30 min | 3.0 min |
-| 11. Council Fixes | 4/6 | 8 min | 2.0 min |
+| 11. Council Fixes | 5/6 | 13 min | 2.6 min |
 
 **Recent Trend:**
+- Plan 11-05: 5 min (GSD_Tests Plugin)
 - Plan 11-04: 2 min (GitHub Actions CI/CD)
 - Plan 11-03: 2 min (Mass Entity Thread Safety)
 - Plan 11-02: 2 min (Validation Rick Fixes)
@@ -208,6 +209,11 @@ Recent decisions affecting current work:
 - [Phase 11-04]: Development Editor configuration for CI builds
 - [Phase 11-04]: GSD.* pattern for test discovery matching existing automation tests
 - [Phase 11-04]: PowerShell test result parsing with exit 1 on failures
+- [Phase 11-05]: GSD_Tests plugin with Editor module type (editor-only, not packaged)
+- [Phase 11-05]: 25 automation tests covering Crowd (7), Vehicle (5), Telemetry (3), Determinism (5), Benchmark (3), Memory (2)
+- [Phase 11-05]: Test naming convention: GSD.{System}.{Category}.{TestName}
+- [Phase 11-05]: PerformanceFilter for benchmark tests (separate from ProductFilter)
+- [Phase 11-05]: Memory tests use simulation pattern (actual spawning requires world context)
 
 ### Pending Todos
 
@@ -268,11 +274,11 @@ Resume file: None
 | 02 | 1 | Validation Rick Fixes | 2 | DONE |
 | 03 | 2 | Mass Entity Thread Safety | 1 | DONE |
 | 04 | 2 | GitHub Actions CI/CD | 2 | DONE |
-| 05 | - | - | - | Pending |
+| 05 | 3 | GSD_Tests Plugin | 7 | DONE |
 | 06 | - | - | - | Pending |
 
-**Phase 11 In Progress - 4/6 plans executed.**
-**Test Naming + Validation Fixes + Thread Safety + CI/CD Pipeline.**
+**Phase 11 In Progress - 5/6 plans executed.**
+**Test Naming + Validation Fixes + Thread Safety + CI/CD Pipeline + GSD_Tests Plugin (25 tests).**
 
 ## Phase 7 Plan Summary
 
