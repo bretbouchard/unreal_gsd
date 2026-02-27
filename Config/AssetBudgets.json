@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "description": "Asset budget configuration for GSD Platform",
+  "asset_budgets": {
+    "StaticMesh": {
+      "max_size_mb": 50.0,
+      "description": "Static meshes (buildings, props, vehicles)",
+      "severity": "error"
+    },
+    "Texture2D": {
+      "max_size_mb": 100.0,
+      "description": "Textures (diffuse, normal, roughness, etc.)",
+      "severity": "error"
+    },
+    "SkeletalMesh": {
+      "max_size_mb": 75.0,
+      "description": "Skeletal meshes (characters, animated objects)",
+      "severity": "error"
+    },
+    "SoundWave": {
+      "max_size_mb": 25.0,
+      "description": "Audio files (sound effects, music)",
+      "severity": "error"
+    },
+    "AnimSequence": {
+      "max_size_mb": 50.0,
+      "description": "Animation sequences",
+      "severity": "warning"
+    },
+    "Material": {
+      "max_size_mb": 10.0,
+      "description": "Material assets",
+      "severity": "warning"
+    },
+    "Blueprint": {
+      "max_size_mb": 5.0,
+      "description": "Blueprint assets",
+      "severity": "warning"
+    },
+    "default": {
+      "max_size_mb": 100.0,
+      "description": "Default budget for unclassified assets",
+      "severity": "error"
+    }
+  },
+  "global_settings": {
+    "max_total_content_size_gb": 10.0,
+    "warn_threshold_percent": 80.0,
+    "enable_warnings": true,
+    "fail_on_error": true
+  }
+}
