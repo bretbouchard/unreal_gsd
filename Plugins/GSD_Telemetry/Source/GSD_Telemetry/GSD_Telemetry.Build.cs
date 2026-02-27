@@ -15,7 +15,8 @@ public class GSD_Telemetry : ModuleRules
         });
 
         PrivateDependencyModuleNames.AddRange(new string[] {
-            "GSD_Core"
+            "GSD_Core",
+            "GSD_ValidationTools"
         });
     }
 }
