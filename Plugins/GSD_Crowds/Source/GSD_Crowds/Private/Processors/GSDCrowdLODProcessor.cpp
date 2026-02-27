@@ -1,6 +1,7 @@
 // Copyright Bret Bouchard. All Rights Reserved.
 
 #include "Processors/GSDCrowdLODProcessor.h"
+#include "DataAssets/GSDCrowdConfig.h"
 #include "MassRepresentationFragments.h"
 #include "MassCommonFragments.h"
 #include "GameFramework/PlayerController.h"
@@ -21,6 +22,12 @@ void UGSDCrowdLODProcessor::ConfigureQueries()
 
 void UGSDCrowdLODProcessor::Execute(FMassEntityManager& EntityManager, FMassExecutionContext& Context)
 {
+    // Load config (cached for frame)
+    if (!CachedConfig)
+    {
+        CachedConfig = UGSDCrowdConfig::GetDefaultConfig();
+    }
+
     const FVector ViewerLocation = GetViewerLocation(Context);
 
     EntityQuery.ForEachEntityChunk(EntityManager, Context,
@@ -40,12 +47,19 @@ void UGSDCrowdLODProcessor::Execute(FMassEntityManager& EntityManager, FMassExec
 
 float UGSDCrowdLODProcessor::CalculateLODSignificance(float Distance) const
 {
+    // Get config values with fallbacks
+    const float HighActorDist = CachedConfig ? CachedConfig->HighActorDistance : DefaultHighActorDistance;
+    const float LowActorDist = CachedConfig ? CachedConfig->LowActorDistance : DefaultLowActorDistance;
+    const float ISMDist = CachedConfig ? CachedConfig->ISMDistance : DefaultISMDistance;
+    const float CullDist = CachedConfig ? CachedConfig->CullDistance : DefaultCullDistance;
+
     // Map distance to LOD significance (0.0 = close, 3.0 = far)
-    if (Distance < HighActorDistance) return 0.0f;      // High Actor
-    if (Distance < LowActorDistance) return 0.75f;      // Low Actor
-    if (Distance < ISMDistance) return 1.75f;           // ISM
-    if (Distance < CullDistance) return 2.5f;           // Culled
-    return 3.0f;                                        // Far culled
+    // Uses Config->HighActorDistance, etc. instead of hardcoded values
+    if (Distance < HighActorDist) return 0.0f;      // High Actor
+    if (Distance < LowActorDist) return 0.75f;      // Low Actor
+    if (Distance < ISMDist) return 1.75f;           // ISM
+    if (Distance < CullDist) return 2.5f;           // Culled
+    return 3.0f;                                    // Far culled
 }
 
 FVector UGSDCrowdLODProcessor::GetViewerLocation(FMassExecutionContext& Context) const
@@ -65,25 +79,36 @@ FVector UGSDCrowdLODProcessor::GetViewerLocation(FMassExecutionContext& Context)
 
 float UGSDCrowdLODProcessor::CalculateAudioLODVolume(float DistanceToListener) const
 {
+    // Check if audio LOD is enabled
+    const bool bEnableAudioLOD = CachedConfig ? CachedConfig->bEnableAudioLOD : true;
+
     if (!bEnableAudioLOD)
     {
         return 1.0f;  // No LOD, full volume
     }
 
-    if (DistanceToListener < AudioLOD0Distance)
+    // Get config values with fallbacks
+    const float AudioLOD0Dist = CachedConfig ? CachedConfig->AudioLOD0Distance : DefaultAudioLOD0Distance;
+    const float AudioLOD1Dist = CachedConfig ? CachedConfig->AudioLOD1Distance : DefaultAudioLOD1Distance;
+    const float AudioLOD2Dist = CachedConfig ? CachedConfig->AudioLOD2Distance : DefaultAudioLOD2Distance;
+    const float AudioLOD1Vol = CachedConfig ? CachedConfig->AudioLOD1VolumeMultiplier : DefaultAudioLOD1Volume;
+    const float AudioLOD2Vol = CachedConfig ? CachedConfig->AudioLOD2VolumeMultiplier : DefaultAudioLOD2Volume;
+
+    // Uses Config->AudioLOD*Distance instead of hardcoded values
+    if (DistanceToListener < AudioLOD0Dist)
     {
         // LOD 0: Full audio
         return 1.0f;
     }
-    else if (DistanceToListener < AudioLOD1Distance)
+    else if (DistanceToListener < AudioLOD1Dist)
     {
-        // LOD 1: Reduced audio (0.5x volume)
-        return 0.5f;
+        // LOD 1: Reduced audio (Config->AudioLOD1VolumeMultiplier, default 0.5x volume)
+        return AudioLOD1Vol;
     }
-    else if (DistanceToListener < AudioLOD2Distance)
+    else if (DistanceToListener < AudioLOD2Dist)
     {
-        // LOD 2: Minimal audio (0.25x volume)
-        return 0.25f;
+        // LOD 2: Minimal audio (Config->AudioLOD2VolumeMultiplier, default 0.25x volume)
+        return AudioLOD2Vol;
     }
 
     // Beyond LOD 2: Culled
@@ -92,10 +117,44 @@ float UGSDCrowdLODProcessor::CalculateAudioLODVolume(float DistanceToListener) c
 
 bool UGSDCrowdLODProcessor::ShouldCullAudio(float DistanceToListener) const
 {
+    // Check if audio LOD is enabled
+    const bool bEnableAudioLOD = CachedConfig ? CachedConfig->bEnableAudioLOD : true;
+
     if (!bEnableAudioLOD)
     {
         return false;  // Never cull if LOD disabled
     }
 
-    return DistanceToListener >= AudioCullDistance;
+    // Get config value with fallback
+    const float AudioCullDist = CachedConfig ? CachedConfig->AudioCullDistance : DefaultAudioCullDistance;
+
+    // Uses Config->AudioCullDistance instead of hardcoded value
+    return DistanceToListener >= AudioCullDist;
+}
+
+//-- Accessor implementations --
+
+float UGSDCrowdLODProcessor::GetHighActorDistance() const
+{
+    return CachedConfig ? CachedConfig->HighActorDistance : DefaultHighActorDistance;
+}
+
+float UGSDCrowdLODProcessor::GetLowActorDistance() const
+{
+    return CachedConfig ? CachedConfig->LowActorDistance : DefaultLowActorDistance;
+}
+
+float UGSDCrowdLODProcessor::GetISMDistance() const
+{
+    return CachedConfig ? CachedConfig->ISMDistance : DefaultISMDistance;
+}
+
+float UGSDCrowdLODProcessor::GetCullDistance() const
+{
+    return CachedConfig ? CachedConfig->CullDistance : DefaultCullDistance;
+}
+
+bool UGSDCrowdLODProcessor::IsAudioLODEnabled() const
+{
+    return CachedConfig ? CachedConfig->bEnableAudioLOD : true;
 }
