@@ -14,9 +14,9 @@ This roadmap delivers the Unreal GSD Platform infrastructure for building open-w
 - [x] **Phase 5: Vehicle Advanced Features** - Launch control, pooling, and testbed (2026-02-25)
 - [x] **Phase 6: Crowd Core Systems** - Mass Entity setup and LOD switching (2026-02-26)
 - [x] **Phase 7: Crowd AI & Navigation** - Zone Graph and Behavior Trees (2026-02-26)
-- [ ] **Phase 8: Event System Core** - Event bus, tags, and scheduling
-- [ ] **Phase 9: Event Implementations** - Concrete daily events
-- [ ] **Phase 10: Telemetry & Validation** - Performance monitoring and commandlets
+- [x] **Phase 8: Event System Core** - Event bus, tags, and scheduling (2026-02-26)
+- [x] **Phase 9: Event Implementations** - Concrete daily events (2026-02-26)
+- [x] **Phase 10: Telemetry & Validation** - Performance monitoring and commandlets (2026-02-27)
 
 ## Phase Details
 
@@ -255,12 +255,12 @@ Plans:
 **Plans**: 6 plans in 5 waves
 
 Plans:
-- [ ] 08-01-PLAN.md - Plugin Foundation
-- [ ] 08-02-PLAN.md - Event Bus Subsystem
-- [ ] 08-03-PLAN.md - Gameplay Tags
-- [ ] 08-04-PLAN.md - Event Data Assets
-- [ ] 08-05-PLAN.md - Event Scheduler Subsystem
-- [ ] 08-06-PLAN.md - Verification and Commandlet
+- [x] 08-01-PLAN.md - Plugin Foundation
+- [x] 08-02-PLAN.md - Event Bus Subsystem
+- [x] 08-03-PLAN.md - Gameplay Tags
+- [x] 08-04-PLAN.md - Event Data Assets
+- [x] 08-05-PLAN.md - Event Scheduler Subsystem
+- [x] 08-06-PLAN.md - Verification and Commandlet
 
 ---
 
@@ -278,7 +278,15 @@ Plans:
 3. Block party event creates safe zones and crowd props
 4. Zombie rave event boosts density with attractor volumes and audio
 
-**Plans**: TBD
+**Plans**: 6 plans in 3 waves
+
+Plans:
+- [x] 09-01-PLAN.md - Additional Modifiers (DensityReduce, SafeZone, NavigationBlock)
+- [x] 09-02-PLAN.md - Construction Event (EVT-05)
+- [x] 09-03-PLAN.md - Bonfire Event (EVT-06)
+- [x] 09-04-PLAN.md - Block Party Event (EVT-07)
+- [x] 09-05-PLAN.md - Zombie Rave Event (EVT-08)
+- [x] 09-06-PLAN.md - Verification and Commandlet
 
 ---
 
@@ -302,7 +310,19 @@ Plans:
 9. GSD_Telemetry plugin provides metrics and logging
 10. GSD_ValidationTools plugin provides editor utilities and commandlets
 
-**Plans**: TBD
+**Plans**: 10 plans in 5 waves
+
+Plans:
+- [x] 10-01-PLAN.md - GSD_Telemetry Plugin Foundation (PLUG-06)
+- [x] 10-02-PLAN.md - GSD_ValidationTools Plugin Foundation (PLUG-07)
+- [x] 10-03-PLAN.md - Performance Telemetry Subsystem (TEL-01, TEL-02)
+- [x] 10-04-PLAN.md - Streaming Telemetry Extensions (TEL-03)
+- [x] 10-05-PLAN.md - Asset Validation Commandlet (TEL-04)
+- [x] 10-06-PLAN.md - World Partition Validation Commandlet (TEL-05)
+- [x] 10-07-PLAN.md - Performance Route Commandlet (TEL-06)
+- [x] 10-08-PLAN.md - Editor Validation Dashboard (TEL-07)
+- [x] 10-09-PLAN.md - Asset Budget Enforcement (TEL-08)
+- [x] 10-10-PLAN.md - Verification and Tests
 
 ---
 
@@ -321,9 +341,9 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | 5. Vehicle Advanced Features | 7/7 | Complete | 2026-02-25 |
 | 6. Crowd Core Systems | 6/6 | Complete | 2026-02-26 |
 | 7. Crowd AI & Navigation | 6/6 | Complete | 2026-02-26 |
-| 8. Event System Core | 0/6 | Planned | - |
-| 9. Event Implementations | 0/TBD | Not started | - |
-| 10. Telemetry & Validation | 0/TBD | Not started | - |
+| 8. Event System Core | 6/6 | Complete | 2026-02-26 |
+| 9. Event Implementations | 6/6 | Complete | 2026-02-26 |
+| 10. Telemetry & Validation | 10/10 | Complete | 2026-02-27 |
 
 ---
 
