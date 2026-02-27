@@ -226,6 +226,10 @@ Recent decisions affecting current work:
 - [Phase 11-06]: Volume multipliers: LOD0=1.0, LOD1=0.5, LOD2=0.25, Cull=0.0
 - [Phase 11-06]: bEnableAudioLOD flag allows disabling audio LOD for debugging
 - [Phase 11-06]: Attenuation distances: Crowd (5000), Vehicle (10000), Voice (2000), Ambience (10000)
+- [Phase 11-07]: UGSDCrowdConfig DataAsset centralizes all crowd parameters (detection, LOD, limits, behavior, navigation, audio, debug)
+- [Phase 11-07]: Static constexpr fallback defaults for backward compatibility when config not found
+- [Phase 11-07]: Cached config pointer per processor for efficient per-frame access
+- [Phase 11-07]: Accessor methods (GetHighActorDistance, etc.) for external config value access
 - [Phase 11-09]: Verification-only plan confirmed all Phase 7 implementations complete (ZoneGraph, Smart Objects, Budget Management)
 
 ### Pending Todos
