@@ -1,0 +1,34 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "GSD Audio",
+	"Description": "Audio infrastructure for GSD Platform - Sound Classes, Submixes, and utilities",
+	"Category": "GSD",
+	"CreatedBy": "Bret Bouchard",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "GSD_Audio",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "GSD_Core",
+			"Enabled": true
+		},
+		{
+			"Name": "AudioEditor",
+			"Enabled": true
+		}
+	]
+}
