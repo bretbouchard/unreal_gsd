@@ -8,8 +8,10 @@
 
 UGSDSmartObjectProcessor::UGSDSmartObjectProcessor()
 {
-    // Run after navigation, before behavior
-    ExecutionOrder.ExecuteInGroup = UE::Mass::ProcessorGroupNames::SyncWorld;
+    // Execute AFTER behavior, BEFORE LOD
+    // Smart Object interactions can modify behavior state
+    // LOD should see final state from all behavior processors
+    ExecutionOrder.ExecuteInGroup = UE::Mass::ProcessorGroupNames::Behavior;
     ExecutionOrder.ExecuteAfter.Add(UE::Mass::ProcessorGroupNames::SyncWorld);
     ProcessingPhase = EMassProcessingPhase::PrePhysics;
 }

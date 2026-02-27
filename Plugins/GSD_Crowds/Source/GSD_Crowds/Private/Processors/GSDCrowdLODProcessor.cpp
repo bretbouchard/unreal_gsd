@@ -10,6 +10,9 @@
 
 UGSDCrowdLODProcessor::UGSDCrowdLODProcessor()
 {
+    // Execute LATE - After all behavior updates complete
+    // LOD should see final state from Navigation, Behavior, and Smart Object processors
+    ExecutionOrder.ExecuteInGroup = UE::Mass::ProcessorGroupNames::LOD;
     ExecutionOrder.ExecuteAfter.Add(UE::Mass::ProcessorGroupNames::SyncWorld);
     ProcessingPhase = EMassProcessingPhase::PrePhysics;
 }

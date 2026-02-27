@@ -10,6 +10,8 @@
 
 UGSDNavigationProcessor::UGSDNavigationProcessor()
 {
+    // Execute EARLY - Navigation must run before behavior processing
+    // This ensures entities have valid navigation data before behavior updates
     ExecutionOrder.ExecuteInGroup = UE::Mass::ProcessorGroupNames::Movement;
     ExecutionOrder.ExecuteAfter.Add(UE::Mass::ProcessorGroupNames::SyncWorld);
     ProcessingPhase = EMassProcessingPhase::PrePhysics;

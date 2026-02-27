@@ -1,6 +1,7 @@
 // Copyright Bret Bouchard. All Rights Reserved.
 
 #include "Processors/GSDZombieBehaviorProcessor.h"
+#include "Processors/GSDNavigationProcessor.h"
 #include "Fragments/GSDZombieStateFragment.h"
 #include "DataAssets/GSDCrowdConfig.h"
 #include "MassCommonFragments.h"
@@ -11,9 +12,12 @@
 
 UGSDZombieBehaviorProcessor::UGSDZombieBehaviorProcessor()
 {
-    // Execute after navigation, before LOD
+    // Execute AFTER navigation, BEFORE LOD
+    // Behavior depends on current navigation data
+    // LOD should see final behavior-updated state
     // TODO(GSDCROWDS-105): Update to reference UGSDMassBehaviorProcessor when renamed
-    ExecutionOrder.ExecuteInGroup = UE::Mass::ProcessorGroupNames::SyncWorld;
+    ExecutionOrder.ExecuteInGroup = UE::Mass::ProcessorGroupNames::Behavior;
+    ExecutionOrder.ExecuteAfter.Add(UGSDNavigationProcessor::StaticClass());
     ProcessingPhase = EMassProcessingPhase::PrePhysics;
 }
 
