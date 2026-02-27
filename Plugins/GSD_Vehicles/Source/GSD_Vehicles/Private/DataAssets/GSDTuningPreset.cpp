@@ -113,12 +113,14 @@ FString UGSDTuningPreset::GetDisplayName() const
 
 UGSDTuningPreset* UGSDTuningPreset::GetDefaultCompliancePreset()
 {
-    // TODO: Implement when default presets are created in editor
+    // TODO(GSDVEHICLES-106): Implement when default presets are created in editor
+    // These presets will provide baseline tuning for compliance-style driving
     return nullptr;
 }
 
 UGSDTuningPreset* UGSDTuningPreset::GetDefaultChaosPreset()
 {
-    // TODO: Implement when default presets are created in editor
+    // TODO(GSDVEHICLES-106): Implement when default presets are created in editor
+    // These presets will provide baseline tuning for chaos-style driving
     return nullptr;
 }
