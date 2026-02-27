@@ -1,0 +1,39 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "1.0.0",
+    "FriendlyName": "GSD Validation Tools",
+    "Description": "Editor utilities, commandlets, and asset budget enforcement for GSD Platform validation",
+    "Category": "GSD",
+    "CreatedBy": "Bret Bouchard",
+    "CreatedByURL": "",
+    "DocsURL": "",
+    "MarketplaceURL": "",
+    "SupportURL": "",
+    "CanContainContent": false,
+    "IsBetaVersion": false,
+    "IsExperimentalVersion": false,
+    "Installed": false,
+    "EngineVersion": "5.7.0",
+    "Plugins": [
+        {
+            "Name": "GSD_Core",
+            "Enabled": true
+        },
+        {
+            "Name": "GSD_Telemetry",
+            "Enabled": true
+        }
+    ],
+    "Modules": [
+        {
+            "Name": "GSD_ValidationTools",
+            "Type": "Editor",
+            "LoadingPhase": "Default",
+            "AdditionalDependencies": [
+                "Engine",
+                "CoreUObject"
+            ]
+        }
+    ]
+}
