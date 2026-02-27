@@ -230,6 +230,12 @@ Recent decisions affecting current work:
 - [Phase 11-07]: Static constexpr fallback defaults for backward compatibility when config not found
 - [Phase 11-07]: Cached config pointer per processor for efficient per-frame access
 - [Phase 11-07]: Accessor methods (GetHighActorDistance, etc.) for external config value access
+- [Phase 11-08]: Enhanced AGSDHeroAIController with explicit UBehaviorTreeComponent, UBlackboardComponent, UAIPerceptionComponent
+- [Phase 11-08]: UGSDHeroAIConfig DataAsset for designer-configurable AI (perception, combat, patrol, movement)
+- [Phase 11-08]: UGSDHeroNPCArchetype DataAsset for designer-created NPC types (visual, stats, AI config)
+- [Phase 11-08]: Config-driven AI with backward compatibility (AIConfig priority over legacy BehaviorTree property)
+- [Phase 11-08]: TSoftObjectPtr and TSoftClassPtr in archetype for async loading support
+- [Phase 11-08]: ValidateConfig pattern with FString& OutError for designer feedback
 - [Phase 11-09]: Verification-only plan confirmed all Phase 7 implementations complete (ZoneGraph, Smart Objects, Budget Management)
 
 ### Pending Todos
