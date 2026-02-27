@@ -408,3 +408,63 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | TEL-08 | 10 |
 
 **Total mapped: 55/55 (100%)**
+
+### Phase 11: Council Fixes
+
+**Goal**: Address all critical, high, and medium priority issues from Council of Ricks All Hands review
+
+**Depends on**: Phases 1-10 (all complete)
+
+**Requirements**: FIX-01 through FIX-08 (internal requirements for production readiness)
+
+**Success Criteria** (what must be TRUE):
+1. All plugins compile without linker errors (API macros fixed)
+2. All module dependencies declared in Build.cs files
+3. 15+ automation tests exist and pass
+4. CI/CD pipeline runs on every push
+5. Audio infrastructure complete with Sound Classes, Submixes, spatial audio
+6. All hardcoded values replaced with DataAsset configuration
+7. Hero NPC AI functional with Behavior Tree and Perception
+8. Crowd navigation working via ZoneGraph
+9. No game-specific code in platform plugins
+10. Council re-review passes with APPROVE status
+
+**Plans**: 10 plans in 6 waves
+
+Plans:
+- [ ] 11-01-PLAN.md - API Macro Fixes (FIX-01)
+- [ ] 11-02-PLAN.md - Module Dependency Fixes (FIX-02)
+- [ ] 11-03-PLAN.md - Automation Test Framework (FIX-03)
+- [ ] 11-04-PLAN.md - CI/CD Pipeline (FIX-04)
+- [ ] 11-05-PLAN.md - Core Audio System (FIX-05)
+- [ ] 11-06-PLAN.md - Spatial Audio Configuration (FIX-05)
+- [ ] 11-07-PLAN.md - Config DataAssets (FIX-06)
+- [ ] 11-08-PLAN.md - Hero NPC AI System (FIX-07)
+- [ ] 11-09-PLAN.md - Navigation Integration (FIX-07)
+- [ ] 11-10-PLAN.md - Code Quality Pass (FIX-08)
+
+---
+
+
+## Progress (Updated)
+
+**Execution Order:**
+Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Plugin Architecture Foundation | 7/7 | Complete | 2026-02-25 |
+| 2. World Partition Setup | 6/6 | Complete | 2026-02-25 |
+| 2.5. Charlotte Map Data Acquisition | 5/5 | Complete | 2026-02-25 |
+| 3. Streaming & Data Layers | 5/5 | Complete | 2026-02-25 |
+| 4. Vehicle Core Systems | 6/6 | Complete | 2026-02-25 |
+| 5. Vehicle Advanced Features | 7/7 | Complete | 2026-02-25 |
+| 6. Crowd Core Systems | 6/6 | Complete | 2026-02-26 |
+| 7. Crowd AI & Navigation | 6/6 | Complete | 2026-02-26 |
+| 8. Event System Core | 6/6 | Complete | 2026-02-26 |
+| 9. Event Implementations | 6/6 | Complete | 2026-02-26 |
+| 10. Telemetry & Validation | 10/10 | Complete | 2026-02-27 |
+| 11. Council Fixes | 0/10 | Planned | - |
+
+**Total: 64/70 plans (91% complete)**
+
