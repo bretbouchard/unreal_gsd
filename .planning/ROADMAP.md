@@ -406,8 +406,24 @@ Phases execute in numeric order: 1 -> 2 -> 2.5 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
 | TEL-06 | 10 |
 | TEL-07 | 10 |
 | TEL-08 | 10 |
+| FIX-01 | 11 |
+| FIX-02 | 11 |
+| FIX-03 | 11 |
+| FIX-04 | 11 |
+| FIX-05 | 11 |
+| FIX-06 | 11 |
+| FIX-07 | 11 |
+| FIX-08 | 11 |
+| ENH-01 | 12 |
+| ENH-02 | 12 |
+| ENH-03 | 12 |
+| ENH-04 | 12 |
+| ENH-05 | 12 |
+| ENH-06 | 12 |
+| ENH-07 | 12 |
+| ENH-08 | 12 |
 
-**Total mapped: 55/55 (100%)**
+**Total mapped: 72/72 (100%)**
 
 ### Phase 11: Council Fixes
 

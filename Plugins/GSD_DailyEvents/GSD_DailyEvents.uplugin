@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"FriendlyName": "GSD Daily Events",
+	"Description": "Event system for deterministic daily event scheduling",
+	"Category": "GSD",
+	"CreatedBy": "Bret Bouchard",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBeta": false,
+	"IsExperimental": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "GSD_DailyEvents",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
