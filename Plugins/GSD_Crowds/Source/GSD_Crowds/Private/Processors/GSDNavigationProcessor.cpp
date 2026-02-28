@@ -7,6 +7,8 @@
 #include "MassRepresentation/RepresentationFragment.h"
 #include "ZoneGraph/ZoneGraphSubsystem.h"
 #include "ZoneGraph/ZoneGraphTypes.h"
+#include "Managers/GSDDeterminismManager.h"
+#include "Engine/GameInstance.h"
 
 UGSDNavigationProcessor::UGSDNavigationProcessor()
 {
@@ -36,8 +38,15 @@ void UGSDNavigationProcessor::Execute(FMassEntityManager& EntityManager, FMassEx
     const bool bZoneGraphAvailable = ZoneGraphSubsystem && ZoneGraphSubsystem->GetNumLanes() > 0;
     const float DeltaTime = Context.GetDeltaTimeSeconds();
 
+    // Get DeterminismManager for seeded random
+    UGSDDeterminismManager* DeterminismManager = nullptr;
+    if (UGameInstance* GameInstance = World->GetGameInstance())
+    {
+        DeterminismManager = GameInstance->GetSubsystem<UGSDDeterminismManager>();
+    }
+
     EntityQuery.ForEachEntityChunk(EntityManager, Context,
-        [this, ZoneGraphSubsystem, bZoneGraphAvailable, DeltaTime](FMassExecutionContext& Context)
+        [this, ZoneGraphSubsystem, bZoneGraphAvailable, DeltaTime, DeterminismManager](FMassExecutionContext& Context)
         {
             auto NavFragments = Context.GetMutableFragmentView<FGSDNavigationFragment>();
             auto Transforms = Context.GetMutableFragmentView<FDataFragment_Transform>();
@@ -53,49 +62,63 @@ void UGSDNavigationProcessor::Execute(FMassEntityManager& EntityManager, FMassEx
                 if (!bZoneGraphAvailable)
                 {
                     Nav.bUseFallbackMovement = true;
-                    ExecuteFallbackMovement(Nav, Transform, Zombie, DeltaTime);
+                    ExecuteFallbackMovement(Nav, Transform, Zombie, DeltaTime, DeterminismManager);
                     continue;
                 }
 
                 // Not on a lane yet - find one
                 if (!Nav.bIsOnLane || !Nav.CurrentLane.IsValid())
                 {
-                    FindNearestLane(Nav, Transform, ZoneGraphSubsystem);
+                    FindNearestLane(Nav, Transform, ZoneGraphSubsystem, DeterminismManager);
                     if (!Nav.bIsOnLane)
                     {
                         // Still no lane, use fallback
                         Nav.bUseFallbackMovement = true;
-                        ExecuteFallbackMovement(Nav, Transform, Zombie, DeltaTime);
+                        ExecuteFallbackMovement(Nav, Transform, Zombie, DeltaTime, DeterminismManager);
                         continue;
                     }
                 }
 
                 // Move along lane with randomized velocity (CROWD-08)
                 Nav.bUseFallbackMovement = false;
-                const float RandomizedSpeed = ApplyVelocityRandomization(Zombie.MovementSpeed, VelocityRandomizationPercent);
+                const float RandomizedSpeed = ApplyVelocityRandomization(Zombie.MovementSpeed, VelocityRandomizationPercent, DeterminismManager);
                 Nav.LanePosition += RandomizedSpeed * DeltaTime;
 
                 // Update transform from lane position
                 UpdateTransformFromLane(Nav, Transform, ZoneGraphSubsystem);
 
                 // Check if reached end of lane
-                CheckLaneProgress(Nav, ZoneGraphSubsystem);
+                CheckLaneProgress(Nav, ZoneGraphSubsystem, DeterminismManager);
             }
         });
 }
 
-float UGSDNavigationProcessor::ApplyVelocityRandomization(float BaseSpeed, float RandomizationPercent) const
+float UGSDNavigationProcessor::ApplyVelocityRandomization(float BaseSpeed, float RandomizationPercent, UGSDDeterminismManager* DeterminismManager) const
 {
     // CROWD-08: Apply velocity randomization to prevent synchronized movement
     // Randomization is +/- RandomizationPercent of base speed
-    const float RandomFactor = 1.0f + FMath::FRandRange(-RandomizationPercent, RandomizationPercent) / 100.0f;
+    // Use seeded random from DeterminismManager for determinism
+    float RandomFactor = 1.0f;
+    if (DeterminismManager)
+    {
+        FRandomStream& NavStream = DeterminismManager->GetCategoryStream(UGSDDeterminismManager::NavigationCategory);
+        RandomFactor = 1.0f + NavStream.FRandRange(-RandomizationPercent, RandomizationPercent) / 100.0f;
+        DeterminismManager->RecordRandomCall(UGSDDeterminismManager::NavigationCategory, RandomFactor);
+    }
+    else
+    {
+        // Fallback to seeded random for determinism even without manager
+        static FRandomStream FallbackNavStream(98765);
+        RandomFactor = 1.0f + FallbackNavStream.FRandRange(-RandomizationPercent, RandomizationPercent) / 100.0f;
+    }
     return BaseSpeed * RandomFactor;
 }
 
 void UGSDNavigationProcessor::FindNearestLane(
     FGSDNavigationFragment& Nav,
     const FDataFragment_Transform& Transform,
-    const UZoneGraphSubsystem* ZoneGraphSubsystem) const
+    const UZoneGraphSubsystem* ZoneGraphSubsystem,
+    UGSDDeterminismManager* DeterminismManager) const
 {
     if (!ZoneGraphSubsystem)
     {
@@ -117,8 +140,21 @@ void UGSDNavigationProcessor::FindNearestLane(
         return;
     }
 
-    // Pick nearest lane (or random for variety)
-    Nav.CurrentLane = NearbyLanes[FMath::RandHelper(NearbyLanes.Num())];
+    // Pick lane using seeded random for determinism
+    int32 LaneIndex = 0;
+    if (DeterminismManager)
+    {
+        FRandomStream& NavStream = DeterminismManager->GetCategoryStream(UGSDDeterminismManager::NavigationCategory);
+        LaneIndex = NavStream.RandHelper(NearbyLanes.Num());
+        DeterminismManager->RecordRandomCall(UGSDDeterminismManager::NavigationCategory, static_cast<float>(LaneIndex));
+    }
+    else
+    {
+        static FRandomStream FallbackLaneStream(11111);
+        LaneIndex = FallbackLaneStream.RandHelper(NearbyLanes.Num());
+    }
+
+    Nav.CurrentLane = NearbyLanes[LaneIndex];
     Nav.LanePosition = 0.0f;
     Nav.bIsOnLane = true;
     Nav.bReachedDestination = false;
@@ -146,7 +182,8 @@ void UGSDNavigationProcessor::UpdateTransformFromLane(
 
 void UGSDNavigationProcessor::CheckLaneProgress(
     FGSDNavigationFragment& Nav,
-    const UZoneGraphSubsystem* ZoneGraphSubsystem) const
+    const UZoneGraphSubsystem* ZoneGraphSubsystem,
+    UGSDDeterminismManager* DeterminismManager) const
 {
     if (!Nav.CurrentLane.IsValid() || !ZoneGraphSubsystem)
     {
@@ -164,7 +201,8 @@ void UGSDNavigationProcessor::CheckLaneProgress(
         // Try to find a connected lane or pick a new random one
         Nav.CurrentLane = PickRandomNearbyLane(
             FVector::ZeroVector, // Will use entity's current location
-            ZoneGraphSubsystem
+            ZoneGraphSubsystem,
+            DeterminismManager
         );
 
         if (Nav.CurrentLane.IsValid())
@@ -183,16 +221,30 @@ void UGSDNavigationProcessor::ExecuteFallbackMovement(
     FGSDNavigationFragment& Nav,
     FDataFragment_Transform& Transform,
     const FGSDZombieStateFragment& Zombie,
-    float DeltaTime) const
+    float DeltaTime,
+    UGSDDeterminismManager* DeterminismManager) const
 {
     // Simple direct movement when ZoneGraph unavailable
     FTransform CurrentTransform = Transform.GetTransform();
     FVector Location = CurrentTransform.GetLocation();
 
-    // Move in a random direction if no target
+    // Move in a random direction if no target - use seeded random
     if (Nav.FallbackTargetLocation.IsNearlyZero())
     {
-        const float RandomAngle = FMath::FRand() * 2.0f * PI;
+        float RandomAngle = 0.0f;
+        if (DeterminismManager)
+        {
+            FRandomStream& NavStream = DeterminismManager->GetCategoryStream(UGSDDeterminismManager::NavigationCategory);
+            RandomAngle = NavStream.FRand() * 2.0f * PI;
+            DeterminismManager->RecordRandomCall(UGSDDeterminismManager::NavigationCategory, RandomAngle);
+        }
+        else
+        {
+            // Fallback to seeded random for determinism
+            static FRandomStream FallbackAngleStream(22222);
+            RandomAngle = FallbackAngleStream.FRand() * 2.0f * PI;
+        }
+
         Nav.FallbackTargetLocation = Location + FVector(
             FMath::Cos(RandomAngle) * 500.0f,
             FMath::Sin(RandomAngle) * 500.0f,
@@ -202,7 +254,7 @@ void UGSDNavigationProcessor::ExecuteFallbackMovement(
 
     // Move toward target with randomized velocity (CROWD-08)
     const FVector Direction = (Nav.FallbackTargetLocation - Location).GetSafeNormal();
-    const float RandomizedSpeed = ApplyVelocityRandomization(Zombie.MovementSpeed, VelocityRandomizationPercent);
+    const float RandomizedSpeed = ApplyVelocityRandomization(Zombie.MovementSpeed, VelocityRandomizationPercent, DeterminismManager);
     const float EffectiveSpeed = RandomizedSpeed * FallbackMoveSpeed / 100.0f;
     Location += Direction * EffectiveSpeed * DeltaTime;
 
@@ -223,7 +275,8 @@ void UGSDNavigationProcessor::ExecuteFallbackMovement(
 
 FZoneGraphLaneHandle UGSDNavigationProcessor::PickRandomNearbyLane(
     const FVector& Location,
-    const UZoneGraphSubsystem* ZoneGraphSubsystem) const
+    const UZoneGraphSubsystem* ZoneGraphSubsystem,
+    UGSDDeterminismManager* DeterminismManager) const
 {
     if (!ZoneGraphSubsystem)
     {
@@ -241,5 +294,19 @@ FZoneGraphLaneHandle UGSDNavigationProcessor::PickRandomNearbyLane(
         return FZoneGraphLaneHandle();
     }
 
-    return NearbyLanes[FMath::RandHelper(NearbyLanes.Num())];
+    // Use seeded random for determinism
+    int32 LaneIndex = 0;
+    if (DeterminismManager)
+    {
+        FRandomStream& NavStream = DeterminismManager->GetCategoryStream(UGSDDeterminismManager::NavigationCategory);
+        LaneIndex = NavStream.RandHelper(NearbyLanes.Num());
+        DeterminismManager->RecordRandomCall(UGSDDeterminismManager::NavigationCategory, static_cast<float>(LaneIndex));
+    }
+    else
+    {
+        static FRandomStream FallbackPickStream(33333);
+        LaneIndex = FallbackPickStream.RandHelper(NearbyLanes.Num());
+    }
+
+    return NearbyLanes[LaneIndex];
 }

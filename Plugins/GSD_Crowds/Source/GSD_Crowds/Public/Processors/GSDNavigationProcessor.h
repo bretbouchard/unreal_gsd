@@ -10,6 +10,7 @@ class UZoneGraphSubsystem;
 struct FGSDNavigationFragment;
 struct FGSDZombieStateFragment;
 struct FDataFragment_Transform;
+class UGSDDeterminismManager;
 
 /**
  * Navigation processor for ZoneGraph-based crowd movement.
