@@ -24,36 +24,36 @@
  * Fragments are not UObjects and cannot hold strong references.
  * Use indices or raw data instead.
  */
-USTRUCT()
+USTRUCT(SaveGame)
 struct GSD_CROWDS_API FGSDZombieStateFragment : public FMassFragment
 {
     GENERATED_BODY()
 
     //-- State --
-    UPROPERTY()
+    UPROPERTY(SaveGame)
     float Health = 100.0f;
 
-    UPROPERTY()
+    UPROPERTY(SaveGame)
     float MovementSpeed = 150.0f;
 
-    UPROPERTY()
+    UPROPERTY(SaveGame)
     float TargetMovementSpeed = 150.0f;
 
     //-- Flags --
-    UPROPERTY()
+    UPROPERTY(SaveGame)
     uint8 bIsAggressive : 1;
 
-    UPROPERTY()
+    UPROPERTY(SaveGame)
     uint8 bIsAlive : 1;
 
-    UPROPERTY()
+    UPROPERTY(SaveGame)
     uint8 bIsActive : 1;
 
     //-- Behavior --
-    UPROPERTY()
+    UPROPERTY(SaveGame)
     float WanderDirection = 0.0f;
 
-    UPROPERTY()
+    UPROPERTY(SaveGame)
     float TimeSinceLastBehaviorUpdate = 0.0f;
 
     //-- Constructor --
