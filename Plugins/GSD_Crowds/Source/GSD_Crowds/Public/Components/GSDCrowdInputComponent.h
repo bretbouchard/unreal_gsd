@@ -44,6 +44,24 @@ class GSD_CROWDS_API UGSDCrowdInputComponent : public UActorComponent
 public:
     UGSDCrowdInputComponent();
 
+    // Public API Methods
+
+    /** Setup input binding with the given config and player controller */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Crowds|Input")
+    void SetupInput(UGSDCrowdInputConfig* InConfig, APlayerController* InPlayerController);
+
+    /** Toggle the debug widget visibility */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Crowds|Input")
+    void ToggleDebugWidget();
+
+    /** Spawn a crowd at the specified location (uses player location if not specified) */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Crowds|Input")
+    void SpawnCrowd(const FVector& Location = FVector::ZeroVector, int32 Count = 10);
+
+    /** Clear all spawned crowds from the world */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Crowds|Input")
+    void ClearCrowds();
+
     // Configuration
 
     /** Set the input configuration DataAsset */
@@ -53,6 +71,10 @@ public:
     /** Enable or disable debug input handling */
     UFUNCTION(BlueprintCallable, Category = "GSD|Crowds|Input")
     void SetDebugEnabled(bool bEnabled);
+
+    /** Check if debug input is enabled */
+    UFUNCTION(BlueprintPure, Category = "GSD|Crowds|Input")
+    bool IsDebugEnabled() const { return bDebugEnabled; }
 
     // Delegates (Events)
 
@@ -119,6 +141,10 @@ private:
     UPROPERTY()
     bool bMappingContextAdded;
 
+    /** Whether debug widget is currently visible */
+    UPROPERTY()
+    bool bDebugWidgetVisible;
+
     /** Cached player controller */
     UPROPERTY()
     TObjectPtr<APlayerController> CachedPlayerController;
@@ -126,4 +152,8 @@ private:
     /** Cached enhanced input component */
     UPROPERTY()
     TObjectPtr<UEnhancedInputComponent> CachedInputComponent;
+
+    /** Array of actors spawned for crowd debugging (for cleanup) */
+    UPROPERTY()
+    TArray<TObjectPtr<AActor>> SpawnedDebugCrowds;
 };
