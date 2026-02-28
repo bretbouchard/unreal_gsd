@@ -1,6 +1,6 @@
 #include "CoreMinimal.h"
 #include "Misc/AutomationTest.h"
-#include "Managers/GSDDeterminismManager.h"
+#include "Subsystems/GSDDeterminismManager.h"
 #include "Engine/GameInstance.h"
 
 #if WITH_DEV_AUTOMATION_TESTS

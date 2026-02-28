@@ -136,7 +136,6 @@ void UGSDCrowdHLODManager::UpdateProxyVisibilities(const FVector& PlayerLocation
 
 void UGSDCrowdHLODManager::RemoveProxiesForCell(FName CellName)
 {
-    // TODO: Implement cell-based proxy removal when streaming cell integration is complete
+    // TODO(GSDCROWDS-113): Implement cell-based proxy removal when streaming cell integration is complete
     // For now, this is a placeholder for future streaming integration
-    // GSDCROWDS-107: HLOD proxy streaming cell integration
 }

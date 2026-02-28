@@ -381,7 +381,7 @@ bool UGSDCrowdManagerSubsystem::IsPositionInLoadedCell(const FVector& Position) 
 
 void UGSDCrowdManagerSubsystem::BindToStreamingEvents()
 {
-    // TODO: Bind to actual World Partition streaming events when API is available
+    // TODO(GSDCROWDS-112): Bind to actual World Partition streaming events when API is available
     // For now, mark all cells as loaded (no streaming constraints)
     UE_LOG(LOG_GSDCROWDS, Log, TEXT("CrowdManager: Streaming event binding (placeholder - all cells considered loaded)"));
 
