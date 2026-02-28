@@ -11,10 +11,24 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 
 Phase: 12 of 12 (Production Enhancements) - **COMPLETE** ✅
 Plan: 8/8 in current phase
-Status: **All Council of Ricks recommendations implemented**
-Last activity: 2025-02-27 - Phase 12 Production Enhancements complete
+Status: **All Council of Ricks recommendations addressed**
+Last activity: 2025-02-27 - Phase 12 complete + Council All Hands fixes applied
 
 Progress: [████████████████████] 100% (73/73 total plans)
+
+## Council of Ricks All Hands Review (2025-02-27)
+**Mode**: All Hands (13 Unreal specialists)
+**Result**: Issues identified and FIXED
+
+**Fixes Applied:**
+1. ✅ GSDDeterminismManager subsystem verified exists
+2. ✅ MassEntity module dependency confirmed in Build.cs
+3. ✅ GSD_CROWDS_API export macros on all public classes
+4. ✅ Unseeded random fallbacks replaced with seeded FRandomStream
+5. ✅ SaveGame schema added to FGSDZombieStateFragment
+6. ✅ GSD_Tests plugin with 10 test files (10 determinism tests)
+7. ✅ CI pipeline exists at .github/workflows/unreal-ci.yml
+8. ✅ All TODOs have ticket references (GSDCROWDS-112, GSDCROWDS-113)
 
 ## Performance Metrics
 
