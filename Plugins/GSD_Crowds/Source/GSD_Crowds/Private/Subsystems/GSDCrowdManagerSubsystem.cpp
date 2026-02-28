@@ -167,8 +167,11 @@ TArray<FTransform> UGSDCrowdManagerSubsystem::GenerateSpawnTransforms(int32 Coun
         }
         else
         {
-            // Fallback to unseeded random
-            RandomOffset = FMath::RandPointInCircle(Radius);
+            // Fallback to seeded random for determinism even without manager
+            static FRandomStream FallbackSpawnStream(67890);
+            const float Angle = FallbackSpawnStream.FRand() * 2.0f * PI;
+            const float Distance = FallbackSpawnStream.FRand() * Radius;
+            RandomOffset = FVector2D(FMath::Cos(Angle) * Distance, FMath::Sin(Angle) * Distance);
         }
         const FVector SpawnLocation = Center + FVector(RandomOffset.X, RandomOffset.Y, 0.0f);
 
@@ -183,8 +186,9 @@ TArray<FTransform> UGSDCrowdManagerSubsystem::GenerateSpawnTransforms(int32 Coun
         }
         else
         {
-            // Fallback to unseeded random
-            RandomYaw = FMath::RandRange(0.0f, 360.0f);
+            // Fallback to seeded random for determinism even without manager
+            static FRandomStream FallbackYawStream(67891);
+            RandomYaw = FallbackYawStream.FRandRange(0.0f, 360.0f);
         }
         const FRotator SpawnRotation(0.0f, RandomYaw, 0.0f);
 

@@ -99,8 +99,9 @@ void UGSDZombieBehaviorProcessor::Execute(FMassEntityManager& EntityManager, FMa
                     }
                     else
                     {
-                        // Fallback to unseeded random if determinism manager not available
-                        SpeedMultiplier = 1.0f + FMath::FRandRange(-SpeedVariation, SpeedVariation);
+                        // Fallback to seeded random for determinism even without manager
+                        static FRandomStream FallbackSpeedStream(12345);
+                        SpeedMultiplier = 1.0f + FallbackSpeedStream.FRandRange(-SpeedVariation, SpeedVariation);
                     }
                     State.TargetMovementSpeed = State.MovementSpeed * SpeedMultiplier;
 
@@ -115,8 +116,9 @@ void UGSDZombieBehaviorProcessor::Execute(FMassEntityManager& EntityManager, FMa
                     }
                     else
                     {
-                        // Fallback to unseeded random if determinism manager not available
-                        DirectionChange = FMath::FRandRange(-WanderDirectionChange, WanderDirectionChange);
+                        // Fallback to seeded random for determinism even without manager
+                        static FRandomStream FallbackWanderStream(54321);
+                        DirectionChange = FallbackWanderStream.FRandRange(-WanderDirectionChange, WanderDirectionChange);
                     }
                     State.WanderDirection += DirectionChange;
                     State.WanderDirection = FMath::Clamp(State.WanderDirection, -180.0f, 180.0f);
