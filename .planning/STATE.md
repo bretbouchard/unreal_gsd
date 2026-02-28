@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 12 of 12 (Production Enhancements) - **IN PROGRESS**
-Plan: 4/? in current phase
-Status: **World Partition Streaming Integration - Cell-aware crowd spawning**
-Last activity: 2026-02-28 - Completed 12-04-PLAN.md (World Partition Streaming Integration)
+Plan: 7/? in current phase
+Status: **EnhancedInput Integration - Configurable debug controls**
+Last activity: 2026-02-28 - Completed 12-07-PLAN.md (EnhancedInput Integration)
 
-Progress: [███████████████████░] 98% (69/70 total plans)
+Progress: [███████████████████░] 98% (70/71 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 69
+- Total plans completed: 70
 - Average duration: 3.0 min
-- Total execution time: 212 min
+- Total execution time: 214 min
 
 **By Phase:**
 
@@ -39,9 +39,11 @@ Progress: [███████████████████░] 98% (69
 | 9. Event Implementations | 6/6 | 18 min | 3.0 min |
 | 10. Telemetry & Validation | 10/10 | 30 min | 3.0 min |
 | 11. Council Fixes | 10/10 | 23 min | 2.3 min |
-| 12. Production Enhancements | 4/? | 17 min | 4.3 min |
+| 12. Production Enhancements | 5/? | 19 min | 3.8 min |
 
 **Recent Trend:**
+- Plan 12-07: 2 min (EnhancedInput Integration)
+- Plan 12-05: 4 min (HLOD Proxy System)
 - Plan 12-04: 3 min (World Partition Streaming Integration)
 - Plan 12-03: 5 min (Network Bandwidth Budget)
 - Plan 12-01: 4 min (Crowd System Determinism)
@@ -273,6 +275,11 @@ Recent decisions affecting current work:
 - [Phase 12-05]: AGSDCrowdHLODProxy actor with ImpostorMesh for billboard rendering
 - [Phase 12-05]: UGSDCrowdHLODConfig DataAsset for designer-configurable HLOD settings
 - [Phase 12-05]: 4 HLOD tests (clustering, visibility, threshold, config validation)
+- [Phase 12-07]: EnhancedInput module added to GSD_Crowds for debug input controls
+- [Phase 12-07]: UGSDCrowdInputConfig DataAsset with 7 configurable debug actions (toggle widget, density, spawn, etc.)
+- [Phase 12-07]: UGSDCrowdInputComponent for EnhancedInput binding with lifecycle management
+- [Phase 12-07]: Mapping context priority 100 for debug controls (higher than gameplay)
+- [Phase 12-07]: Delegate-based event system for loose coupling with crowd systems
 
 ### Pending Todos
 
@@ -316,9 +323,11 @@ Resume file: None
 | 03 | 1 | Network Bandwidth Budget | 4 | DONE |
 | 04 | 2 | World Partition Streaming | 4 | DONE |
 | 05 | 2 | HLOD Proxy System | 4 | DONE |
+| 06 | 2 | Debug Dashboard | 4 | DONE |
+| 07 | 3 | EnhancedInput Integration | 4 | DONE |
 
-**Phase 12 In Progress - 4 plans complete (Crowd Determinism + Network Budget + WP Streaming + HLOD Proxies).**
-**Seeded Random + Bandwidth Budget + Cell-Aware Spawning + HLOD Proxies + Tests.**
+**Phase 12 In Progress - 6 plans complete (Crowd Determinism + Network Budget + WP Streaming + HLOD Proxies + Debug Dashboard + EnhancedInput).**
+**Seeded Random + Bandwidth Budget + Cell-Aware Spawning + HLOD Proxies + Debug Widget + EnhancedInput.**
 
 ## Phase 11 Plan Summary
 
