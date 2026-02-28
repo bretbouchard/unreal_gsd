@@ -2,10 +2,12 @@
 
 #include "Processors/GSDCrowdLODProcessor.h"
 #include "DataAssets/GSDCrowdConfig.h"
+#include "Subsystems/GSDNetworkBudgetSubsystem.h"
 #include "MassRepresentationFragments.h"
 #include "MassCommonFragments.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
+#include "Engine/GameInstance.h"
 #include "GSDCrowdLog.h"
 
 UGSDCrowdLODProcessor::UGSDCrowdLODProcessor()
@@ -31,6 +33,16 @@ void UGSDCrowdLODProcessor::Execute(FMassEntityManager& EntityManager, FMassExec
         CachedConfig = UGSDCrowdConfig::GetDefaultConfig();
     }
 
+    // Get budget subsystem
+    UGSDNetworkBudgetSubsystem* BudgetSubsystem = nullptr;
+    if (UWorld* World = Context.GetWorld())
+    {
+        if (UGameInstance* GI = World->GetGameInstance())
+        {
+            BudgetSubsystem = GI->GetSubsystem<UGSDNetworkBudgetSubsystem>();
+        }
+    }
+
     const FVector ViewerLocation = GetViewerLocation(Context);
 
     EntityQuery.ForEachEntityChunk(EntityManager, Context,
@@ -43,7 +55,28 @@ void UGSDCrowdLODProcessor::Execute(FMassEntityManager& EntityManager, FMassExec
             {
                 const FVector EntityLocation = Transforms[i].GetTransform().GetLocation();
                 const float Distance = FVector::Dist(EntityLocation, ViewerLocation);
-                LODFragments[i].LODSignificance = CalculateLODSignificance(Distance);
+
+                // Calculate LOD level (0-3)
+                const float LODSignificance = CalculateLODSignificance(Distance);
+                const int32 LODLevel = FMath::FloorToInt(LODSignificance);
+
+                // Check if we can replicate this frame
+                if (BudgetSubsystem && !BudgetSubsystem->CanReplicateThisFrame(EGSDBudgetCategory::Crowd, LODLevel))
+                {
+                    // Skip this entity this frame - bandwidth budget exceeded
+                    continue;
+                }
+
+                // Update LOD significance
+                LODFragments[i].LODSignificance = LODSignificance;
+
+                // Track bandwidth usage
+                if (BudgetSubsystem)
+                {
+                    // Estimate bits used: Position (FVector = 3 floats = 96 bits) + State (uint8 = 8 bits)
+                    constexpr int32 EstimatedBitsPerEntity = 96 + 8;
+                    BudgetSubsystem->TrackReplication(EGSDBudgetCategory::Crowd, EstimatedBitsPerEntity);
+                }
             }
         });
 }
