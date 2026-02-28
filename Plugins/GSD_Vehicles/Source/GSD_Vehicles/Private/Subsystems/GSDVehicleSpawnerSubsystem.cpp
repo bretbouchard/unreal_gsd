@@ -202,3 +202,67 @@ void UGSDVehicleSpawnerSubsystem::ReturnVehicleToPool(AGSDVehiclePawn* Vehicle)
         DespawnVehicle(Vehicle);
     }
 }
+
+//-- Network Validation (GSDNETWORK-107) --
+
+bool UGSDVehicleSpawnerSubsystem::ValidateSpawnParameters(UGSDVehicleConfig* Config, FVector Location, FString& OutError) const
+{
+    OutError.Empty();
+
+    // Validate config is not null
+    if (!Config)
+    {
+        OutError = TEXT("Vehicle config is null");
+        GSD_VEHICLE_WARN(TEXT("ValidateSpawnParameters: %s"), *OutError);
+        return false;
+    }
+
+    // Validate location is finite (not NaN or Inf)
+    if (!FMath::IsFinite(Location.X) || !FMath::IsFinite(Location.Y) || !FMath::IsFinite(Location.Z))
+    {
+        OutError = FString::Printf(TEXT("Invalid spawn location: %s (contains NaN or Inf)"), *Location.ToString());
+        GSD_VEHICLE_WARN(TEXT("ValidateSpawnParameters: %s"), *OutError);
+        return false;
+    }
+
+    // Validate location magnitude (prevent extreme values)
+    if (FMath::Abs(Location.X) > MaxWorldExtent || FMath::Abs(Location.Y) > MaxWorldExtent || FMath::Abs(Location.Z) > MaxWorldExtent)
+    {
+        OutError = FString::Printf(TEXT("Spawn location %s exceeds world bounds (max %.0f)"), *Location.ToString(), MaxWorldExtent);
+        GSD_VEHICLE_WARN(TEXT("ValidateSpawnParameters: %s"), *OutError);
+        return false;
+    }
+
+    // Validate pool capacity if using pool
+    if (SpawnedVehicles.Num() >= MaxPoolSize)
+    {
+        OutError = FString::Printf(TEXT("Vehicle pool at capacity (%d/%d)"), SpawnedVehicles.Num(), MaxPoolSize);
+        GSD_VEHICLE_WARN(TEXT("ValidateSpawnParameters: %s"), *OutError);
+        return false;
+    }
+
+    return true;
+}
+
+bool UGSDVehicleSpawnerSubsystem::ValidateReturnToPool(AGSDVehiclePawn* Vehicle, FString& OutError) const
+{
+    OutError.Empty();
+
+    // Validate vehicle is not null
+    if (!Vehicle)
+    {
+        OutError = TEXT("Vehicle is null");
+        GSD_VEHICLE_WARN(TEXT("ValidateReturnToPool: %s"), *OutError);
+        return false;
+    }
+
+    // Validate vehicle is in our tracked list (prevent returning arbitrary vehicles)
+    if (!SpawnedVehicles.Contains(Vehicle))
+    {
+        OutError = FString::Printf(TEXT("Vehicle '%s' is not tracked by this spawner"), *Vehicle->GetName());
+        GSD_VEHICLE_WARN(TEXT("ValidateReturnToPool: %s"), *OutError);
+        return false;
+    }
+
+    return true;
+}

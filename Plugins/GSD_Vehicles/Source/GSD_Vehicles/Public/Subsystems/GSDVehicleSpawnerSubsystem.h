@@ -117,7 +117,46 @@ public:
      */
     FOnAllVehiclesDespawned& GetOnAllVehiclesDespawned() { return AllVehiclesDespawnedDelegate; }
 
+    //-- Network Validation (GSDNETWORK-107) --
+    // These validation functions can be called from Server RPCs to prevent exploitable inputs.
+    // Subsystems cannot have Server RPCs directly, only AActor/UActorComponent can.
+    // These validation functions provide the security layer that Server RPCs would call.
+
+    /**
+     * Validate spawn parameters for network safety.
+     * Call from Server RPCs before calling SpawnVehicle/SpawnVehicleFromPool.
+     *
+     * @param Config Vehicle configuration Data Asset
+     * @param Location World location to spawn at
+     * @param OutError Error message if validation fails
+     * @return True if parameters are valid and safe
+     */
+    UFUNCTION(BlueprintPure, Category = "GSD|Vehicles|Network")
+    bool ValidateSpawnParameters(UGSDVehicleConfig* Config, FVector Location, FString& OutError) const;
+
+    /**
+     * Validate return to pool parameters for network safety.
+     * Call from Server RPCs before calling ReturnVehicleToPool.
+     *
+     * @param Vehicle Vehicle to return to pool
+     * @param OutError Error message if validation fails
+     * @return True if parameters are valid and safe
+     */
+    UFUNCTION(BlueprintPure, Category = "GSD|Vehicles|Network")
+    bool ValidateReturnToPool(AGSDVehiclePawn* Vehicle, FString& OutError) const;
+
+    /**
+     * Get maximum allowed pool size for validation.
+     */
+    static constexpr int32 GetMaxPoolSize() { return MaxPoolSize; }
+
 protected:
+    //-- Validation Constants (GSDNETWORK-107) --
+    // Maximum pool size to prevent server overload exploits
+    static constexpr int32 MaxPoolSize = 50;
+    // Maximum world extent to prevent extreme location exploits
+    static constexpr float MaxWorldExtent = 1000000.0f; // 1km from origin
+
     /** Array of all spawned vehicles being tracked */
     UPROPERTY()
     TArray<TObjectPtr<AGSDVehiclePawn>> SpawnedVehicles;
