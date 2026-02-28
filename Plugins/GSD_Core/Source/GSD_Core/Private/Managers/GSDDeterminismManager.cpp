@@ -6,6 +6,15 @@ const FName UGSDDeterminismManager::EventCategory = TEXT("Event");
 const FName UGSDDeterminismManager::CrowdCategory = TEXT("Crowd");
 const FName UGSDDeterminismManager::VehicleCategory = TEXT("Vehicle");
 
+// Crowd-specific categories for fine-grained debugging
+const FName UGSDDeterminismManager::CrowdSpawnCategory = TEXT("CrowdSpawn");
+const FName UGSDDeterminismManager::CrowdLODCategory = TEXT("CrowdLOD");
+const FName UGSDDeterminismManager::CrowdVelocityCategory = TEXT("CrowdVelocity");
+const FName UGSDDeterminismManager::ZombieWanderCategory = TEXT("ZombieWander");
+const FName UGSDDeterminismManager::ZombieTargetCategory = TEXT("ZombieTarget");
+const FName UGSDDeterminismManager::ZombieBehaviorCategory = TEXT("ZombieBehavior");
+const FName UGSDDeterminismManager::ZombieSpeedCategory = TEXT("ZombieSpeed");
+
 void UGSDDeterminismManager::Initialize(FSubsystemCollectionBase& Collection)
 {
     GSD_LOG(Log, TEXT("UGSDDeterminismManager initialized"));
@@ -15,11 +24,23 @@ void UGSDDeterminismManager::Initialize(FSubsystemCollectionBase& Collection)
     CreateCategoryStream(EventCategory);
     CreateCategoryStream(CrowdCategory);
     CreateCategoryStream(VehicleCategory);
+
+    // Create crowd-specific streams
+    CreateCategoryStream(CrowdSpawnCategory);
+    CreateCategoryStream(CrowdLODCategory);
+    CreateCategoryStream(CrowdVelocityCategory);
+    CreateCategoryStream(ZombieWanderCategory);
+    CreateCategoryStream(ZombieTargetCategory);
+    CreateCategoryStream(ZombieBehaviorCategory);
+    CreateCategoryStream(ZombieSpeedCategory);
 }
 
 void UGSDDeterminismManager::Deinitialize()
 {
     CategoryStreams.Empty();
+    RecordedCalls.Empty();
+    bIsRecording = false;
+    CallCounter = 0;
     GSD_LOG(Log, TEXT("UGSDDeterminismManager deinitialized"));
 }
 
@@ -118,6 +139,45 @@ void UGSDDeterminismManager::CreateCategoryStream(FName Category)
     int32 CategorySeed = CurrentSeed + GetTypeHash(Category);
     FRandomStream NewStream(CategorySeed);
     CategoryStreams.Add(Category, NewStream);
+}
+
+void UGSDDeterminismManager::RecordRandomCall(FName Category, float Value)
+{
+    if (bIsRecording)
+    {
+        FGSDRandomCallRecord Record;
+        Record.Category = Category;
+        Record.CallIndex = CallCounter++;
+        Record.FloatValue = Value;
+        Record.bIsVector = false;
+        RecordedCalls.Add(Record);
+
+        GSD_LOG(Verbose, TEXT("Recorded random call [%d] %s: %f"),
+            Record.CallIndex, *Category.ToString(), Value);
+    }
+}
+
+void UGSDDeterminismManager::RecordRandomCall(FName Category, FVector Value)
+{
+    if (bIsRecording)
+    {
+        FGSDRandomCallRecord Record;
+        Record.Category = Category;
+        Record.CallIndex = CallCounter++;
+        Record.VectorValue = Value;
+        Record.bIsVector = true;
+        RecordedCalls.Add(Record);
+
+        GSD_LOG(Verbose, TEXT("Recorded random call [%d] %s: %s"),
+            Record.CallIndex, *Category.ToString(), *Value.ToString());
+    }
+}
+
+void UGSDDeterminismManager::ClearRecordedCalls()
+{
+    RecordedCalls.Empty();
+    CallCounter = 0;
+    GSD_LOG(Log, TEXT("Cleared all recorded random calls"));
 }
 
 // Explicit template instantiation for common types
