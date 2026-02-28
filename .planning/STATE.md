@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 12 of 12 (Production Enhancements) - **IN PROGRESS**
-Plan: 1/? in current phase
-Status: **Network Bandwidth Budget - Crowd replication respects bandwidth limits**
-Last activity: 2026-02-27 - Completed 12-03-PLAN.md (Network Bandwidth Budget)
+Plan: 2/? in current phase
+Status: **Crowd System Determinism - Seeded random for deterministic replays**
+Last activity: 2026-02-27 - Completed 12-01-PLAN.md (Crowd System Determinism)
 
-Progress: [███████████████████░] 98% (67/68 total plans)
+Progress: [███████████████████░] 98% (68/69 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 67
+- Total plans completed: 68
 - Average duration: 3.0 min
-- Total execution time: 203 min
+- Total execution time: 207 min
 
 **By Phase:**
 
@@ -39,9 +39,10 @@ Progress: [███████████████████░] 98% (67
 | 9. Event Implementations | 6/6 | 18 min | 3.0 min |
 | 10. Telemetry & Validation | 10/10 | 30 min | 3.0 min |
 | 11. Council Fixes | 10/10 | 23 min | 2.3 min |
-| 12. Production Enhancements | 1/? | 5 min | 5.0 min |
+| 12. Production Enhancements | 2/? | 9 min | 4.5 min |
 
 **Recent Trend:**
+- Plan 12-01: 4 min (Crowd System Determinism)
 - Plan 12-03: 5 min (Network Bandwidth Budget)
 - Plan 11-10: 3 min (Code Quality)
 - Plan 11-09: 2 min (Navigation Integration Verification)
@@ -252,6 +253,14 @@ Recent decisions affecting current work:
 - [Phase 12-03]: Warning throttling (5s interval) prevents log spam when approaching budget limits
 - [Phase 12-03]: Estimated 104 bits per crowd entity (96 position + 8 state) for bandwidth tracking
 - [Phase 12-03]: Default config auto-creation ensures subsystem functional without designer configuration
+- [Phase 12-01]: FGSDRandomCallRecord struct for recording random calls during replay validation
+- [Phase 12-01]: GetCategoryStream() alias for GetStream() provides clearer API
+- [Phase 12-01]: RecordRandomCall() overloads for float and FVector with optional recording mode
+- [Phase 12-01]: Crowd-specific category constants (CrowdSpawn, ZombieWander, ZombieSpeed, etc.)
+- [Phase 12-01]: GSDZombieBehaviorProcessor uses seeded random for speed variation and wander direction
+- [Phase 12-01]: GSDCrowdManagerSubsystem uses seeded random for spawn positions and rotations
+- [Phase 12-01]: Fallback to unseeded random if DeterminismManager unavailable (graceful degradation)
+- [Phase 12-01]: 5 new determinism tests for crowd system (spawn, speed, wander, isolation)
 
 ### Pending Todos
 
@@ -280,8 +289,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-28T02:07:19Z
-Stopped at: Completed 12-03-PLAN.md (Network Bandwidth Budget)
+Last session: 2026-02-28T02:07:21Z
+Stopped at: Completed 12-01-PLAN.md (Crowd System Determinism)
 Resume file: None
 
 **Next Action:** Continue Phase 12 (Production Enhancements) with remaining plans.
@@ -290,12 +299,12 @@ Resume file: None
 
 | Plan | Wave | Objective | Tasks | Status |
 |------|------|-----------|-------|--------|
-| 01 | 1 | Performance Validation | 3 | Pending |
+| 01 | 1 | Crowd System Determinism | 5 | DONE |
 | 02 | 1 | Memory Profiling | 3 | Pending |
 | 03 | 1 | Network Bandwidth Budget | 4 | DONE |
 
-**Phase 12 In Progress - Plan 03 complete (Network Bandwidth Budget).**
-**Budget Config + Budget Subsystem + Crowd Integration + Tests.**
+**Phase 12 In Progress - 2 plans complete (Crowd Determinism + Network Budget).**
+**Seeded Random + Bandwidth Budget + Tests.**
 
 ## Phase 11 Plan Summary
 
