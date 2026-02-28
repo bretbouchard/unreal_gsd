@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-24)
 
 **Core value:** Infrastructure for building Unreal Engine games - tools, utilities, automation
-**Current focus:** Phase 10 - Telemetry & Validation
+**Current focus:** Phase 12 - Production Enhancements
 
 ## Current Position
 
-Phase: 11 of 11 (Council Fixes) - **COMPLETE**
-Plan: 10/10 in current phase
-Status: **Code Quality Pass Complete - Game-Agnostic Naming, PCHUsage, Execution Order, TODOs**
-Last activity: 2026-02-27 - Completed 11-10-PLAN.md (Code Quality)
+Phase: 12 of 12 (Production Enhancements) - **IN PROGRESS**
+Plan: 1/? in current phase
+Status: **Network Bandwidth Budget - Crowd replication respects bandwidth limits**
+Last activity: 2026-02-27 - Completed 12-03-PLAN.md (Network Bandwidth Budget)
 
-Progress: [███████████████████] 100% (66/57 total plans)
+Progress: [███████████████████░] 98% (67/68 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 66
+- Total plans completed: 67
 - Average duration: 3.0 min
-- Total execution time: 198 min
+- Total execution time: 203 min
 
 **By Phase:**
 
@@ -39,8 +39,10 @@ Progress: [███████████████████] 100% (66/5
 | 9. Event Implementations | 6/6 | 18 min | 3.0 min |
 | 10. Telemetry & Validation | 10/10 | 30 min | 3.0 min |
 | 11. Council Fixes | 10/10 | 23 min | 2.3 min |
+| 12. Production Enhancements | 1/? | 5 min | 5.0 min |
 
 **Recent Trend:**
+- Plan 12-03: 5 min (Network Bandwidth Budget)
 - Plan 11-10: 3 min (Code Quality)
 - Plan 11-09: 2 min (Navigation Integration Verification)
 - Plan 11-06: 3 min (Spatial Audio Configuration)
@@ -242,6 +244,14 @@ Recent decisions affecting current work:
 - [Phase 11-10]: All 10 GSD plugin Build.cs files have PCHUsage configured
 - [Phase 11-10]: Processor execution order specified: Navigation (Movement) -> Behavior -> Smart Object (Behavior) -> LOD (LOD)
 - [Phase 11-10]: All TODOs have ticket references (GSDCROWDS-105, GSDVEHICLES-106)
+- [Phase 12-03]: UGSDNetworkBudgetConfig DataAsset for bandwidth configuration with category allocations and LOD configs
+- [Phase 12-03]: UGSDNetworkBudgetSubsystem as UEngineSubsystem for bandwidth tracking and enforcement
+- [Phase 12-03]: Percentage-based budget allocations (Crowd 30%, Vehicle 20%, Event 10%, Player 35%, Other 5%)
+- [Phase 12-03]: LOD-based replication frequency scaling (LOD0: 60Hz, LOD1: 30Hz, LOD2: 10Hz, LOD3: 2Hz)
+- [Phase 12-03]: CanReplicateThisFrame() enforces both budget and per-LOD entity count limits
+- [Phase 12-03]: Warning throttling (5s interval) prevents log spam when approaching budget limits
+- [Phase 12-03]: Estimated 104 bits per crowd entity (96 position + 8 state) for bandwidth tracking
+- [Phase 12-03]: Default config auto-creation ensures subsystem functional without designer configuration
 
 ### Pending Todos
 
@@ -270,13 +280,24 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-27T21:05:00Z
-Stopped at: Completed 11-10-PLAN.md (Code Quality)
+Last session: 2026-02-28T02:07:19Z
+Stopped at: Completed 12-03-PLAN.md (Network Bandwidth Budget)
 Resume file: None
 
-**Next Action:** All phases complete! Project ready for production. Consider Phase 3 completion (Data Layers) for full roadmap coverage.
+**Next Action:** Continue Phase 12 (Production Enhancements) with remaining plans.
 
-## Phase 10 Plan Summary
+## Phase 12 Plan Summary
+
+| Plan | Wave | Objective | Tasks | Status |
+|------|------|-----------|-------|--------|
+| 01 | 1 | Performance Validation | 3 | Pending |
+| 02 | 1 | Memory Profiling | 3 | Pending |
+| 03 | 1 | Network Bandwidth Budget | 4 | DONE |
+
+**Phase 12 In Progress - Plan 03 complete (Network Bandwidth Budget).**
+**Budget Config + Budget Subsystem + Crowd Integration + Tests.**
+
+## Phase 11 Plan Summary
 
 | Plan | Wave | Objective | Tasks | Status |
 |------|------|-----------|-------|--------|
