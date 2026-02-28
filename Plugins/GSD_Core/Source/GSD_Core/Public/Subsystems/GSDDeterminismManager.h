@@ -160,8 +160,6 @@ protected:
     bool bIsInitialized = false;
 
 private:
-    // Make Deinitialize accessible
-    virtual void Deinitialize() override;
     /** Derive a category seed from the global seed */
     int32 DeriveCategorySeed(FName Category) const;
 };
