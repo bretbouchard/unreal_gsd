@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 12 of 12 (Production Enhancements) - **IN PROGRESS**
-Plan: 3/? in current phase
-Status: **HLOD Proxy System - Distant crowd rendering optimization**
-Last activity: 2026-02-28 - Completed 12-05-PLAN.md (HLOD Proxy System)
+Plan: 4/? in current phase
+Status: **World Partition Streaming Integration - Cell-aware crowd spawning**
+Last activity: 2026-02-28 - Completed 12-04-PLAN.md (World Partition Streaming Integration)
 
 Progress: [███████████████████░] 98% (69/70 total plans)
 
@@ -39,10 +39,10 @@ Progress: [███████████████████░] 98% (69
 | 9. Event Implementations | 6/6 | 18 min | 3.0 min |
 | 10. Telemetry & Validation | 10/10 | 30 min | 3.0 min |
 | 11. Council Fixes | 10/10 | 23 min | 2.3 min |
-| 12. Production Enhancements | 3/? | 14 min | 4.7 min |
+| 12. Production Enhancements | 4/? | 17 min | 4.3 min |
 
 **Recent Trend:**
-- Plan 12-05: 5 min (HLOD Proxy System)
+- Plan 12-04: 3 min (World Partition Streaming Integration)
 - Plan 12-03: 5 min (Network Bandwidth Budget)
 - Plan 12-01: 4 min (Crowd System Determinism)
 - Plan 11-10: 3 min (Code Quality)
@@ -262,6 +262,12 @@ Recent decisions affecting current work:
 - [Phase 12-01]: GSDCrowdManagerSubsystem uses seeded random for spawn positions and rotations
 - [Phase 12-01]: Fallback to unseeded random if DeterminismManager unavailable (graceful degradation)
 - [Phase 12-01]: 5 new determinism tests for crowd system (spawn, speed, wander, isolation)
+- [Phase 12-04]: World Partition streaming cell tracking (LoadedCellNames, CellToCrowdMapping)
+- [Phase 12-04]: Cell name calculation: 12800.0f (128m) grid matching WP defaults
+- [Phase 12-04]: Cell-aware spawning with pending queue for unloaded cells
+- [Phase 12-04]: LOD processor skips entities in unloaded cells (LOD 3.0 = culled)
+- [Phase 12-04]: Graceful fallback without WP subsystem (all cells considered loaded)
+- [Phase 12-04]: 5 streaming integration tests (cell name, position check, pending queue)
 - [Phase 12-05]: UGSDCrowdHLODManager as UEngineSubsystem for global HLOD proxy management
 - [Phase 12-05]: Grid-based clustering algorithm (ClusterSize 1000uu) for distant entity grouping
 - [Phase 12-05]: AGSDCrowdHLODProxy actor with ImpostorMesh for billboard rendering
@@ -295,8 +301,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-28T02:26:44Z
-Stopped at: Completed 12-05-PLAN.md (HLOD Proxy System)
+Last session: 2026-02-28T02:29:33Z
+Stopped at: Completed 12-04-PLAN.md (World Partition Streaming Integration)
 Resume file: None
 
 **Next Action:** Continue Phase 12 (Production Enhancements) with remaining plans.
@@ -308,11 +314,11 @@ Resume file: None
 | 01 | 1 | Crowd System Determinism | 5 | DONE |
 | 02 | 1 | Memory Profiling | 3 | Pending |
 | 03 | 1 | Network Bandwidth Budget | 4 | DONE |
-| 04 | 2 | Cell-Aware LOD | 3 | DONE |
+| 04 | 2 | World Partition Streaming | 4 | DONE |
 | 05 | 2 | HLOD Proxy System | 4 | DONE |
 
-**Phase 12 In Progress - 4 plans complete (Crowd Determinism + Network Budget + Cell-Aware LOD + HLOD Proxies).**
-**Seeded Random + Bandwidth Budget + Cell LOD + HLOD Proxies + Tests.**
+**Phase 12 In Progress - 4 plans complete (Crowd Determinism + Network Budget + WP Streaming + HLOD Proxies).**
+**Seeded Random + Bandwidth Budget + Cell-Aware Spawning + HLOD Proxies + Tests.**
 
 ## Phase 11 Plan Summary
 
