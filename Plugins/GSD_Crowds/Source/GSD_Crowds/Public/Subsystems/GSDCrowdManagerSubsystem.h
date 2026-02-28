@@ -224,6 +224,16 @@ public:
     void UnbindFromStreamingEvents();
 
 protected:
+    //-- Validation Constants (GSDNETWORK-107) --
+    // Maximum crowd size to prevent server overload exploits
+    static constexpr int32 MaxCrowdSize = 500;
+    // Maximum spawn radius (10km) to prevent spawning in unloaded areas
+    static constexpr float MaxSpawnRadius = 10000.0f;
+    // Maximum density multiplier to prevent performance exploits
+    static constexpr float MaxDensityMultiplier = 10.0f;
+    // Maximum density modifier radius
+    static constexpr float MaxDensityRadius = 5000.0f;
+
     //-- Tracked Entities --
     UPROPERTY()
     TArray<FMassEntityHandle> SpawnedEntityHandles;

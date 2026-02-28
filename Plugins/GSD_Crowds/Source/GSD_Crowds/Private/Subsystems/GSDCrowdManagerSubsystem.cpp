@@ -245,6 +245,107 @@ float UGSDCrowdManagerSubsystem::GetDensityMultiplierAtLocation(FVector Location
     return CombinedMultiplier;
 }
 
+//-- Network Validation (GSDNETWORK-107) --
+
+bool UGSDCrowdManagerSubsystem::ValidateSpawnParameters(int32 Count, FVector Center, float Radius, FString& OutError) const
+{
+    OutError.Empty();
+
+    // Validate spawn count
+    if (Count <= 0)
+    {
+        OutError = FString::Printf(TEXT("Invalid spawn count: %d (must be positive)"), Count);
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    if (Count > MaxCrowdSize)
+    {
+        OutError = FString::Printf(TEXT("Spawn count %d exceeds maximum %d"), Count, MaxCrowdSize);
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    // Validate spawn radius
+    if (Radius <= 0.0f)
+    {
+        OutError = FString::Printf(TEXT("Invalid spawn radius: %.2f (must be positive)"), Radius);
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    if (Radius > MaxSpawnRadius)
+    {
+        OutError = FString::Printf(TEXT("Spawn radius %.2f exceeds maximum %.2f"), Radius, MaxSpawnRadius);
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    // Validate spawn location is finite (not NaN or Inf)
+    if (!FMath::IsFinite(Center.X) || !FMath::IsFinite(Center.Y) || !FMath::IsFinite(Center.Z))
+    {
+        OutError = FString::Printf(TEXT("Invalid spawn center: %s (contains NaN or Inf)"), *Center.ToString());
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    // Validate spawn location magnitude (prevent extreme values)
+    const float MaxWorldExtent = 1000000.0f; // 10km from origin
+    if (FMath::Abs(Center.X) > MaxWorldExtent || FMath::Abs(Center.Y) > MaxWorldExtent || FMath::Abs(Center.Z) > MaxWorldExtent)
+    {
+        OutError = FString::Printf(TEXT("Spawn center %s exceeds world bounds"), *Center.ToString());
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    return true;
+}
+
+bool UGSDCrowdManagerSubsystem::ValidateDensityModifier(FVector Center, float Radius, float Multiplier, FString& OutError) const
+{
+    OutError.Empty();
+
+    // Validate modifier radius
+    if (Radius <= 0.0f)
+    {
+        OutError = FString::Printf(TEXT("Invalid modifier radius: %.2f (must be positive)"), Radius);
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    if (Radius > MaxDensityRadius)
+    {
+        OutError = FString::Printf(TEXT("Modifier radius %.2f exceeds maximum %.2f"), Radius, MaxDensityRadius);
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    // Validate multiplier (must be positive, capped to prevent exploits)
+    if (Multiplier <= 0.0f)
+    {
+        OutError = FString::Printf(TEXT("Invalid multiplier: %.2f (must be positive)"), Multiplier);
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    if (Multiplier > MaxDensityMultiplier)
+    {
+        OutError = FString::Printf(TEXT("Multiplier %.2f exceeds maximum %.2f"), Multiplier, MaxDensityMultiplier);
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    // Validate center is finite
+    if (!FMath::IsFinite(Center.X) || !FMath::IsFinite(Center.Y) || !FMath::IsFinite(Center.Z))
+    {
+        OutError = FString::Printf(TEXT("Invalid modifier center: %s (contains NaN or Inf)"), *Center.ToString());
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("%s"), *OutError);
+        return false;
+    }
+
+    return true;
+}
+
 //-- World Partition Streaming Integration --
 
 FName UGSDCrowdManagerSubsystem::GetCellNameForPosition(const FVector& Position) const
