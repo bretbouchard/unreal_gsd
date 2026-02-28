@@ -23,7 +23,9 @@ public class GSD_Crowds : ModuleRules
             "StateTreeModule",  // Behavior control
             "SmartObjectsModule", // Interaction points
             "AIModule",         // Behavior Trees, AI Perception
-            "NavigationSystem"  // NavMesh for hero NPCs
+            "NavigationSystem", // NavMesh for hero NPCs
+            "GameplayTags",     // For FGameplayTag in density modifiers (EVT-09)
+            "EnhancedInput"     // Input actions and mapping contexts for debug controls
         });
 
         PrivateDependencyModuleNames.AddRange(new string[] {
