@@ -9,6 +9,9 @@
 #include "Managers/GSDDeterminismManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "WorldPartition/WorldPartitionSubsystem.h"
+#include "MassEntitySubsystem.h"
+#include "Engine/Engine.h"
+#include "ProfilingDebugging/ScopedTimers.h"
 
 bool UGSDCrowdManagerSubsystem::ShouldCreateSubsystem(UWorld* World) const
 {
@@ -488,4 +491,94 @@ int32 UGSDCrowdManagerSubsystem::SpawnEntitiesInternal(int32 Count, FVector Cent
         NewEntityHandles.Num(), *Center.ToString(), Radius);
 
     return NewEntityHandles.Num();
+}
+
+//-- Metrics (Debug Dashboard) --
+
+void UGSDCrowdManagerSubsystem::StartMetricsUpdates()
+{
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        return;
+    }
+
+    // Start timer for metrics updates (10 Hz)
+    World->GetTimerManager().SetTimer(
+        MetricsUpdateTimerHandle,
+        this,
+        &UGSDCrowdManagerSubsystem::UpdateMetrics,
+        MetricsUpdateInterval,
+        true,  // Loop
+        0.0f   // First update immediately
+    );
+
+    UE_LOG(LOG_GSDCROWDS, Log, TEXT("Started crowd metrics updates at %.1f Hz"), 1.0f / MetricsUpdateInterval);
+}
+
+void UGSDCrowdManagerSubsystem::StopMetricsUpdates()
+{
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        return;
+    }
+
+    World->GetTimerManager().ClearTimer(MetricsUpdateTimerHandle);
+    UE_LOG(LOG_GSDCROWDS, Log, TEXT("Stopped crowd metrics updates"));
+}
+
+void UGSDCrowdManagerSubsystem::UpdateMetrics()
+{
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        return;
+    }
+
+    // Track frame time
+    float CurrentFrameTime = FApp::GetDeltaTime();
+    CurrentMetrics.LastFrameTime = CurrentFrameTime;
+
+    // Update frame time history (circular buffer pattern)
+    FrameTimeHistory.Add(CurrentFrameTime);
+    if (FrameTimeHistory.Num() > 60)
+    {
+        FrameTimeHistory.RemoveAt(0);
+    }
+
+    // Calculate average frame time
+    if (FrameTimeHistory.Num() > 0)
+    {
+        float TotalTime = 0.0f;
+        for (float Time : FrameTimeHistory)
+        {
+            TotalTime += Time;
+        }
+        CurrentMetrics.AverageFrameTime = TotalTime / FrameTimeHistory.Num();
+    }
+
+    // Update entity counts
+    CurrentMetrics.TotalEntities = SpawnedEntityHandles.Num();
+    CurrentMetrics.ActiveCrowds = (SpawnedEntityHandles.Num() > 0) ? 1 : 0;
+
+    // TODO: LOD distribution requires querying Mass LOD processor (GSDCROWDS-110)
+    // For now, placeholder values
+    CurrentMetrics.LOD0Count = 0;
+    CurrentMetrics.LOD1Count = 0;
+    CurrentMetrics.LOD2Count = 0;
+    CurrentMetrics.LOD3Count = CurrentMetrics.TotalEntities;  // Assume all at lowest LOD for now
+
+    // TODO: Draw calls requires integration with rendering stats (GSDCROWDS-111)
+    CurrentMetrics.DrawCalls = 0;
+
+    // Estimate memory usage (rough approximation)
+    // Each entity: ~2KB for transforms, fragments, etc.
+    CurrentMetrics.MemoryUsedMB = (CurrentMetrics.TotalEntities * 2.0f) / 1024.0f;
+
+    // Broadcast to bound widgets
+    if (CrowdMetricsUpdatedDelegate.IsBound())
+    {
+        CrowdMetricsUpdatedDelegate.Broadcast(CurrentMetrics);
+    }
 }

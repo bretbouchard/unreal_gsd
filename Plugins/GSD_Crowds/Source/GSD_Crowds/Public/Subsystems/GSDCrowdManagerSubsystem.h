@@ -44,6 +44,54 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FOnCrowdSpawnComplete, int32, NumSpawned);
 DECLARE_DYNAMIC_DELEGATE(FOnAllEntitiesDespawned);
 
 /**
+ * Struct for crowd system metrics (Debug Dashboard).
+ */
+USTRUCT(BlueprintType)
+struct GSD_CROWDS_API FGSDCrowdMetrics
+{
+    GENERATED_BODY()
+
+    //-- Entity Counts --
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Counts")
+    int32 TotalEntities = 0;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Counts")
+    int32 ActiveCrowds = 0;
+
+    //-- LOD Distribution --
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LOD")
+    int32 LOD0Count = 0;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LOD")
+    int32 LOD1Count = 0;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LOD")
+    int32 LOD2Count = 0;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LOD")
+    int32 LOD3Count = 0;
+
+    //-- Performance Metrics --
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Performance")
+    float LastFrameTime = 0.0f;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Performance")
+    float AverageFrameTime = 0.0f;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Performance")
+    int32 DrawCalls = 0;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Performance")
+    float MemoryUsedMB = 0.0f;
+};
+
+/**
+ * Delegate for crowd metrics updates (Debug Dashboard).
+ * Broadcasts at 10 Hz (0.1s interval).
+ */
+DECLARE_DYNAMIC_DELEGATE_OneParam(FOnCrowdMetricsUpdated, const FGSDCrowdMetrics&, Metrics);
+
+/**
  * World subsystem for spawning and managing crowd entities.
  *
  * Provides centralized entity spawning from GSDCrowdEntityConfig Data Assets
@@ -109,6 +157,36 @@ public:
      * Get delegate for all entities despawned notification.
      */
     FOnAllEntitiesDespawned& GetOnAllEntitiesDespawned() { return AllEntitiesDespawnedDelegate; }
+
+    //-- Metrics (Debug Dashboard) --
+
+    /**
+     * Get delegate for crowd metrics updates.
+     * Widgets bind to this for live updates at 10 Hz.
+     */
+    FOnCrowdMetricsUpdated& GetOnCrowdMetricsUpdated() { return CrowdMetricsUpdatedDelegate; }
+
+    /**
+     * Get current crowd metrics.
+     *
+     * @return Current metrics snapshot
+     */
+    UFUNCTION(BlueprintPure, Category = "GSD|Crowds|Metrics")
+    FGSDCrowdMetrics GetCurrentMetrics() const { return CurrentMetrics; }
+
+    /**
+     * Start broadcasting metrics updates.
+     * Called automatically when first widget binds.
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Crowds|Metrics")
+    void StartMetricsUpdates();
+
+    /**
+     * Stop broadcasting metrics updates.
+     * Called automatically when last widget unbinds.
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Crowds|Metrics")
+    void StopMetricsUpdates();
 
     //-- Density Modifiers (EVT-09) --
 
@@ -244,6 +322,20 @@ protected:
 
     //-- Delegates --
     FOnAllEntitiesDespawned AllEntitiesDespawnedDelegate;
+    FOnCrowdMetricsUpdated CrowdMetricsUpdatedDelegate;
+
+    //-- Metrics Tracking --
+    // Current metrics snapshot
+    FGSDCrowdMetrics CurrentMetrics;
+
+    // Timer handle for metrics updates
+    FTimerHandle MetricsUpdateTimerHandle;
+
+    // Frame time history for averaging (60 frames)
+    TArray<float> FrameTimeHistory;
+
+    // Update interval (0.1s = 10 Hz)
+    static constexpr float MetricsUpdateInterval = 0.1f;
 
     //-- Streaming Cell Tracking --
     // Set of currently loaded cell names
@@ -284,6 +376,7 @@ private:
      * Used for pending spawns and normal spawns.
      */
     int32 SpawnEntitiesInternal(int32 Count, FVector Center, float Radius, UGSDCrowdEntityConfig* EntityConfig);
+
     /**
      * Get default entity config asset.
      * Loads from /GSD_Crowds/EntityConfigs/BP_GSDZombieEntityConfig
@@ -301,4 +394,10 @@ private:
      * @return Array of spawn transforms
      */
     TArray<FTransform> GenerateSpawnTransforms(int32 Count, FVector Center, float Radius) const;
+
+    /**
+     * Update metrics and broadcast to bound widgets.
+     * Called by timer at MetricsUpdateInterval (10 Hz).
+     */
+    void UpdateMetrics();
 };
