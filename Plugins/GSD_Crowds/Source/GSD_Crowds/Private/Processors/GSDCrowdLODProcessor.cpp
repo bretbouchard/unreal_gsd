@@ -3,6 +3,7 @@
 #include "Processors/GSDCrowdLODProcessor.h"
 #include "DataAssets/GSDCrowdConfig.h"
 #include "Subsystems/GSDNetworkBudgetSubsystem.h"
+#include "Subsystems/GSDCrowdManagerSubsystem.h"
 #include "MassRepresentationFragments.h"
 #include "MassCommonFragments.h"
 #include "GameFramework/PlayerController.h"
@@ -43,6 +44,13 @@ void UGSDCrowdLODProcessor::Execute(FMassEntityManager& EntityManager, FMassExec
         }
     }
 
+    // Get crowd manager for cell checking
+    UGSDCrowdManagerSubsystem* CrowdManager = nullptr;
+    if (UWorld* World = Context.GetWorld())
+    {
+        CrowdManager = World->GetSubsystem<UGSDCrowdManagerSubsystem>();
+    }
+
     const FVector ViewerLocation = GetViewerLocation(Context);
 
     EntityQuery.ForEachEntityChunk(EntityManager, Context,
@@ -54,6 +62,15 @@ void UGSDCrowdLODProcessor::Execute(FMassEntityManager& EntityManager, FMassExec
             for (int32 i = 0; i < Context.GetNumEntities(); ++i)
             {
                 const FVector EntityLocation = Transforms[i].GetTransform().GetLocation();
+
+                // Skip if in unloaded cell (cell-aware LOD)
+                if (CrowdManager && !CrowdManager->IsPositionInLoadedCell(EntityLocation))
+                {
+                    // Mark for culling - entity is in unloaded streaming cell
+                    LODFragments[i].LODSignificance = 3.0f;  // Max LOD = culled
+                    continue;
+                }
+
                 const float Distance = FVector::Dist(EntityLocation, ViewerLocation);
 
                 // Calculate LOD level (0-3)
