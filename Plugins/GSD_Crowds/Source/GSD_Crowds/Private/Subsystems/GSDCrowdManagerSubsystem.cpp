@@ -40,51 +40,30 @@ void UGSDCrowdManagerSubsystem::Deinitialize()
 
 int32 UGSDCrowdManagerSubsystem::SpawnEntities(int32 Count, FVector Center, float Radius, UGSDCrowdEntityConfig* EntityConfig)
 {
-    UWorld* World = GetWorld();
-    if (!World)
+    // Check if spawn location is in loaded cell
+    if (!IsPositionInLoadedCell(Center))
     {
-        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnEntities: No world context"));
-        return 0;
+        // Queue for when cell loads
+        FName CellName = GetCellNameForPosition(Center);
+        PendingSpawnCenters.Add(Center);
+
+        UE_LOG(LOG_GSDCROWDS, Verbose,
+            TEXT("Queueing spawn for unloaded cell: %s (count=%d)"), *CellName.ToString(), Count);
+        return 0;  // Will spawn when cell loads
     }
 
-    UMassEntitySubsystem* MassSubsystem = World->GetSubsystem<UMassEntitySubsystem>();
-    if (!MassSubsystem)
+    // Proceed with spawn
+    int32 NumSpawned = SpawnEntitiesInternal(Count, Center, Radius, EntityConfig);
+
+    // Track which cell this crowd belongs to
+    if (NumSpawned > 0)
     {
-        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnEntities: Mass Entity subsystem not found"));
-        return 0;
+        FName CellName = GetCellNameForPosition(Center);
+        // TODO: Track entity IDs when entity ID system is implemented (GSDCROWDS-108)
+        // CellToCrowdMapping.FindOrAdd(CellName).Append(SpawnedEntityIds);
     }
 
-    // Use provided config or load default
-    if (!EntityConfig)
-    {
-        EntityConfig = GetDefaultEntityConfig();
-    }
-
-    if (!EntityConfig)
-    {
-        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnEntities: No entity config available"));
-        return 0;
-    }
-
-    // Generate spawn transforms
-    TArray<FTransform> SpawnTransforms = GenerateSpawnTransforms(Count, Center, Radius);
-    if (SpawnTransforms.Num() == 0)
-    {
-        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("SpawnEntities: No spawn transforms generated"));
-        return 0;
-    }
-
-    // Spawn entities using Mass Entity subsystem
-    TArray<FMassEntityHandle> NewEntityHandles;
-    MassSubsystem->SpawnEntities(EntityConfig, SpawnTransforms, NewEntityHandles);
-
-    // Track spawned entities
-    SpawnedEntityHandles.Append(NewEntityHandles);
-
-    UE_LOG(LOG_GSDCROWDS, Log, TEXT("Spawned %d crowd entities at center %s with radius %.1f"),
-        NewEntityHandles.Num(), *Center.ToString(), Radius);
-
-    return NewEntityHandles.Num();
+    return NumSpawned;
 }
 
 void UGSDCrowdManagerSubsystem::SpawnEntitiesAsync(int32 Count, FVector Center, float Radius, UGSDCrowdEntityConfig* EntityConfig, const FOnCrowdSpawnComplete& OnComplete)
@@ -315,7 +294,27 @@ void UGSDCrowdManagerSubsystem::OnCellLoaded(const FName& CellName)
     // Track loaded cell
     LoadedCellNames.Add(CellName);
 
-    // TODO: Process pending spawns for this cell when spawn queue is implemented
+    // Process pending spawns for this cell
+    // Check pending spawn centers that belong to this cell
+    TArray<FVector> RemainingPendings;
+    for (const FVector& PendingCenter : PendingSpawnCenters)
+    {
+        FName PendingCellName = GetCellNameForPosition(PendingCenter);
+        if (PendingCellName == CellName)
+        {
+            // This pending spawn belongs to the loaded cell
+            // TODO: Trigger spawn with stored parameters (GSDCROWDS-109)
+            UE_LOG(LOG_GSDCROWDS, Verbose,
+                TEXT("Would process pending spawn at %s for loaded cell %s"),
+                *PendingCenter.ToString(), *CellName.ToString());
+        }
+        else
+        {
+            // Keep for later
+            RemainingPendings.Add(PendingCenter);
+        }
+    }
+    PendingSpawnCenters = RemainingPendings;
 }
 
 void UGSDCrowdManagerSubsystem::OnCellUnloaded(const FName& CellName)
@@ -325,7 +324,17 @@ void UGSDCrowdManagerSubsystem::OnCellUnloaded(const FName& CellName)
     // Remove from loaded set
     LoadedCellNames.Remove(CellName);
 
-    // TODO: Despawn crowds in this cell when cell-to-crowd mapping is implemented
+    // Despawn crowds in this cell
+    if (TArray<int32>* CrowdIds = CellToCrowdMapping.Find(CellName))
+    {
+        // TODO: Despawn specific entities by ID when entity ID system is implemented (GSDCROWDS-108)
+        // For now, we just clear the mapping
+        UE_LOG(LOG_GSDCROWDS, Verbose,
+            TEXT("Would despawn %d crowd entities in cell %s"),
+            CrowdIds->Num(), *CellName.ToString());
+
+        CellToCrowdMapping.Remove(CellName);
+    }
 }
 
 int32 UGSDCrowdManagerSubsystem::SpawnEntitiesInternal(int32 Count, FVector Center, float Radius, UGSDCrowdEntityConfig* EntityConfig)
