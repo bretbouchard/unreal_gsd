@@ -8,11 +8,34 @@
 #include "GSDCrowdLog.h"
 #include "Managers/GSDDeterminismManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "WorldPartition/WorldPartitionSubsystem.h"
 
 bool UGSDCrowdManagerSubsystem::ShouldCreateSubsystem(UWorld* World) const
 {
     // Only create in game worlds (not editor preview worlds)
     return World && (World->IsGameWorld() || World->IsPlayInEditor());
+}
+
+void UGSDCrowdManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+    Super::Initialize(Collection);
+
+    // Get World Partition subsystem reference
+    if (UWorld* World = GetWorld())
+    {
+        WorldPartitionSubsystem = World->GetSubsystem<UWorldPartitionSubsystem>();
+
+        // Bind to streaming events
+        BindToStreamingEvents();
+    }
+}
+
+void UGSDCrowdManagerSubsystem::Deinitialize()
+{
+    // Unbind from streaming events
+    UnbindFromStreamingEvents();
+
+    Super::Deinitialize();
 }
 
 int32 UGSDCrowdManagerSubsystem::SpawnEntities(int32 Count, FVector Center, float Radius, UGSDCrowdEntityConfig* EntityConfig)
@@ -241,4 +264,118 @@ float UGSDCrowdManagerSubsystem::GetDensityMultiplierAtLocation(FVector Location
     }
 
     return CombinedMultiplier;
+}
+
+//-- World Partition Streaming Integration --
+
+FName UGSDCrowdManagerSubsystem::GetCellNameForPosition(const FVector& Position) const
+{
+    // Calculate cell name from position using grid cell size
+    // World Partition uses 12800.0f (128m) cells by default
+    static constexpr float CellSize = 12800.0f;
+
+    const int32 CellX = FMath::FloorToInt(Position.X / CellSize);
+    const int32 CellY = FMath::FloorToInt(Position.Y / CellSize);
+
+    return FName(*FString::Printf(TEXT("Cell_%d_%d"), CellX, CellY));
+}
+
+bool UGSDCrowdManagerSubsystem::IsPositionInLoadedCell(const FVector& Position) const
+{
+    // If no World Partition subsystem, always allow spawning
+    if (!WorldPartitionSubsystem.IsValid())
+    {
+        return true;
+    }
+
+    const FName CellName = GetCellNameForPosition(Position);
+    return LoadedCellNames.Contains(CellName);
+}
+
+void UGSDCrowdManagerSubsystem::BindToStreamingEvents()
+{
+    // TODO: Bind to actual World Partition streaming events when API is available
+    // For now, mark all cells as loaded (no streaming constraints)
+    UE_LOG(LOG_GSDCROWDS, Log, TEXT("CrowdManager: Streaming event binding (placeholder - all cells considered loaded)"));
+
+    // Mark a default cell as loaded for non-streaming worlds
+    LoadedCellNames.Add(FName(TEXT("DefaultCell")));
+}
+
+void UGSDCrowdManagerSubsystem::UnbindFromStreamingEvents()
+{
+    UE_LOG(LOG_GSDCROWDS, Log, TEXT("CrowdManager: Streaming event unbinding"));
+    LoadedCellNames.Empty();
+}
+
+void UGSDCrowdManagerSubsystem::OnCellLoaded(const FName& CellName)
+{
+    UE_LOG(LOG_GSDCROWDS, Log, TEXT("Cell loaded: %s"), *CellName.ToString());
+
+    // Track loaded cell
+    LoadedCellNames.Add(CellName);
+
+    // TODO: Process pending spawns for this cell when spawn queue is implemented
+}
+
+void UGSDCrowdManagerSubsystem::OnCellUnloaded(const FName& CellName)
+{
+    UE_LOG(LOG_GSDCROWDS, Log, TEXT("Cell unloaded: %s"), *CellName.ToString());
+
+    // Remove from loaded set
+    LoadedCellNames.Remove(CellName);
+
+    // TODO: Despawn crowds in this cell when cell-to-crowd mapping is implemented
+}
+
+int32 UGSDCrowdManagerSubsystem::SpawnEntitiesInternal(int32 Count, FVector Center, float Radius, UGSDCrowdEntityConfig* EntityConfig)
+{
+    // Internal spawn without cell checks (used by pending spawn processing)
+    // This is the original SpawnEntities logic
+
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnEntitiesInternal: No world context"));
+        return 0;
+    }
+
+    UMassEntitySubsystem* MassSubsystem = World->GetSubsystem<UMassEntitySubsystem>();
+    if (!MassSubsystem)
+    {
+        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnEntitiesInternal: Mass Entity subsystem not found"));
+        return 0;
+    }
+
+    // Use provided config or load default
+    if (!EntityConfig)
+    {
+        EntityConfig = GetDefaultEntityConfig();
+    }
+
+    if (!EntityConfig)
+    {
+        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnEntitiesInternal: No entity config available"));
+        return 0;
+    }
+
+    // Generate spawn transforms
+    TArray<FTransform> SpawnTransforms = GenerateSpawnTransforms(Count, Center, Radius);
+    if (SpawnTransforms.Num() == 0)
+    {
+        UE_LOG(LOG_GSDCROWDS, Warning, TEXT("SpawnEntitiesInternal: No spawn transforms generated"));
+        return 0;
+    }
+
+    // Spawn entities using Mass Entity subsystem
+    TArray<FMassEntityHandle> NewEntityHandles;
+    MassSubsystem->SpawnEntities(EntityConfig, SpawnTransforms, NewEntityHandles);
+
+    // Track spawned entities
+    SpawnedEntityHandles.Append(NewEntityHandles);
+
+    UE_LOG(LOG_GSDCROWDS, Log, TEXT("Spawned %d crowd entities at center %s with radius %.1f"),
+        NewEntityHandles.Num(), *Center.ToString(), Radius);
+
+    return NewEntityHandles.Num();
 }
