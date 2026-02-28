@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-24)
 ## Current Position
 
 Phase: 12 of 12 (Production Enhancements) - **IN PROGRESS**
-Plan: 7/? in current phase
-Status: **EnhancedInput Integration - Configurable debug controls**
-Last activity: 2026-02-28 - Completed 12-07-PLAN.md (EnhancedInput Integration)
+Plan: 6/? in current phase
+Status: **Crowd Debug Dashboard - UMG widget for live metrics**
+Last activity: 2026-02-28 - Completed 12-06-PLAN.md (Crowd Debug Dashboard)
 
 Progress: [███████████████████░] 98% (70/71 total plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 70
+- Total plans completed: 69
 - Average duration: 3.0 min
-- Total execution time: 214 min
+- Total execution time: 212 min
 
 **By Phase:**
 
@@ -42,7 +42,7 @@ Progress: [███████████████████░] 98% (70
 | 12. Production Enhancements | 5/? | 19 min | 3.8 min |
 
 **Recent Trend:**
-- Plan 12-07: 2 min (EnhancedInput Integration)
+- Plan 12-06: 8 min (Crowd Debug Dashboard)
 - Plan 12-05: 4 min (HLOD Proxy System)
 - Plan 12-04: 3 min (World Partition Streaming Integration)
 - Plan 12-03: 5 min (Network Bandwidth Budget)
@@ -275,6 +275,14 @@ Recent decisions affecting current work:
 - [Phase 12-05]: AGSDCrowdHLODProxy actor with ImpostorMesh for billboard rendering
 - [Phase 12-05]: UGSDCrowdHLODConfig DataAsset for designer-configurable HLOD settings
 - [Phase 12-05]: 4 HLOD tests (clustering, visibility, threshold, config validation)
+- [Phase 12-06]: FGSDCrowdMetrics struct with entity counts, LOD distribution, performance metrics
+- [Phase 12-06]: FOnCrowdMetricsUpdated delegate broadcasting at 10 Hz (0.1s interval)
+- [Phase 12-06]: UGSDCrowdDebugWidget with BindWidget meta for named UMG widgets
+- [Phase 12-06]: Timer-based updates (not tick) for efficiency
+- [Phase 12-06]: Circular buffer for 60-frame averaging (1 second at 60fps)
+- [Phase 12-06]: Color-coded performance indicator (green <16.67ms, yellow <25ms, red >25ms)
+- [Phase 12-06]: Auto-bind in NativeConstruct, auto-unbind in NativeDestruct
+- [Phase 12-06]: Memory estimation ~2KB per entity
 - [Phase 12-07]: EnhancedInput module added to GSD_Crowds for debug input controls
 - [Phase 12-07]: UGSDCrowdInputConfig DataAsset with 7 configurable debug actions (toggle widget, density, spawn, etc.)
 - [Phase 12-07]: UGSDCrowdInputComponent for EnhancedInput binding with lifecycle management
@@ -308,8 +316,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-28T02:29:33Z
-Stopped at: Completed 12-04-PLAN.md (World Partition Streaming Integration)
+Last session: 2026-02-28T03:25:46Z
+Stopped at: Completed 12-06-PLAN.md (Crowd Debug Dashboard)
 Resume file: None
 
 **Next Action:** Continue Phase 12 (Production Enhancements) with remaining plans.
@@ -324,10 +332,9 @@ Resume file: None
 | 04 | 2 | World Partition Streaming | 4 | DONE |
 | 05 | 2 | HLOD Proxy System | 4 | DONE |
 | 06 | 2 | Debug Dashboard | 4 | DONE |
-| 07 | 3 | EnhancedInput Integration | 4 | DONE |
 
-**Phase 12 In Progress - 6 plans complete (Crowd Determinism + Network Budget + WP Streaming + HLOD Proxies + Debug Dashboard + EnhancedInput).**
-**Seeded Random + Bandwidth Budget + Cell-Aware Spawning + HLOD Proxies + Debug Widget + EnhancedInput.**
+**Phase 12 In Progress - 5 plans complete (Crowd Determinism + Network Budget + WP Streaming + HLOD Proxies + Debug Dashboard).**
+**Seeded Random + Bandwidth Budget + Cell-Aware Spawning + HLOD Proxies + Debug Widget.**
 
 ## Phase 11 Plan Summary
 
