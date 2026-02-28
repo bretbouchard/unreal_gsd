@@ -25,6 +25,9 @@ public class GSD_Crowds : ModuleRules
             "AIModule",         // Behavior Trees, AI Perception
             "NavigationSystem", // NavMesh for hero NPCs
             "GameplayTags",     // For FGameplayTag in density modifiers (EVT-09)
+            "UMG",              // Debug dashboard widgets (12-06)
+            "Slate",            // UMG dependencies (12-06)
+            "SlateCore",        // UMG dependencies (12-06)
             "EnhancedInput"     // Input actions and mapping contexts for debug controls
         });
 
@@ -37,7 +40,8 @@ public class GSD_Crowds : ModuleRules
         {
             PrivateDependencyModuleNames.AddRange(new string[] {
                 "UnrealEd",
-                "AutomationController"
+                "AutomationController",
+                "EditorScriptingUtilities"  // Debug dashboard editor utilities (12-06)
             });
         }
     }
