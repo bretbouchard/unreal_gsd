@@ -112,6 +112,23 @@ public:
     //-- Spawning --
 
     /**
+     * Static convenience function for one-line crowd spawning.
+     * Blueprint-friendly function that gets the subsystem and spawns entities.
+     *
+     * Example usage:
+     *   UGSDCrowdManagerSubsystem::SpawnCrowd(GetWorld(), 100, Location, 500.0f);
+     *
+     * @param World World context (required)
+     * @param Count Number of entities to spawn
+     * @param Center World location for spawn area center
+     * @param Radius Radius of spawn area
+     * @param EntityConfig Optional entity config (uses default if nullptr)
+     * @return Number of entities successfully spawned, 0 on error
+     */
+    UFUNCTION(BlueprintCallable, Category = "GSD|Crowds", meta = (WorldContext = "World"))
+    static int32 SpawnCrowd(UObject* World, int32 Count, FVector Center, float Radius, UGSDCrowdEntityConfig* EntityConfig = nullptr);
+
+    /**
      * Spawn crowd entities in a circular area around a center point.
      *
      * @param Count Number of entities to spawn

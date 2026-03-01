@@ -16,6 +16,7 @@ struct FDataFragment_Transform;
  * This is a GAME-AGNOSTIC behavior processor suitable for any crowd simulation:
  * - Updates movement speed with natural variation
  * - Applies wander behavior for organic movement
+ * - Pursuit/attack behavior for aggressive entities
  * - Works with any entity type (zombies, NPCs, animals, etc.)
  *
  * MIGRATION NOTE (GSDCROWDS-105):
@@ -24,7 +25,7 @@ struct FDataFragment_Transform;
  * UGSDZombieBehaviorProcessor will need to update to the new name.
  *
  * Runs in PrePhysics phase before movement is applied.
- * Configuration is loaded from UGSDCrowdConfig DataAsset.
+ * Configuration is loaded from UGSDCrowdConfig and UGSDZombieBehaviorConfig DataAssets.
  * All hardcoded values have been replaced with config lookups.
  */
 UCLASS()
@@ -53,6 +54,13 @@ private:
     static constexpr float DefaultSpeedVariation = 0.2f;
     static constexpr float DefaultWanderDirectionChange = 45.0f;
     static constexpr float DefaultSpeedInterpolationRate = 2.0f;
+
+    //-- Pursuit/Attack Fallbacks --
+    static constexpr float DefaultDetectionRange = 1000.0f;
+    static constexpr float DefaultPursuitSpeedMultiplier = 2.0f;
+    static constexpr float DefaultAttackRange = 100.0f;
+    static constexpr float DefaultAttackCooldown = 1.0f;
+    static constexpr float DefaultLoseTargetDistance = 2000.0f;
 };
 
 //-- Backward Compatibility Typedef (GSDCROWDS-105) --

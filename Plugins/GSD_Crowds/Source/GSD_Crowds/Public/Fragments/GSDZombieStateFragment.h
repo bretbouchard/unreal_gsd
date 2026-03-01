@@ -56,6 +56,25 @@ struct GSD_CROWDS_API FGSDZombieStateFragment : public FMassFragment
     UPROPERTY(SaveGame)
     float TimeSinceLastBehaviorUpdate = 0.0f;
 
+    //-- Pursuit/Attack Behavior --
+    UPROPERTY(SaveGame)
+    FVector TargetLocation = FVector::ZeroVector;
+
+    UPROPERTY(SaveGame)
+    int32 TargetEntityID = INDEX_NONE;  // Mass entity ID of pursuit target (INDEX_NONE = no target)
+
+    UPROPERTY(SaveGame)
+    float PursuitSpeed = 300.0f;  // Speed when chasing target
+
+    UPROPERTY(SaveGame)
+    float AttackRange = 100.0f;  // Distance at which entity can attack
+
+    UPROPERTY(SaveGame)
+    float DetectionRange = 1000.0f;  // Range at which entity detects targets
+
+    UPROPERTY(SaveGame)
+    float TimeSinceLastAttack = 0.0f;  // Cooldown timer for attacks
+
     //-- Constructor --
     FGSDZombieStateFragment()
         : bIsAggressive(false)

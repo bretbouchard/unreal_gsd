@@ -120,6 +120,32 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Behavior")
     float SpeedInterpolationRate = 2.0f;
 
+    // === Pursuit/Attack Behavior ===
+
+    /** Enable pursuit behavior (chasing targets) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pursuit")
+    bool bEnablePursuitBehavior = true;
+
+    /** Detection range for targets */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pursuit")
+    float DetectionRange = 1000.0f;
+
+    /** Pursuit speed multiplier (relative to base speed) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pursuit")
+    float PursuitSpeedMultiplier = 2.0f;
+
+    /** Attack range for melee attacks */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pursuit")
+    float AttackRange = 100.0f;
+
+    /** Attack cooldown (seconds between attacks) */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pursuit")
+    float AttackCooldown = 1.0f;
+
+    /** Lose target if distance exceeds this */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pursuit")
+    float LoseTargetDistance = 2000.0f;
+
     // === Navigation ===
 
     /** Lane search radius for ZoneGraph */

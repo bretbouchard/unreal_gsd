@@ -586,3 +586,30 @@ void UGSDCrowdManagerSubsystem::UpdateMetrics()
         CrowdMetricsUpdatedDelegate.Broadcast(CurrentMetrics);
     }
 }
+
+//-- Static Convenience API --
+
+int32 UGSDCrowdManagerSubsystem::SpawnCrowd(UObject* World, int32 Count, FVector Center, float Radius, UGSDCrowdEntityConfig* EntityConfig)
+{
+    if (!World)
+    {
+        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnCrowd: World context is null"));
+        return 0;
+    }
+
+    UWorld* WorldPtr = World->GetWorld();
+    if (!WorldPtr)
+    {
+        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnCrowd: Could not get world from context"));
+        return 0;
+    }
+
+    UGSDCrowdManagerSubsystem* Subsystem = WorldPtr->GetSubsystem<UGSDCrowdManagerSubsystem>();
+    if (!Subsystem)
+    {
+        UE_LOG(LOG_GSDCROWDS, Error, TEXT("SpawnCrowd: CrowdManagerSubsystem not found"));
+        return 0;
+    }
+
+    return Subsystem->SpawnEntities(Count, Center, Radius, EntityConfig);
+}
